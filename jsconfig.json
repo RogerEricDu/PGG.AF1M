@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"] //在这里设置之后，意思就是输入@之后会自动联想src目录
     }
   },
   "exclude": ["node_modules", "dist"]
