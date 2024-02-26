@@ -2,9 +2,13 @@
 import LayoutNav from '@/components/LayoutNav.vue'
 import LayoutHeader from '@/components/LayoutHeader.vue'
 import LayoutFooter from '@/components/LayoutFooter.vue'
+import LayoutSticky from '@/components/LayoutSticky.vue'
 </script>
 
 <template>
+  <!-- 这个项目还缺少了很多接口文件，可以看小兔鲜的pinia状态管理等，看看后端接口怎么写 -->
+  
+  <LayoutSticky />
   <LayoutNav />
   <LayoutHeader />
   <!-- 一级路由出口组件 -->

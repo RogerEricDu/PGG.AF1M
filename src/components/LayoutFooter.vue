@@ -1,7 +1,7 @@
 <template>
     <footer class="app_footer">
       <!-- 联系我们 -->
-<!--       <div class="contact">
+      <div class="contact">
         <div class="container">
           <dl>
             <dt>客户服务</dt>
@@ -27,7 +27,7 @@
             <dd class="hotline">400-0000-000 <small>周一至周日 8:00-18:00</small></dd>
           </dl>
         </div>
-      </div> -->
+      </div>
       <!-- 其它 -->
       <div class="extra">
         <div class="container">

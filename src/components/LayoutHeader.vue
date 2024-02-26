@@ -46,7 +46,7 @@
       height: 100px;
       width: 100%;
       text-indent: -9999px;
-      background: url('@/assets/images/Logo-Bigdata.png') no-repeat center 18px / contain;
+      background: url('@/assets/images/BigDataLogo.png') no-repeat center 18px / contain;
     }
   }
 
