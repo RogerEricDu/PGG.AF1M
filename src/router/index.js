@@ -5,7 +5,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/views/Login/index.vue'
 import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
-import Category from '@/views/Category/index.vue'
+import Data from '@/views/Data/index.vue'
+import Gene from '@/views/Gene/index.vue'
+import SNPs from '@/views/SNPs/index.vue'
+import About from '@/views/About/index.vue'
+import Guide from '@/views/Guide/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,9 +24,25 @@ const router = createRouter({
         component:Home
       },
       {
-        path:'category',
-        component:Category
-      }
+        path:'data',
+        component:Data
+      },
+      {
+        path:'gene',
+        component:Gene,
+      },
+      {
+        path:'snps',
+        component:SNPs,
+      },
+      {
+        path:'about',
+        component:About,
+      },
+      {
+        path:'guide',
+        component:Guide,
+      },
       ]
     },
     {

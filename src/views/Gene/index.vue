@@ -1,3 +1,3 @@
 <template>
-    <div>分类</div>
+    gene网页
 </template>

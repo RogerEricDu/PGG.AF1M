@@ -13,10 +13,10 @@
           <RouterLink to="/">Home</RouterLink>
         </li>
         <li> <RouterLink to="/data">Data</RouterLink> </li>
-        <li> <RouterLink to="/">Gene</RouterLink> </li>
-        <li> <RouterLink to="/">SNPs</RouterLink> </li>
-        <li> <RouterLink to="/">About</RouterLink> </li>
-        <li> <RouterLink to="/">Guide</RouterLink> </li>
+        <li> <RouterLink to="/gene">Gene</RouterLink> </li>
+        <li> <RouterLink to="/snps">SNPs</RouterLink> </li>
+        <li> <RouterLink to="/about">About</RouterLink> </li>
+        <li> <RouterLink to="/guide">Guide</RouterLink> </li>
       </ul>
       <div class="search">
         <i class="iconfont icon-search"></i>
