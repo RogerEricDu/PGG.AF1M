@@ -7,14 +7,14 @@ import LayoutSticky from '@/components/LayoutSticky.vue'
 
 <template>
   <!-- 这个项目还缺少了很多接口文件，可以看小兔鲜的pinia状态管理等，看看后端接口怎么写 -->
-  
+
   <LayoutSticky />
   <LayoutNav />
   <LayoutHeader />
   <!-- 一级路由出口组件 -->
   <RouterView />
   <LayoutFooter />
-
+  <el-backtop :right="100" :bottom="100" />
 </template>
 
 <style scoped lang="scss">

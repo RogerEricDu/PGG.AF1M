@@ -19,7 +19,7 @@
         <li> <RouterLink to="/guide">Guide</RouterLink> </li>
       </ul>
       <div class="search">
-        <i class="iconfont icon-search"></i>
+        <el-icon style="width: 1em; height: 1em; margin-right: 4px;margin-top: 1px;"><Search /></el-icon>
         <input type="text" placeholder="Search">
       </div>
       <!-- 头部购物车 -->
@@ -83,15 +83,11 @@
 
   .search {
     width: 300px;
-    height: 32px;
+    height: 36px;
     position: relative;
     border-bottom: 1px solid #e7e7e7;
-    line-height: 32px;
+    line-height: 40px;
 
-    .icon-search {
-      font-size: 18px;
-      margin-left: 5px;
-    }
 
     input {
       width: 140px;

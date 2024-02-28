@@ -1,7 +1,6 @@
 <template>
     <footer class="app_footer">
-      <!-- 联系我们 -->
-      <div class="contact">
+<!--       <div class="contact">
         <div class="container">
           <dl>
             <dt>客户服务</dt>
@@ -22,40 +21,49 @@
               <a href="javascript:;">下载页面</a>
             </dd>
           </dl>
-          <dl>
-            <dt>服务热线</dt>
-            <dd class="hotline">400-0000-000 <small>周一至周日 8:00-18:00</small></dd>
-          </dl>
         </div>
-      </div>
+      </div> -->
       <!-- 其它 -->
       <div class="extra">
         <div class="container">
-          <div class="slogan">
-            <a href="https://pog.fudan.edu.cn">
-              <i class="iconfont icon-footer01"></i>
-              <span>HumPOG</span>
+          <ul style="color:#ededed; text-align: center; font-size: 20px; padding-top: 20px;">
+            Reference Database
+          </ul>
+          <div class="slogan" style="text-align: center;">
+            <a href="https://pog.fudan.edu.cn" target="_blank">
+            <img src="../assets/images/HumPOG-logo.png" width="152" height="80">
+            <br>
+            <span style="color: #ededed;font-size: 22px;">HumPOG.lab</span>
             </a>
-            <a href="https://www.biosino.org/pgghan/index">
-              <i class="iconfont icon-footer02"></i>
-              <span>PGG.Han</span>
+            <a href="https://www.biosino.org/pgghan/index" target="_blank">
+            <img src="../assets/images/PGG.Han-Logo.png" width="152" height="80">
+            <br>
+            <span style="color: #ededed;font-size: 22px;">PGG.Han</span>
             </a>
-            <a href="https://www.biosino.org/pgghan2/index">
-              <i class="iconfont icon-footer03"></i>
-              <span>PGG.Han 2.0</span>
+            <a href="https://www.biosino.org/pgghan2/index" target="_blank">
+            <img src="../assets/images/PGG.Han2-Logo.png" width="152" height="80">
+            <br>
+            <span style="color: #ededed;font-size: 22px;" target="_blank">PGG.Han2.0</span>
+            </a>
+            <a href="https://gnomad.broadinstitute.org/" target="_blank">
+            <img src="../assets/images/gnomAD-Logo.png" width="152" height="80">
+            <br>
+            <span style="color: #ededed;font-size: 22px;">gnomAD</span>
             </a>
           </div>
+
           <!-- 版权信息 -->
           <div class="copyright">
             <p>Our Services</p>
-            <br>
-            <p>
-              <a href="https://pog.fudan.edu.cn">Home</a>
-              <a href="https://www.biosino.org/pgghan/index">Gene</a>
-              <a href="https://www.biosino.org/pgghan2/index">SNPs</a>
-
-            </p>
-            <p>CopyRight ©All Rights Reserved by Human Population Omics Group</p>
+            <div class="serviceBar">
+              <RouterLink to="/">&nbsp;&nbsp;Home&nbsp;&nbsp;</RouterLink>
+              <RouterLink to="/data">&nbsp;&nbsp;Data&nbsp;&nbsp;</RouterLink>
+              <RouterLink to="/gene">&nbsp;&nbsp;Gene&nbsp;&nbsp;</RouterLink>
+              <RouterLink to="/snps">&nbsp;&nbsp;SNPs&nbsp;&nbsp;</RouterLink>
+              <RouterLink to="/about">&nbsp;&nbsp;About&nbsp;&nbsp;</RouterLink>
+              <RouterLink to="/guide">&nbsp;&nbsp;Guide&nbsp;&nbsp;</RouterLink>
+            </div>
+            <p>CopyRight 2024 ©All Rights Reserved by Human Population Omics Group</p>
           </div>
         </div>
       </div>
@@ -63,9 +71,15 @@
   </template>
   
   <style scoped lang='scss'>
+  .serviceBar{
+    color: #ededed;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
   .copyright p{
     color: #ededed;
     font-size: 20px;
+    margin-bottom: 20px;
   }
   .app_footer {
     overflow: hidden;
@@ -177,9 +191,9 @@
     }
   
     .slogan {
-      height: 200px;
-      line-height: 58px;
-      padding: 60px 100px;
+      height: 160px;
+      line-height: 150px;
+      padding: 20px 20px;
       border-bottom: 1px solid #434343;
       display: flex;
       justify-content: space-between;
@@ -190,12 +204,12 @@
         color: #fff;
         font-size: 28px;
   
-        i {
+/*         span {
           font-size: 50px;
           vertical-align: middle;
           margin-right: 10px;
           font-weight: 100;
-        }
+        } */
   
         span {
           vertical-align: middle;
@@ -205,8 +219,8 @@
     }
   
     .copyright {
-      height: 170px;
-      padding-top: 40px;
+      height: 180px;
+      padding-top: 30px;
       text-align: center;
       color: #999;
       font-size: 15px;

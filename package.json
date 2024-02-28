@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@vueuse/core": "^10.8.0",
     "axios": "^1.6.7",
     "element-plus": "^2.5.6",
@@ -17,6 +18,7 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@arco-design/web-vue": "^2.54.5",
     "@vitejs/plugin-vue": "^5.0.3",
     "sass": "^1.71.1",
     "unplugin-auto-import": "^0.17.5",

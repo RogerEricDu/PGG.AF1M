@@ -33,7 +33,7 @@
   background: #333;
   ul {
     display: flex;
-    height: 48px;
+    height: 36px;
     justify-content: flex-end;
     align-items: center;
     li {
