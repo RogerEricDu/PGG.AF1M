@@ -7,6 +7,8 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
+//引入axios
+import axios from 'axios'
 
 //引入初始化样式文件
 import '@/styles/common.scss'
@@ -31,5 +33,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(createPinia())
 app.use(router)
 
+//axios加入app实例
+app.config.globalProperties.$axios = axios
 
 app.mount('#app')
