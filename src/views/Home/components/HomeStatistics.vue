@@ -1,10 +1,20 @@
-<script>
-
+<script lang="ts" setup>
+import {ref} from 'vue'
+const input = ref('')
 </script>
 
 <template>
-    <h2>Data Statistics</h2>
-<div class="data-context">
+    <h2>Quick Start</h2>
+    <div class="input-container">
+    <el-input v-model="input" style="width: 800px; height:45px;" placeholder="rs114514 or  1:114514123" >
+        <template #append>
+            <strong style="font-size: 18px;">Submit</strong>
+        </template>   
+    </el-input>
+    </div>
+
+    <div class="data-context">
+    <p style="font-size: 14px;color:yellowgreen;">e.g. &nbsp;&nbsp;Variants:1:11847591;rsID:rs5063;</p>
     <p>
         The Genome Aggregation Database (gnomAD) is a resource developed by an international coalition of investigators, with the goal of aggregating and harmonizing both exome and genome sequencing data from a wide variety of large-scale sequencing projects, and making summary data available for the wider scientific community.
     </p>
@@ -19,8 +29,13 @@
 
 <style scoped>
     .data-context{
+        margin-top: 20px;
         text-indent: 50px;
         line-height: 1.5;
         font-size: 18px;
+    }
+    .input-container{
+        display: flex;
+        justify-content: center;
     }
 </style>

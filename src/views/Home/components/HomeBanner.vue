@@ -11,7 +11,7 @@ const imageUrl = [
 
 
 <template>
-  <h2>Banner</h2>
+  <h2 style="text-align: center;">Welcome to BiG.Data!</h2>
   <div class="home-banner" style="text-align:center">
     <el-carousel height="500px">
       <el-carousel-item v-for="item in imageUrl" :key="item">

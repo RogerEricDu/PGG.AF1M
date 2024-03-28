@@ -9,20 +9,16 @@
         <RouterLink to="/">HomePage</RouterLink>
       </h1>
       <ul class="app-header-nav">
-        <li class="home">
-          <RouterLink to="/">Home</RouterLink>
-        </li>
+        <li class="home"><RouterLink to="/">Home</RouterLink></li>
         <li> <RouterLink to="/data">Data</RouterLink> </li>
-        <li> <RouterLink to="/gene">Gene</RouterLink> </li>
-        <li> <RouterLink to="/snps">SNPs</RouterLink> </li>
+        <li> <RouterLink to="/gene">Allele Freq</RouterLink> </li>
+        <li> <RouterLink to="/snps">Summary</RouterLink> </li>
         <li> <RouterLink to="/about">About</RouterLink> </li>
         <li> <RouterLink to="/guide">Guide</RouterLink> </li>
       </ul>
       <div class="search">
-        <el-icon style="width: 1em; height: 1em; margin-right: 4px;margin-top: 1px;"><Search /></el-icon>
         <input type="text" placeholder="Search">
       </div>
-      <!-- 头部购物车 -->
       
     </div>
   </header>
@@ -51,15 +47,15 @@
   }
 
   .app-header-nav {
-    width: 820px;
+    width: 850px;
     display: flex;
     padding-left: 40px;
+    justify-content: space-between;
     position: relative;
     z-index: 998;
   
     li {
-      margin-right: 40px;
-      width: 38px;
+      width: 100px;
       text-align: center;
   
       a {
@@ -96,34 +92,6 @@
     }
   }
 
-  .cart {
-    width: 50px;
 
-    .curr {
-      height: 32px;
-      line-height: 32px;
-      text-align: center;
-      position: relative;
-      display: block;
-
-      .icon-cart {
-        font-size: 22px;
-      }
-
-      em {
-        font-style: normal;
-        position: absolute;
-        right: 0;
-        top: 0;
-        padding: 1px 6px;
-        line-height: 1;
-        background: $helpColor;
-        color: #fff;
-        font-size: 12px;
-        border-radius: 10px;
-        font-family: Arial;
-      }
-    }
-  }
 }
 </style>

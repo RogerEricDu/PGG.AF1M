@@ -14,16 +14,14 @@ const { y } = useScroll(window)
             <RouterLink to="/">Home</RouterLink>
           </li>
           <li> <RouterLink to="/data">Data</RouterLink> </li>
-          <li> <RouterLink to="/gene">Gene</RouterLink> </li>
-          <li> <RouterLink to="/snps">SNPs</RouterLink> </li>
+           <li> <RouterLink to="/gene">Allele Freq</RouterLink> </li>
+          <li> <RouterLink to="/snps">Summary</RouterLink> </li>
           <li> <RouterLink to="/about">About</RouterLink> </li>
           <li> <RouterLink to="/guide">Guide</RouterLink> </li>
         </ul>
         <div class="search">
-          <i class="iconfont icon-search"></i>
           <input type="text" placeholder="Search">
         </div>
-        <!-- 头部购物车 -->
         
       </div>
     </div>
@@ -67,16 +65,16 @@ const { y } = useScroll(window)
 }
 
 .app-header-nav {
-  width: 820px;
-  display: flex;
-  padding-left: 40px;
-  position: relative;
-  z-index: 998;
-
-  li {
-    margin-right: 40px;
-    width: 38px;
-    text-align: center;
+    width: 850px;
+    display: flex;
+    padding-left: 40px;
+    justify-content: space-between;
+    position: relative;
+    z-index: 998;
+  
+    li {
+      width: 100px;
+      text-align: center;
 
     a {
       font-size: 16px;
@@ -93,6 +91,20 @@ const { y } = useScroll(window)
     .active {
       color: $xtxColor;
       border-bottom: 1px solid $xtxColor;
+    }
+  }
+  .search {
+    width: 300px;
+    height: 36px;
+    position: relative;
+    border-bottom: 1px solid #e7e7e7;
+    line-height: 40px;
+
+
+    input {
+      width: 140px;
+      padding-left: 5px;
+      color: #666;
     }
   }
 }
