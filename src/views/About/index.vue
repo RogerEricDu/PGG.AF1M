@@ -1,37 +1,55 @@
-<script>
-import asideNav from "@/views/About/components/asideNav.vue"
-import mainContent from "@/views/About/components/mainContent.vue"
-export default {
-  components: {
-    asideNav,
-    mainContent
-  }
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+import mainContent from './components/mainContent.vue'
+
+
+const tabPosition = ref('left')
 </script>
 
+
 <template>
-    <div class="aboutPage">
-      <el-aside class="sidebar">
-        <asideNav></asideNav>
-      </el-aside>
-      <el-main class="content">
-        <mainContent></mainContent>
-      </el-main>
+  <div class="page-container">
+    <div class="about-container">
+      <el-icon><Connection /></el-icon>
+      <h1>About</h1>
     </div>
-  </template>
-  
-  <style>
-  .aboutPage {
-    display: flex; /* 使用 Flexbox 布局 */
-    height: 1200px;
-    margin: 20px 80px;
-  }
-  
-  .sidebar {
-    flex: 0 0 200px; /* 侧边栏宽度为 400px */
-  }
-  
-  .content {
-    flex: 1; /* 内容区域占据剩余空间 */
-  }
-  </style>
+    <div class="content-container">
+      <el-tabs :tab-position="tabPosition" class="demo-tabs">
+        <el-tab-pane label="01 Aim and Scope"><mainContent></mainContent></el-tab-pane>
+        <el-tab-pane label="02 Team"></el-tab-pane>
+        <el-tab-pane label="03 Collaborator"></el-tab-pane>
+        <el-tab-pane label="04 Contact Us"></el-tab-pane>
+      </el-tabs>
+    </div>
+  </div>
+</template>
+
+<style>
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 1200px;
+  width: 1200px; /* 设置容器宽度为 700px */
+  margin: 0 auto; /* 居中显示 */
+}
+
+.about-container {
+  display: flex;
+  padding: 20px;
+}
+.content-container{
+  flex: 1;
+}
+
+.demo-tabs {
+  margin-top: 20px; /* 调整标签页与上方内容的距离 */
+}
+
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+  background-color: white; /* 右侧内容部分背景变为白色 */
+}
+</style>
