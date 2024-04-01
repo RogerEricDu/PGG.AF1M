@@ -10,15 +10,14 @@ const tabPosition = ref('left')
 <template>
   <div class="guide-page-container">
     <div class="guide-container">
-      <el-icon><Connection /></el-icon><h1>Guide</h1>
+      <el-icon class="guide-icon1"><EditPen /></el-icon><h1>Guide</h1>
       
     </div>
     <div class="guide-content-container">
       <el-tabs :tab-position="tabPosition" class="demo-tabs">
-        <el-tab-pane label="01 Aim and Scope"><FAQ></FAQ></el-tab-pane>
-        <el-tab-pane label="02 Team"></el-tab-pane>
-        <el-tab-pane label="03 Collaborator"></el-tab-pane>
-        <el-tab-pane label="04 Contact Us"></el-tab-pane>
+        <el-tab-pane label="01 Database"><FAQ></FAQ></el-tab-pane>
+        <el-tab-pane label="02 Analysis"></el-tab-pane>
+        <el-tab-pane label="03 FAQ"></el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -39,6 +38,10 @@ const tabPosition = ref('left')
 }
 .guide-content-container{
   flex: 1;
+}
+.guide-icon1{
+  border:black;
+  font-size: 36px;
 }
 
 .demo-tabs {

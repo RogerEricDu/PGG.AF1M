@@ -11,8 +11,8 @@
       <ul class="app-header-nav">
         <li class="home"><RouterLink to="/">Home</RouterLink></li>
         <li> <RouterLink to="/data">Data</RouterLink> </li>
-        <li> <RouterLink to="/gene">Allele Freq</RouterLink> </li>
-        <li> <RouterLink to="/snps">Summary</RouterLink> </li>
+        <li> <RouterLink to="/allelefreq">Allele Freq</RouterLink> </li>
+        <li> <RouterLink to="/summary">Summary</RouterLink> </li>
         <li> <RouterLink to="/about">About</RouterLink> </li>
         <li> <RouterLink to="/guide">Guide</RouterLink> </li>
       </ul>
@@ -47,7 +47,7 @@
   }
 
   .app-header-nav {
-    width: 850px;
+    width: 820px;
     display: flex;
     padding-left: 40px;
     justify-content: space-between;

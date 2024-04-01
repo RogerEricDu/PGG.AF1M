@@ -65,7 +65,7 @@ const { y } = useScroll(window)
 }
 
 .app-header-nav {
-    width: 850px;
+    width: 800px;
     display: flex;
     padding-left: 40px;
     justify-content: space-between;

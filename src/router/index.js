@@ -6,8 +6,8 @@ import Login from '@/views/Login/index.vue'
 import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
 import Data from '@/views/Data/index.vue'
-import Gene from '@/views/Gene/index.vue'
-import SNPs from '@/views/SNPs/index.vue'
+import AlleleFreq from '@/views/AlleleFreq/index.vue'
+import Summary from '@/views/Summary/index.vue'
 import About from '@/views/About/index.vue'
 import Guide from '@/views/Guide/index.vue'
 
@@ -28,12 +28,12 @@ const router = createRouter({
         component:Data
       },
       {
-        path:'gene',
-        component:Gene,
+        path:'allelefreq',
+        component:AlleleFreq,
       },
       {
-        path:'snps',
-        component:SNPs,
+        path:'summary',
+        component:Summary,
       },
       {
         path:'about',
