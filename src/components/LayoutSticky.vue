@@ -14,7 +14,8 @@ const { y } = useScroll(window)
             <RouterLink to="/">Home</RouterLink>
           </li>
           <li> <RouterLink to="/data">Data</RouterLink> </li>
-           <li> <RouterLink to="/gene">Allele Freq</RouterLink> </li>
+          <li> <RouterLink to="/gene">Allele Freq</RouterLink> </li>
+          <li> <RouterLink to="/analysis">Analysis</RouterLink> </li>
           <li> <RouterLink to="/snps">Summary</RouterLink> </li>
           <li> <RouterLink to="/about">About</RouterLink> </li>
           <li> <RouterLink to="/guide">Guide</RouterLink> </li>

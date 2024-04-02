@@ -1,28 +1,19 @@
-<script lang="ts" setup>
-import { ref } from 'vue'
-import summaryContent from './component/summarycontent.vue'
+<script>
 
-
-const tabPosition = ref('left')
 </script>
 
-
 <template>
-  <div class="summary-page-container">
-    <div class="summary-container">
-        <el-icon class="summary-icon"><DocumentCopy /></el-icon>
-        <h1>Summary</h1>
+  <div class="Analysis-page-container">
+    <div class="Analysis-container">
+        <el-icon class="Analysis-icon"><DataAnalysis /></el-icon>
+        <h1>Data Analysis</h1>
     </div>
-
-    <div class="summary-content-container">
-      <summaryContent></summaryContent>
-
     </div>
-  </div>
 </template>
 
+
 <style>
-.summary-page-container {
+.Analysis-page-container {
   display: flex;
   flex-direction: column;
   height: 1200px;
@@ -30,15 +21,15 @@ const tabPosition = ref('left')
   margin: 0 auto; /* 居中显示 */
 }
 
-.summary-container {
+.Analysis-container {
   display: flex;
   padding: 20px;
 }
-.summary-content-container{
+.Analysis-content-container{
   flex: 1;
   
 }
-.summary-icon{
+.Analysis-icon{
   border:black;
   font-size: 36px;
 }

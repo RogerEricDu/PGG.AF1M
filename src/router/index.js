@@ -7,6 +7,7 @@ import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
 import Data from '@/views/Data/index.vue'
 import AlleleFreq from '@/views/AlleleFreq/index.vue'
+import Analysis from '@/views/Analysis/index.vue'
 import Summary from '@/views/Summary/index.vue'
 import About from '@/views/About/index.vue'
 import Guide from '@/views/Guide/index.vue'
@@ -30,6 +31,10 @@ const router = createRouter({
       {
         path:'allelefreq',
         component:AlleleFreq,
+      },
+      {
+        path:'analysis',
+        component:Analysis,
       },
       {
         path:'summary',
