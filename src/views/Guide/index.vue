@@ -15,9 +15,9 @@ const tabPosition = ref('left')
     </div>
     <div class="guide-content-container">
       <el-tabs :tab-position="tabPosition" class="demo-tabs">
-        <el-tab-pane label="01 Database"><FAQ></FAQ></el-tab-pane>
+        <el-tab-pane label="01 Database"></el-tab-pane>
         <el-tab-pane label="02 Analysis"></el-tab-pane>
-        <el-tab-pane label="03 FAQ"></el-tab-pane>
+        <el-tab-pane label="03 FAQ"><FAQ></FAQ></el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -27,7 +27,7 @@ const tabPosition = ref('left')
 .guide-page-container {
   display: flex;
   flex-direction: column;
-  height: 1200px;
+  height: 100%;
   width: 1200px; /* 设置容器宽度为 700px */
   margin: 0 auto; /* 居中显示 */
 }

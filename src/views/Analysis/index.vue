@@ -16,7 +16,7 @@
 .Analysis-page-container {
   display: flex;
   flex-direction: column;
-  height: 1200px;
+  height: 100%;
   width: 1200px; /* 设置容器宽度为 700px */
   margin: 0 auto; /* 居中显示 */
 }

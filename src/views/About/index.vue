@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import mainContent from './components/mainContent.vue'
+import TeamContent from './components/TeamContent.vue'
+import Collaborator from './components/Collaborator.vue'
+import ContactUs from './components/ContactUs.vue'
 
 
 const tabPosition = ref('left')
@@ -16,9 +19,9 @@ const tabPosition = ref('left')
     <div class="content-container">
       <el-tabs :tab-position="tabPosition" class="demo-tabs">
         <el-tab-pane label="01 Aim and Scope"><mainContent></mainContent></el-tab-pane>
-        <el-tab-pane label="02 Team"></el-tab-pane>
-        <el-tab-pane label="03 Collaborator"></el-tab-pane>
-        <el-tab-pane label="04 Contact Us"></el-tab-pane>
+        <el-tab-pane label="02 Team"><TeamContent></TeamContent></el-tab-pane>
+        <el-tab-pane label="03 Collaborator"><Collaborator></Collaborator></el-tab-pane>
+        <el-tab-pane label="04 Contact Us"><ContactUs></ContactUs></el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -28,7 +31,7 @@ const tabPosition = ref('left')
 .page-container {
   display: flex;
   flex-direction: column;
-  height: 1200px;
+  height: 100%;
   width: 1200px; /* 设置容器宽度为 700px */
   margin: 0 auto; /* 居中显示 */
 }
