@@ -11,6 +11,10 @@ import Analysis from '@/views/Analysis/index.vue'
 import Summary from '@/views/Summary/index.vue'
 import About from '@/views/About/index.vue'
 import Guide from '@/views/Guide/index.vue'
+import GeneAffinity from '@/views/Data/component/GeneAffinity.vue'
+import PopulationStructure from '@/views/Data/component/PopulationStructure.vue'
+import Ancestry from '@/views/Data/component/Ancestry.vue'
+import GeneFlow from '@/views/Data/component/GeneFlow.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +30,13 @@ const router = createRouter({
       },
       {
         path:'data',
-        component:Data
+        component:Data,
+        children: [
+          { path: 'gene-affinity', component: GeneAffinity },
+          { path: 'population-structure', component: PopulationStructure },
+          { path: 'ancestry', component: Ancestry },
+          { path: 'gene-flow', component: GeneFlow }
+        ]
       },
       {
         path:'allelefreq',
