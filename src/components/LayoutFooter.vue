@@ -58,8 +58,9 @@
             <div class="serviceBar">
               <RouterLink to="/">&nbsp;&nbsp;Home&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/data">&nbsp;&nbsp;Data&nbsp;&nbsp;</RouterLink>
-              <RouterLink to="/gene">&nbsp;&nbsp;AF&nbsp;&nbsp;</RouterLink>
-              <RouterLink to="/snps">&nbsp;&nbsp;Summary&nbsp;&nbsp;</RouterLink>
+              <RouterLink to="/allelefreq">&nbsp;&nbsp;Allele Freq&nbsp;&nbsp;</RouterLink>
+              <RouterLink to="/analysis">&nbsp;&nbsp;Analysis&nbsp;&nbsp;</RouterLink>
+              <RouterLink to="/summary">&nbsp;&nbsp;Summary&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/about">&nbsp;&nbsp;About&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/guide">&nbsp;&nbsp;Guide&nbsp;&nbsp;</RouterLink>
             </div>

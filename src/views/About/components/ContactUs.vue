@@ -1,5 +1,5 @@
 <template>
-    <h3 style="font-size: 24px;margin-bottom: 20px;">| Aim and Scope</h3>
+    <h3 style="font-size: 24px;margin-bottom: 20px;">| Contact Us</h3>
 
     <div class="ContactUs-container">
         <div class="block-container">
@@ -39,6 +39,7 @@
 <style>
 .ContactUs-container {
     text-align: center;
+    user-select: text; /* 允许文本被选择 */
 }
 
 .block-container {

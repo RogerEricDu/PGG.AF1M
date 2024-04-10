@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+
+import Database from './component/Database.vue'
 import FAQ from './component/FAQ.vue'
+import Analysis from './component/Analysis.vue'
 
 
 const tabPosition = ref('left')
@@ -15,8 +18,8 @@ const tabPosition = ref('left')
     </div>
     <div class="guide-content-container">
       <el-tabs :tab-position="tabPosition" class="demo-tabs">
-        <el-tab-pane label="01 Database"></el-tab-pane>
-        <el-tab-pane label="02 Analysis"></el-tab-pane>
+        <el-tab-pane label="01 Database"><Database></Database></el-tab-pane>
+        <el-tab-pane label="02 Analysis"><Analysis></Analysis></el-tab-pane>
         <el-tab-pane label="03 FAQ"><FAQ></FAQ></el-tab-pane>
       </el-tabs>
     </div>
