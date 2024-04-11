@@ -15,6 +15,11 @@ import GeneAffinity from '@/views/Data/component/GeneAffinity.vue'
 import PopulationStructure from '@/views/Data/component/PopulationStructure.vue'
 import Ancestry from '@/views/Data/component/Ancestry.vue'
 import GeneFlow from '@/views/Data/component/GeneFlow.vue'
+import UploadQC from '@/views/Analysis/component/UploadQC.vue'
+import Imputation from '@/views/Analysis/component/Imputation.vue'
+import GWAS from '@/views/Analysis/component/GWAS.vue'
+import AncestryInference from '@/views/Analysis/component/AncestryInference.vue'
+import QuickStart from '@/views/Analysis/component/QuickStart.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +51,14 @@ const router = createRouter({
       {
         path:'analysis',
         component:Analysis,
+        /* redirect: '/data/gene-affinity',  */
+        children: [
+          { path: 'uploadQC', component: UploadQC },
+          { path: 'imputation', component: Imputation },
+          { path: 'gwas', component: GWAS },
+          { path: 'ancestryInference', component: AncestryInference },
+          { path: 'quickStart', component: QuickStart }
+        ]
       },
       {
         path:'summary',

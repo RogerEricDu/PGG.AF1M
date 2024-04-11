@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="data-page-container">
     <div class="data-container">
