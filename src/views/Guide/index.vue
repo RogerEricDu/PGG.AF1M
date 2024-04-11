@@ -17,10 +17,10 @@ const tabPosition = ref('left')
       
     </div>
     <div class="guide-content-container">
-      <el-tabs :tab-position="tabPosition" class="demo-tabs">
-        <el-tab-pane label="01 Database"><Database></Database></el-tab-pane>
-        <el-tab-pane label="02 Analysis"><Analysis></Analysis></el-tab-pane>
-        <el-tab-pane label="03 FAQ"><FAQ></FAQ></el-tab-pane>
+      <el-tabs :tab-position="tabPosition" class="guide-tabs">
+        <el-tab-pane label="Database"><Database></Database></el-tab-pane>
+        <el-tab-pane label="Analysis"><Analysis></Analysis></el-tab-pane>
+        <el-tab-pane label="FAQ"><FAQ></FAQ></el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -47,11 +47,26 @@ const tabPosition = ref('left')
   font-size: 36px;
 }
 
-.demo-tabs {
+.guide-tabs {
   margin-top: 20px; /* 调整标签页与上方内容的距离 */
 }
 
-.demo-tabs > .el-tabs__content {
+.guide-tabs .el-tabs__item {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #6e9197;
+  border-radius: 5px; 
+  cursor: pointer; /* 可以使导航项鼠标移上去时显示为手型 */
+  margin-left: 5px;
+  background-color:#f5f5f5;
+}
+
+.guide-tabs .el-tabs__item:hover{
+  background-color: lightgray; /* 鼠标移上去时的背景颜色 */
+}
+
+.guide-tabs > .el-tabs__content {
   padding: 32px;
   color: #6b778c;
   font-size: 32px;

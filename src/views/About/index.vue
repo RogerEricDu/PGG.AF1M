@@ -17,11 +17,11 @@ const tabPosition = ref('left')
       <h1>About</h1>
     </div>
     <div class="content-container">
-      <el-tabs :tab-position="tabPosition" class="demo-tabs">
-        <el-tab-pane label="01 Aim and Scope"><mainContent></mainContent></el-tab-pane>
-        <el-tab-pane label="02 Team"><TeamContent></TeamContent></el-tab-pane>
-        <el-tab-pane label="03 Collaborator"><Collaborator></Collaborator></el-tab-pane>
-        <el-tab-pane label="04 Contact Us"><ContactUs></ContactUs></el-tab-pane>
+      <el-tabs :tab-position="tabPosition" class="about-tabs">
+        <el-tab-pane label="Aim and Scope"><mainContent></mainContent></el-tab-pane>
+        <el-tab-pane label="Team"><TeamContent></TeamContent></el-tab-pane>
+        <el-tab-pane label="Collaborator"><Collaborator></Collaborator></el-tab-pane>
+        <el-tab-pane label="Contact Us"><ContactUs></ContactUs></el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -48,15 +48,32 @@ const tabPosition = ref('left')
   font-size: 36px;
 }
 
-.demo-tabs {
+.about-tabs {
   margin-top: 20px; /* 调整标签页与上方内容的距离 */
 }
 
-.demo-tabs > .el-tabs__content {
+.about-tabs .el-tabs__item {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #6e9197;
+  border-radius: 5px; 
+  cursor: pointer; /* 可以使导航项鼠标移上去时显示为手型 */
+  margin-left: 5px;
+  background-color:#f5f5f5;
+}
+
+.about-tabs .el-tabs__item:hover{
+  background-color: lightgray; /* 鼠标移上去时的背景颜色 */
+}
+
+.about-tabs > .el-tabs__content {
   padding: 32px;
   color: #6b778c;
   font-size: 32px;
   font-weight: 600;
   background-color: white; /* 右侧内容部分背景变为白色 */
 }
+
+
 </style>
