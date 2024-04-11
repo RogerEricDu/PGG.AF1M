@@ -26,7 +26,7 @@
       <!-- 其它 -->
       <div class="extra">
         <div class="container">
-          <ul style="color:#ededed; text-align: center; font-size: 20px; padding-top: 20px;">
+          <ul style="color:#ededed; text-align: center; font-size: 24px; padding-top: 20px;">
             Reference Database
           </ul>
           <div class="slogan" style="text-align: center;">
@@ -217,6 +217,9 @@
           text-shadow: 0 0 1px #333;
         }
       }
+    }
+    .slogan img{
+      border-radius: 5px;
     }
   
     .copyright {
