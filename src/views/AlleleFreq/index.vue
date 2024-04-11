@@ -24,6 +24,7 @@ export default {
 
 <style>
 .allelefreq-page-container {
+  user-select: text; /* 允许文本被选择 */
   display: flex;
   flex-direction: column;
   height: 100%;

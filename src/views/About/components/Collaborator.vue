@@ -51,8 +51,9 @@ export default {
 </script>
 
 <style scoped>
-/* .Collaborator-container {
-} */
+.Collaborator-container {
+  user-select: text;
+}
 
 .collaborator-item {
   margin-bottom: 20px;
