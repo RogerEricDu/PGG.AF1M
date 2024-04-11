@@ -1,3 +1,5 @@
+
+
 <template>
   <div class="data-page-container">
     <div class="data-container">
@@ -72,6 +74,5 @@
 .navigation-item:hover {
   background-color: lightgray; /* 鼠标移上去时的背景颜色 */
 }
-
 
 </style>

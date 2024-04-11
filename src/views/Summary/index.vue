@@ -35,7 +35,11 @@ const tabPosition = ref('left')
   padding: 20px;
 }
 .summary-content-container{
+  background-color: white;
+  margin: 0 30px 30px 30px;
   flex: 1;
+  border-radius: 5px;
+  border: 2px whitesmoke;
   
 }
 .summary-icon{

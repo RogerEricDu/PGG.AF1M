@@ -31,6 +31,7 @@ const router = createRouter({
       {
         path:'data',
         component:Data,
+        redirect: '/data/gene-affinity', 
         children: [
           { path: 'gene-affinity', component: GeneAffinity },
           { path: 'population-structure', component: PopulationStructure },
