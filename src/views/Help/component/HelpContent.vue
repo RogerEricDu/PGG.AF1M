@@ -1,11 +1,4 @@
-<script>
-// 使用 script setup 来编写组件逻辑
-import { defineComponent } from 'vue'
-
-// 导出组件定义
-export default defineComponent({
-  // 组件选项
-})
+<script setup>
 </script>
 
 <template>
@@ -29,4 +22,3 @@ export default defineComponent({
 
 
 </style>
-

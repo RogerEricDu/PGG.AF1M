@@ -16,11 +16,11 @@
             </el-popconfirm>
           </li>
           <li><a href="javascript:;">History Records</a></li>
-          <li><a href="javascript:;">Help</a></li>
+          <li><router-link to="/help">Help</router-link></li>
         </template>
         <template v-else>
           <li><a href="javascript:;">Please log in</a></li>
-          <li><a href="javascript:;">Help</a></li>
+          <li><router-link to="/help">Help</router-link></li>
         </template>
       </ul>
     </div>

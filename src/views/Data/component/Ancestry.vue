@@ -41,8 +41,8 @@ const options = [
             <!-- 第一个板块 -->
             <div class="section-container">
             <div class="section-title">ADMIXTURE analysis of Han Chinese in the context of worldwide populations</div>
-            <div class="section-selector">
-                K=
+            <div class="section-selector" style="justify-content: center;">
+                <span style="margin: 20px">K=</span>
                 <el-select v-model="value" placeholder="Select" style="width: 240px">
                 <el-option
                 v-for="item in options"

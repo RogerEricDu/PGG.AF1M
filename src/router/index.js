@@ -20,6 +20,7 @@ import Imputation from '@/views/Analysis/component/Imputation.vue'
 import GWAS from '@/views/Analysis/component/GWAS.vue'
 import AncestryInference from '@/views/Analysis/component/AncestryInference.vue'
 import QuickStart from '@/views/Analysis/component/QuickStart.vue'
+import Help from '@/views/Help/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,6 +72,10 @@ const router = createRouter({
       {
         path:'guide',
         component:Guide,
+      },
+      {
+        path:'help',
+        component:Help,
       },
       ]
     },

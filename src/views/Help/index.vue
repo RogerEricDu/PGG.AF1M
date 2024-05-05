@@ -1,28 +1,27 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import summaryContent from './component/summarycontent.vue'
-
+import HelpContent from './component/HelpContent.vue'
 
 const tabPosition = ref('left')
 </script>
 
 
 <template>
-  <div class="summary-page-container">
-    <div class="summary-container">
-        <el-icon class="summary-icon"><DocumentCopy /></el-icon>
-        <h1>Summary</h1>
+  <div class="Help-page-container">
+    <div class="Help-container">
+        <el-icon class="Help-icon"><ChatDotRound /></el-icon>
+        <h1>Help</h1>
     </div>
 
-    <div class="summary-content-container">
-      <summaryContent></summaryContent>
+    <div class="Help-content-container">
+      <HelpContent></HelpContent>
 
     </div>
   </div>
 </template>
 
 <style>
-.summary-page-container {
+.Help-page-container {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -30,11 +29,11 @@ const tabPosition = ref('left')
   margin: 0 auto; /* 居中显示 */
 }
 
-.summary-container {
+.Help-container {
   display: flex;
   padding: 20px;
 }
-.summary-content-container{
+.Help-content-container{
   background-color: white;
   padding: 20px;
   flex: 1;
@@ -42,7 +41,7 @@ const tabPosition = ref('left')
   border: 2px whitesmoke;
   
 }
-.summary-icon{
+.Help-icon{
   border:black;
   font-size: 36px;
 }
