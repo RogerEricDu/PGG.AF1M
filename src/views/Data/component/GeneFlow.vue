@@ -39,7 +39,7 @@ function clearSelections() {
 <template>
     <div class="GeneFlow-container">
         <div class="GeneFlow-title">
-            <h3 style="font-size: 24px; margin-bottom: 20px; color: #6e9197; flex: 1;">| Population Structure</h3>
+            <h3 style="font-size: 24px; margin-bottom: 20px; color: #6e9197; flex: 1;">| Gene Flow</h3>
             <p style="flex: 1; text-align: right;">Click on the map to display population structure of the area.</p>
         </div>
         <div class="section-selector">

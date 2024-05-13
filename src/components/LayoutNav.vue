@@ -1,4 +1,14 @@
 <script setup>
+import { useUserStore } from '@/stores/userStore';
+import {useRouter} from 'vue-router'
+const userStore = useUserStore()
+const router = useRouter()
+const confirm = () =>{
+  console.log('User is gonna Log Out')
+  //退出逻辑实现，1.清除用户信息，触发action
+  userStore.clearUserInfo()
+  router.push('/login')
+}
 
 </script>
 
@@ -6,10 +16,12 @@
   <nav class="app-topnav">
     <div class="container">
       <ul>
-        <template v-if="true">
-          <li><a href="javascript:;"><i class="iconfont icon-user"></i>RogerEricDu</a></li>
+        <!-- 多模板渲染，区分登录状态和非登录状态 -->
+        <!-- 适配思路：登录时显示第一块，非登录时显示第二块 -->
+        <template v-if="userStore.userInfo.token">
+          <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{userStore.userInfo.account}}</a></li>
           <li>
-            <el-popconfirm title="Are you sure to exit?" confirm-button-text="Confirm" cancel-button-text="Cancel">
+            <el-popconfirm @confirm="confirm" title="Are you sure to exit?" confirm-button-text="Confirm" cancel-button-text="Cancel">
               <template #reference>
                 <a href="javascript:;">Log Out</a>
               </template>
@@ -19,7 +31,7 @@
           <li><router-link to="/help">Help</router-link></li>
         </template>
         <template v-else>
-          <li><a href="javascript:;">Please log in</a></li>
+          <li><a href="/login">Please log in</a></li>
           <li><router-link to="/help">Help</router-link></li>
         </template>
       </ul>

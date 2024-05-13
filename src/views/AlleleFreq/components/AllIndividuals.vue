@@ -48,7 +48,7 @@ const handleSelectionChange = (selection: any[]) => {
 
 <template>
   <div class="gene-container">
-    <h2 style="text-align:center">BiGData GeneList</h2>
+    <h2 style="text-align:center">All Individuals</h2>
     <el-table :data="tableData" border style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column> <!-- 添加此行以进行选择 -->
       <el-table-column
