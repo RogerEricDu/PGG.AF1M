@@ -2,7 +2,7 @@
     <div class="QuickStart-container">
         <div class="QuickStart-title">
             <h3 style="font-size: 24px; margin-bottom: 20px; color: #6e9197; flex: 1;">| Quick Start</h3>
-            <p style="flex: 1; text-align: right;">Click on the map to display genetic affinity of the area.</p>
+            <p style="flex: 1; text-align: right;">Click on the button to start the analysis.</p>
         </div>
     </div>
 </template>

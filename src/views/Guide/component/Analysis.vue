@@ -1,7 +1,7 @@
 <template>
     <h3 style="font-size: 24px; margin-bottom: 20px;">| Analysis</h3>
  <div class="Analysis-container">
-    <p>In the analysis section, The PGG.Han provides: 1) nested AIMs panels for detecting and controlling population stratification in medical and evolutionary studies; 2) a population-structure-aware shared control for genotype-phenotype association studies (e.g., GWAS); 3) a Han-Chinese-specific reference panel for genotype imputation. Computational tools are implemented into the PGG.Han, and an online user interface is provided for data analysis and results in visualization.</p>
+    <p>In the analysis section, The BiG.Data provides: 1) nested AIMs panels for detecting and controlling population stratification in medical and evolutionary studies; 2) a population-structure-aware shared control for genotype-phenotype association studies (e.g., GWAS); 3) a Han-Chinese-specific reference panel for genotype imputation. Computational tools are implemented into the PGG.Han, and an online user interface is provided for data analysis and results in visualization.</p>
     <h3 style="font-size: 20px; margin-bottom: 20px;">| Data Security</h3>
     <p>
       Any data you upload is protected seriously. Only you can read them. You can delete your data at any time from our servers. We do not use it for our analyses.

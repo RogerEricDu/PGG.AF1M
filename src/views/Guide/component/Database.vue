@@ -2,7 +2,7 @@
     <h3 style="font-size: 24px; margin-bottom: 20px;">| Database</h3>
 <div class="Database-container">
     <p>
-        In the database section, PGG.Han provides visualization of the fine-scale genetic structure of the Han Chinese population and multiple genetic information of genome-wide SNVs by genetic and geographical sub-populations
+        In the database section, BiG.Data provides visualization of the fine-scale genetic structure of the Han Chinese population and multiple genetic information of genome-wide SNVs by genetic and geographical sub-populations
     </p>
     <h3 style="font-size: 24px; margin-bottom: 20px;">| Genetic Structure <a href="/data" style="color: darkcyan;">(Jump)</a></h3>
     <p class="subtitle-container" style="font-weight: bold;font-size: 18px;">1. Genetic Affinity</p>

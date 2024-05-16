@@ -2,7 +2,7 @@
     <div class="GWAS-container">
         <div class="GWAS-title">
             <h3 style="font-size: 24px; margin-bottom: 20px; color: #6e9197; flex: 1;">| GWAS</h3>
-            <p style="flex: 1; text-align: right;">Click on the map to display genetic affinity of the area.</p>
+            <p style="flex: 1; text-align: right;">Identifies genetic variations associated with specific traits or diseases by analyzing genomic data across many individuals.</p>
         </div>
     </div>
 </template>
