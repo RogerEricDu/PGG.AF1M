@@ -52,6 +52,8 @@ export default {
 
 <style scoped>
 .Collaborator-container {
+  font-weight: normal;
+  color: black;
   user-select: text;
 }
 

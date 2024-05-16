@@ -14,30 +14,32 @@
                 <el-icon><HomeFilled /></el-icon>
                 <div class="description">
                     <p class="organization">Institution:</p>
-                    <p class="info">CAS-MPG Partner Institute for Computational Biology (PICB), Shanghai Institutes for Biological Sciences (SIBS), Chinese Academy of Sciences (CAS)</p>
+                    <p class="info">School of Life Science Fudan University, Shanghai Institutes for Biological Sciences (SIBS), Chinese Academy of Sciences (CAS)</p>
                 </div>
             </div>
             <div class="block">
                 <el-icon><LocationFilled /></el-icon>
                 <div class="description">
                     <p class="organization">Address:</p>
-                    <p class="info">320 Yue Yang Road, Shanghai, China 200031</p>
+                    <p class="info">2005 Song Hu Road, Shanghai, China 200438</p>
                 </div>
             </div>
             <div class="block">
                 <el-icon><Message /></el-icon>
                 <div class="description">
                     <p class="organization">Email:</p>
-                    <p class="info">pggadmin@picb.ac.cn</p>
+                    <p class="info">pggadmin@fudan.edu.cn</p>
                 </div>
             </div>
         </div>
     </div>
-    <img src="@/assets/images/address.png" class="bottom-image">
+    <img src="@/assets/images/About_location.png" class="bottom-image">
 </template>
 
 <style>
 .ContactUs-container {
+    font-weight: normal;
+    color: black;
     text-align: center;
     user-select: text; /* 允许文本被选择 */
 }

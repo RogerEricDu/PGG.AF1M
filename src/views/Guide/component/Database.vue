@@ -30,13 +30,15 @@
 
 <style>
 .Database-container {
+    font-weight: normal;
+    color: black;
     display: block; /* 设置为块级元素 */
     user-select: text; /* 允许文本被选择 */
 }
 
 .Database-container p {
     color: black;
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 15px; /* 添加段落之间的间距 */
 }
 .subtitle-container{

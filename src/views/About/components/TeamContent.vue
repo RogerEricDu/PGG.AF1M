@@ -69,6 +69,8 @@ const teamMembers = [
     
   <style scoped>
   .mainContent-container{
+    font-weight: normal;
+    color: black;
     user-select: text; /* 允许文本被选择 */
   }
   .mainContent-container p {

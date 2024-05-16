@@ -3,17 +3,50 @@
 
 <template>
 <div>
-        <h2 style="text-align: center;">User Guide</h2>
-        <p class="paragraph">The Han Chinese Genomes Database (PGG.Han) serves as the central repository of the genomic data of the Han Chinese Genomes Project (Phase I). As is its current version, PGG.Han archives 8,056,973 genome-wide single nucleotide variants (SNVs) of 102,583 Han Chinese individuals (a.k.a. Han100K). PGG.Han aims to: 1) facilitate understanding the population structure and history of Han Chinese; 2) screen AIMs panels for detecting and controlling population stratification in medical and evolutionary studies; 3) create a shared control panel for genotype-phenotype association studies (e.g., GWAS); 4) provide a Han-Chinese-specific reference panel for genotype imputation. Computational tools are implemented into the PGG.Han, and an online user interface is provided for data analysis and results visualization.</p>
-        <p class="paragraph"><strong>Fine-scale population structure: </strong>Han Chinese individuals formed a distinct cluster from the surrounding groups including minority groups in China and other neighboring countries, suggesting a full-identity of Han Chinese people in terms of overall genetic make-up. Sub-populations within Han Chinese are seen, which represent 6 sub-groups: North, Northeast, Central, South, Southwest, and Southeast. In spite of connections are also obvious among the groups, the northern Han Chinese have been influenced more by northern Chinese minorities, and southern Han Chinese by southern neighbors.</p>
-        <p class="paragraph"><strong>Informative Markers (AIMs):</strong> We screened nested AIMs panels for detecting population structure and controlling population stratification to improve association testing and population genetic analysis. Our analysis show that the AIMs panel had sufficient power to discern and control population stratification in Han Chinese, which could significantly reduce false positive rates in both genome-wide association studies (GWAS) and candidate gene association studies (CGAS). We suggest this AIMs panel be genotyped and used to control and correct population stratification in the study design or data analysis of future association studies, especially in CGAS which is the most popular approach to validate previous reports on genetic associations of diseases in post-GWAS era. In addition, we also provide a computational pipeline for users who can customize the reverence populations for screening their own AIMs panels. genetic ancestry and population structure</p>
-        <p class="paragraph"><strong>Han-Chinese-Specific Reference Panel for Genotype Imputation:</strong> A reference panel facilitate complex diseases mapping using population-based association studies, which has been well-established and demonstrated its power for populations of European ancestry but lacks for Han Chinese, the largest ethnic group in East Asia and in the world. We develop a Han-Chinese-Specific Reference Panel and an online server for genotype imputation to facilitate further association studies. Notably, we provide a population structure-aware reference panel by which users can customize the imputation reference by selecting particular subpopulation samples with respect to population stratification.</p>
+<h1 style="text-align: center;">User Guide</h1>
+
+  <h2 style="text-align: left;">--Introduction</h2>
+  <p class="paragraph">This user guide is a comprehensive compilation of all general navigation and other useful tools/features for using BiG.Data database.</p>
+
+  <h2 style="text-align: left;">--An Analysis Pipeline for BiG.Data</h2>
+  <p class="paragraph"><strong>a)A brief Introduction to the Pipeline</strong><br/>The pipeline consists of four steps: Unmapped reads extraction, filtering and assembly, position determination and clustering.</p>
+
+  <h2 style="text-align: left;">--Home</h2>
+  <p class="paragraph"><strong>a)Quick Usage for Searching on the Home Page</strong><br/>The Home page provides a quick searching for a gene or region. Users can use the search function by the following steps.<br/>
+        1) Selecting chromosome<br/>
+        2) Inputting start position of the gene or region<br/>
+        3) Inputting the end position <br/>
+        4) Gene name(The searching supports batch queries, which are separated by commas to return all query genetic information).<br/>
+        Remember to input any information to activate the searching, and the examples are listed.</p>
+  <p class="paragraph"><strong>b)Summary of PGHA Data Sources</strong><br/>
+        The Pangenome.Highland database contains 6 highlander populations, over 1500 highlander genomes and 158MB novel sequences.</p>
+
+  <h2 style="text-align: left;">--Allele Freq</h2>
+  <p class="paragraph"><strong>a) Guidance for Searching Allele Frequency on the Allele Freq Page</strong><br/>
+        This visualization page contains gene searching system which is the same as the one in 'Home' page. Our gene database provides novel contigs missing in human reference genome(GRCh38) for specific populations and further information of genes.<br/>
+        Users can input any one or more of the Chromosome, start position, end position, or gene number to search for a specific gene or region.(The searching supports batch queries, which are separated by commas to return all query genetic information). The searching system support single-conditional query by inputting one condition, multi-conditional comprehensive query by inputting several conditions, or directly click on the 'Search' button without any conditions to see all the information.</p>
+  <p class="paragraph"><strong>b) Guidance for Searching Further information and modifying the table</strong><br/>
+        After the Gene/Contig Search, users are able to check the information and click the link for further details. Exporting the information of gene & contigs and adjusting the content displayed per page are supported. <br/>
+        1)Users can click on the optional box to select the related information of the gene/contigs.<br/>
+        2)Users can click the link button to check further details and annotations of the gene/contigs. The Annotation Page contains the gene information, altitudinal correlation, KEGG enrichment, pathway enrichment and inferred adaptive SF.<br/>
+        3)Click the “EXPORT SELECTED” button to export the gene information users have selected.<br/>
+        4)The pagination can be customized. Users can adjust the number of genes displayed per page and switch page.<br/></p>
+
+  <h2 style="text-align: left;">--Data Statistics</h2>
+  <p class="paragraph"><strong>a)Sample Composition</strong><br/>
+        The pie chart contains information about the population and the corresponding number of samples, users can click on the image above to hide or show the proportion of the corresponding population samples. 1) Dragging the mouse over the different sections to show the size of samples for each population.</p>
+  <p class="paragraph"><strong>b)Geographical Distribution with Altitude</strong><br/>
+        The map contains altitude and regional distributions of our samples. 1) Dragging the mouse over the different sections of the map to show the name of the population, altitude and number of each samples. 2) The bar chart on the bottom left shows the exact altitude of each population. ( The deeper the red, the higher the altitude.)</p>
+
+  <h2 style="text-align: left;">--Allele Frequency</h2>
+  <h2 style="text-align: left;">--Analysis</h2>
+
 </div>
 </template>
 
 <style>
 .paragraph{
-   padding: 20px;
+   padding: 10px;
    color: black;
     line-height: 1.6;
     font-size: 16px;

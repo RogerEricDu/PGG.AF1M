@@ -25,15 +25,16 @@ export default defineComponent({
 </div>
 </template>
 
-<style>
+<style scoped>
 .mainContent-container{
   user-select: text; /* 允许文本被选择 */
 }
 .mainContent-container p{
-   color: dimgrey;
+    font-weight: normal;
+    color: black;
     margin-bottom: 20px;
     line-height: 1.6;
-    font-size: 14px;
+    font-size: 16px;
 }
 .mainContent-photo-container {
     margin-bottom: 20px; /* 图片下方留出一些空间 */
