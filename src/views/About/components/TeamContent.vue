@@ -25,8 +25,8 @@ const teamMembers = [
 </script>
 
 <template>
+        <h3 style="font-size: 24px; margin-bottom: 20px;">| Team</h3>
     <div class="mainContent-container">
-      <h3 style="font-size: 24px; margin-bottom: 20px;">| Team</h3>
     </br>
       <p style="font-size: 17px; margin-bottom: 20px;">The database was designed, created and maintained by Population Genomics group (PGG) led by Dr. Shuhua Xu.</p>    
 
