@@ -1,6 +1,19 @@
 <template>
+  <div class="home-banner">
     <h2>Update Timeline</h2>
     <el-timeline>
+      <el-timeline-item center timestamp="2024/5/17" placement="top">
+        <el-card>
+          <h4>Update the Allele Freq section</h4>
+          <p>The Table and Further INFO of the Allele Frequency Dataset is ready to work</p>
+        </el-card>
+      </el-timeline-item>
+      <el-timeline-item center timestamp="2024/5/7" placement="top">
+        <el-card>
+          <h4>Update the Log In section</h4>
+          <p>The Allele Freq Page has updated 3 tables ( All.ind / By.Province / By.region )</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item center timestamp="2024/4/1" placement="top">
         <el-card>
           <h4>Update the Data\Home section</h4>
@@ -20,4 +33,8 @@
         Start the project Framework.
       </el-timeline-item>
     </el-timeline>
-  </template>
+  </div>
+</template>
+
+<style>
+</style>

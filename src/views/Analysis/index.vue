@@ -7,6 +7,9 @@
 
     <!-- 包裹内容的框 -->
     <div class="analysis-content-box">
+      <div class="analysis-photo-container">
+            <img src="@/assets/images/AnalysisPipeline.png" alt="Centered Image">
+      </div>
       <p style="font-size: 20px;font-weight: bold;text-align: center;">Choose the tool section you would like to use.</p>
       <!-- 导航栏 -->
       <div class="analysis-navigation-container">
@@ -32,6 +35,18 @@
   height: 100%;
   width: 1200px; /* 设置容器宽度为 700px */
   margin: 0 auto; /* 居中显示 */
+}
+.analysis-photo-container {
+    text-align: center; /* 将图像居中 */
+    margin-top: 20px; /* 添加上边距 */
+    margin-bottom: 20px; /* 添加下边距 */
+}
+
+.analysis-photo-container img {
+    width: 70%; /* 设置图像宽度为900px */
+    height: 70%; /* 设置图像高度为600px */
+    display: block; /* 设置图像为块级元素，以便居中显示 */
+    margin: 20px auto; /* 设置上下边距为20px，左右居中 */
 }
 .analysis-content-box {
   background-color: white;

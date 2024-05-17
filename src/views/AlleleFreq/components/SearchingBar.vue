@@ -22,7 +22,7 @@ const input = ref('')
             The data set provided on this website spans 257,519,942 SNPs and 20,000+ whole-genome sequences from 11 different modern Han population datasets, sequenced as part of various disease-specific and population genetic studies. The BiG.Data Principal Investigators and team can be found <a href="/about">here</a>, and the groups that have contributed data to the current release are listed <a href="/about">here</a>.
         </p>
         <p>
-            All data here are released for the benefit of the wider biomedical community, without restriction on use - see the terms of use. Sign up for our mailing list for future release announcements.
+            Both chromosome numbers with physical location and rsID are supported to search variants respectively. SNVs with multiple rsIDs will retain only one rsID. Multiple information about SNVs can be friendly searched and visualized. Basic information can also be obtained by scanning the Quick Response code attached to each variant.
         </p>
     </div>
     

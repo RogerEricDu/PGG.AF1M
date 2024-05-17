@@ -14,7 +14,7 @@ import HomeStatistics from './components/HomeStatistics.vue'
         <HomeStatistics />
     </div>
     <el-divider />
-    <div class="container" style="height: 400px;">
+    <div class="container" style="height: auto;">
         <HomeDetails />
     </div>
 
@@ -22,5 +22,4 @@ import HomeStatistics from './components/HomeStatistics.vue'
 </template>
 
 <style scoped>
-
 </style>
