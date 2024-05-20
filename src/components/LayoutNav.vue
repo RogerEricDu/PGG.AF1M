@@ -19,7 +19,7 @@ const confirm = () =>{
         <!-- 多模板渲染，区分登录状态和非登录状态 -->
         <!-- 适配思路：登录时显示第一块，非登录时显示第二块 -->
         <template v-if="userStore.userInfo.token">
-          <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{userStore.userInfo.account}}</a></li>
+          <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{ userStore.userInfo.account }}</a></li>
           <li>
             <el-popconfirm @confirm="confirm" title="Are you sure to exit?" confirm-button-text="Confirm" cancel-button-text="Cancel">
               <template #reference>

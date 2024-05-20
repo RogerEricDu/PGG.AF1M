@@ -1,5 +1,5 @@
 <script setup>
-import image1 from '@/assets/images/sample1.png'
+import image1 from '@/assets/images/Homepage_banner1.png'
 import image2 from '@/assets/images/sample2.jpg'
 
 const imageUrl = [
@@ -13,7 +13,7 @@ const imageUrl = [
 <template>
   <h2 style="text-align: center;">Welcome to BiG.Data!</h2>
   <div class="home-banner" style="text-align:center">
-    <el-carousel height="500px">
+    <el-carousel height="600px">
       <el-carousel-item v-for="item in imageUrl" :key="item">
         <img :src="item.url" alt=""/>
       </el-carousel-item>
@@ -26,7 +26,7 @@ const imageUrl = [
 <style scoped lang='scss'>
 .home-banner {
   width: 1240px;
-  height: 500px;
+  height: 600px;
   position: absolute;
   left: 0;
   top: 50px;
@@ -34,7 +34,7 @@ const imageUrl = [
 
   img {
     width: 100%;
-    height: 600px;
+    height: 800px;
   }
 }
 </style>

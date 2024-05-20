@@ -23,11 +23,11 @@ const form = ref({
 // 2. 准备规则对象
 const rules = {
   account: [
-    { required: true, message: '用户名不能为空', trigger: 'blur' }
+    { required: true, message: 'Account cannot be empty', trigger: 'blur' }
   ],
   password: [
-    { required: true, message: '密码不能为空', trigger: 'blur' },
-    { min: 6, max: 14, message: '密码长度为6-14个字符', trigger: 'blur' },
+    { required: true, message: 'Password cannot be empty', trigger: 'blur' },
+    { min: 6, max: 14, message: 'Length of password should be 6-14 characters', trigger: 'blur' },
   ],
   agree: [
     {
@@ -38,7 +38,7 @@ const rules = {
         if (value) {
           callback()
         } else {
-          callback(new Error('请勾选协议'))
+          callback(new Error('Please check the agreement'))
         }
       }
     }
@@ -98,7 +98,7 @@ const doLogin = () => {
               </el-form-item>
               <el-form-item prop="agree" label-width="22px">
                 <el-checkbox size="large" v-model="form.agree">
-                  我已同意隐私条款和服务条款
+                  I agree to the Privacy Policy and Services
                 </el-checkbox>
               </el-form-item>
               <el-button size="large" class="subBtn" @click="doLogin">Log In</el-button>
@@ -155,7 +155,7 @@ const doLogin = () => {
 }
 
 .login-section {
-  background: url('@/assets/images/login-bg.png') no-repeat center / cover;
+  background: url('@/assets/images/login_logo.png') no-repeat center / cover;
   height: 488px;
   position: relative;
 
