@@ -3,6 +3,7 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/views/Login/index.vue'
+import SignUp from '@/views/SignUp/index.vue'
 import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
 import Data from '@/views/Data/index.vue'
@@ -33,6 +34,7 @@ const router = createRouter({
     {
       path:'/',
       component:Layout,
+      meta: { requiresAuth: true }, // 需要登录才能访问的页面
       children:[ //二级路由
       {
         path:'',
@@ -41,6 +43,7 @@ const router = createRouter({
       {
         path:'data',
         component:Data,
+        meta: { requiresAuth: true }, // 需要登录才能访问的页面
         redirect: '/data/gene-affinity', 
         children: [
           { path: 'gene-affinity', component: GeneAffinity },
@@ -52,6 +55,7 @@ const router = createRouter({
       {
         path:'allelefreq',
         component:AlleleFreq, 
+        meta: { requiresAuth: true }, // 需要登录才能访问的页面
         children: [
           { path: 'all_ind', component: AllIndividuals },
           { path: 'by_province', component: ByProvince },
@@ -61,10 +65,12 @@ const router = createRouter({
       {
         path:'further_info',
         component:FurtherInfo,
+        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
       {
         path:'analysis',
         component:Analysis,
+        meta: { requiresAuth: true }, // 需要登录才能访问的页面
         /* redirect: '/data/gene-affinity',  */
         children: [
           { path: 'uploadQC', component: UploadQC },
@@ -77,24 +83,32 @@ const router = createRouter({
       {
         path:'summary',
         component:Summary,
+        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
       {
         path:'about',
         component:About,
+        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
       {
         path:'guide',
         component:Guide,
+        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
       {
         path:'help',
         component:Help,
+        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
       ]
     },
     {
       path:'/login',
       component:Login
+    },
+    {
+      path:'/signup',
+      component:SignUp
     }
   ]
 })

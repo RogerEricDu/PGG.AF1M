@@ -31,7 +31,7 @@ const confirm = () =>{
           <li><router-link to="/help">Help</router-link></li>
         </template>
         <template v-else>
-          <li><a href="/login">Please log in</a></li>
+          <li><a href="/login">Please Log In / Sign Up</a></li>
           <li><router-link to="/help">Help</router-link></li>
         </template>
       </ul>

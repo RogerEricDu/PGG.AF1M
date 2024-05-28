@@ -28,6 +28,10 @@ const rules = {
     { required: true, message: 'Password cannot be empty', trigger: 'blur' },
     { min: 6, max: 14, message: 'Length of password should be 6-14 characters', trigger: 'blur' },
   ],
+  check_password: [
+    { required: true, message: 'Password cannot be empty', trigger: 'blur' },
+    { min: 6, max: 14, message: 'Length of password should be 6-14 characters', trigger: 'blur' },
+  ],
   agree: [
     {
       validator: (rule, value, callback) => {
@@ -47,38 +51,20 @@ const rules = {
 // 3. 获取form实例做统一校验
 const formRef = ref(null)
 const router = useRouter()
-
-const doLogin = () => {
-  const { account, password } = form.value
-  // 调用实例方法
-  formRef.value.validate(async (valid) => {
-    // valid: 所有表单都通过校验  才为true
-    console.log(valid)
-    // 以valid做为判断条件 如果通过校验才执行登录逻辑
-    if (valid) {
-      // TODO LOGIN
-      await userStore.getUserInfo({ account, password })
-      // 1. 提示用户
-      ElMessage({ type: 'success', message: 'Success to Log In' })
-      // 2. 跳转首页
-      router.replace({ path: '/' })
-    }
-  })
+const doDoubleSignUp = () => {
 }
-const doSignUp = () => {
+const doReLogin = () => {
   // 点击 "Sign Up" 按钮后跳转到注册页面
-  router.push({ path: '/signup' })
+  router.push({ path: '/login' })
 }
 
-// 1. 用户名和密码 只需要通过简单的配置（看文档的方式 - 复杂功能通过多个不同组件拆解）
-// 2. 同意协议  自定义规则  validator:(rule,value,callback)=>{}
-// 3. 统一校验  通过调用form实例的方法 validate -> true
+
 </script>
 
 
 <template>
-  <div>
-    <header class="login-header">
+  <div class="signup-container">
+    <header class="signup-header">
 <!--       <div class="container m-top-20">
 
         <RouterLink class="entry" to="/"  style="width: 200px;">
@@ -86,10 +72,10 @@ const doSignUp = () => {
         </RouterLink>
       </div> -->
     </header>
-    <section class="login-section">
+    <section class="signup-section">
       <div class="wrapper">
         <nav>
-          <a href="javascript:;">Log In</a>
+          <a href="javascript:;">Sign Up</a>
         </nav>
         <div class="account-box">
           <div class="form">
@@ -112,13 +98,21 @@ const doSignUp = () => {
                 show-password
                 />
               </el-form-item>
-              <el-form-item prop="agree" label-width="22px">
+              <el-form-item prop="check_password" label="Check:">
+                <el-input 
+                v-model="form.check_password"
+                type="check_password"
+                placeholder="Please input password again"
+                show-password
+                />
+              </el-form-item>
+<!--               <el-form-item prop="agree" label-width="22px">
                 <el-checkbox size="large" v-model="form.agree">
                   I agree to the Privacy Policy and Services
                 </el-checkbox>
-              </el-form-item>
-              <el-button size="large" class="subBtn" @click="doLogin">Log In</el-button>
-              <el-button size="large" class="subBtn" @click="doSignUp">Sign Up</el-button>
+              </el-form-item> -->
+              <el-button size="large" class="subBtn" @click="doDoubleSignUp">Submit</el-button>
+              <el-button size="large" class="subBtn" @click="doReLogin">Log In</el-button>
             </el-form>
           </div>
         </div>
@@ -128,7 +122,7 @@ const doSignUp = () => {
 </template>
 
 <style scoped lang='scss'>
-.login-header {
+.signup-header {
   background: #fff;
   border-bottom: 1px solid #e4e4e4;
 
@@ -171,7 +165,7 @@ const doSignUp = () => {
   }
 }
 
-.login-section {
+.signup-section {
   background: url('@/assets/images/login_logo.png') no-repeat center / cover;
   height: 488px;
   position: relative;
