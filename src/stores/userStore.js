@@ -3,6 +3,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { loginAPI } from '@/apis/user'
+import { registerAPI } from '@/apis/user'
 
 export const useUserStore = defineStore('user', () => {
   // 1. 定义管理用户数据的state
@@ -11,7 +12,11 @@ export const useUserStore = defineStore('user', () => {
   const getUserInfo = async ({ account, password }) => {
     const res = await loginAPI({ account, password })
     userInfo.value = res.result
-
+  }
+  //3.注册的接口函数
+  const registerUser = async({account,password,check_password}) => {
+    const res = await registerAPI({ account,password,check_password})
+    return res
   }
 
   // 退出时清除用户信息
@@ -23,6 +28,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     userInfo,
     getUserInfo,
+    registerUser,
     clearUserInfo
   }
 }, {

@@ -3,7 +3,7 @@ import request from '@/utils/http'
 
 export const loginAPI = ({ account, password }) => {
   return request({
-    url: '/login',
+    url: '/user/login',
     method: 'POST',
     data: {
       account,
@@ -12,12 +12,15 @@ export const loginAPI = ({ account, password }) => {
   })
 }
 
-
-export const getLikeListAPI = ({ limit = 4 }) => {
+export const registerAPI = ({ account, password,check_password }) => {
   return request({
-    url: '/goods/relevant',
-    params: {
-      limit
+    url: '/user/register',
+    method: 'POST',
+    data: {
+      account,
+      password,
+      check_password
     }
   })
 }
+

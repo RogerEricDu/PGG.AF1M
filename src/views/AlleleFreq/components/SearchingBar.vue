@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import {ref} from 'vue'
 const input = ref('')
+
+function handleSubmit() {
+      // 处理提交按钮点击事件
+      console.log('Submit button clicked');
+      // 在这里添加接口
+    }
+
 </script>
 
 <template>
@@ -8,7 +15,7 @@ const input = ref('')
     <div class="searching-container">
         <el-input v-model="input" style="width: 800px; height:45px;" placeholder="rs114514 or  1:114514123" >
         <template #append>
-            <strong style="font-size: 18px;">Submit</strong>
+            <el-button type="primary" class="submit-button" @click="handleSubmit"><strong style="font-size: 18px;">Submit</strong></el-button>
         </template>   
         </el-input>
     </div>

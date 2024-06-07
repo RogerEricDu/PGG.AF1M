@@ -8,7 +8,6 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
-
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
@@ -16,6 +15,7 @@ const userStore = useUserStore()
 const form = ref({
   account: '',
   password: '',
+  check_password:'',
   agree: true
 })
 
@@ -26,11 +26,21 @@ const rules = {
   ],
   password: [
     { required: true, message: 'Password cannot be empty', trigger: 'blur' },
-    { min: 6, max: 14, message: 'Length of password should be 6-14 characters', trigger: 'blur' },
+    { min: 6, max: 14, message: 'Password should be 6-14 characters', trigger: 'blur' },
   ],
   check_password: [
     { required: true, message: 'Password cannot be empty', trigger: 'blur' },
-    { min: 6, max: 14, message: 'Length of password should be 6-14 characters', trigger: 'blur' },
+    { min: 6, max: 14, message: 'Password should be 6-14 characters', trigger: 'blur' },
+    {
+      validator:(rule, value, callback) => {
+        if (value !== form.value.password) {
+          callback(new Error('Password do not match'))
+        }else{
+          callback()
+        }
+      },
+      trigger:'blur'
+    }
   ],
   agree: [
     {
@@ -52,6 +62,21 @@ const rules = {
 const formRef = ref(null)
 const router = useRouter()
 const doDoubleSignUp = () => {
+  const { account, password, check_password } = form.value
+  // 调用实例方法
+  formRef.value.validate(async (valid) => {
+    // valid: 所有表单都通过校验  才为true
+    console.log(valid)
+    // 以valid做为判断条件 如果通过校验才执行登录逻辑
+    if (valid) {
+      // TODO SIGNUP
+      await userStore.registerUser({ account, password, check_password })
+      // 1. 提示用户
+      ElMessage({ type: 'success', message: 'Success to Sign Up' })
+      // 2. 跳转首页
+      router.replace({ path: '/login' })
+    }
+  })
 }
 const doReLogin = () => {
   // 点击 "Sign Up" 按钮后跳转到注册页面
