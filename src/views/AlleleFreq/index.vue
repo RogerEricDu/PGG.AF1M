@@ -115,7 +115,7 @@ export default {
 <template>
 <div class="AlleleFreq-page-container">
     <div class="AlleleFreq-container">
-      <el-icon class="AlleleFreq-icon1"><Document /></el-icon><h1>Allele Frequency</h1>  
+      <el-icon class="AlleleFreq-icon1"><Document /></el-icon><h1>Variants</h1>  
     </div>
     <div style="height:100%">
       <SearchingBar></SearchingBar>

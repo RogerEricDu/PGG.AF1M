@@ -10,19 +10,15 @@ const { y } = useScroll(window)
           <RouterLink to="/"></RouterLink>
         </h1>
         <ul class="app-header-nav">
-          <li class="home">
-            <RouterLink to="/">Home</RouterLink>
-          </li>
-          <li> <RouterLink to="/data">Data</RouterLink> </li>
-          <li> <RouterLink to="/allelefreq">Allele Freq</RouterLink> </li>
-          <li> <RouterLink to="/analysis">Analysis</RouterLink> </li>
-          <li> <RouterLink to="/summary">Summary</RouterLink> </li>
-          <li> <RouterLink to="/about">About</RouterLink> </li>
-          <li> <RouterLink to="/guide">Guide</RouterLink> </li>
+        <li class="home"><RouterLink to="/">Home</RouterLink></li>
+        <li> <RouterLink to="/data">Data</RouterLink> </li>
+        <li> <RouterLink to="/population">Population</RouterLink> </li>
+        <li> <RouterLink to="/allelefreq">Variants</RouterLink> </li>
+        <li> <RouterLink to="/analysis">Analysis</RouterLink></li>
+        <li> <RouterLink to="/summary">Summary</RouterLink> </li>
+        <li> <RouterLink to="/about">About</RouterLink> </li>
+        <li> <RouterLink to="/guide">Guide</RouterLink> </li>
         </ul>
-        <div class="search">
-          <input type="text" placeholder="Search">
-        </div>
         
       </div>
     </div>
@@ -58,9 +54,9 @@ const { y } = useScroll(window)
 
   .logo {
     width: 200px;
-    height: 80px;
-    background: url("@/assets/images/BigDataLogo.png") no-repeat right 2px;
-    background-size: 160px auto;
+    height: 80px; /* 使高度与父容器保持一致 */
+    background: url("/HomeIcon.png") no-repeat center center;
+    background-size: contain; /* 保持图片比例，确保完整显示 */
   }
 
 }

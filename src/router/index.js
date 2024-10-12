@@ -26,6 +26,7 @@ import GWAS from '@/views/Analysis/component/GWAS.vue'
 import AncestryInference from '@/views/Analysis/component/AncestryInference.vue'
 import QuickStart from '@/views/Analysis/component/QuickStart.vue'
 import Help from '@/views/Help/index.vue'
+import Population from '@/views/Population/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,7 +40,16 @@ const router = createRouter({
       {
         path:'',
         component:Home
+      }, 
+      {
+        path:'population',
+        component:Population,
+        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
+/*       {
+        path:'Intro',
+        component:Intro
+      }, */
       {
         path:'data',
         component:Data,
@@ -71,7 +81,6 @@ const router = createRouter({
         path:'analysis',
         component:Analysis,
         meta: { requiresAuth: true }, // 需要登录才能访问的页面
-        /* redirect: '/data/gene-affinity',  */
         children: [
           { path: 'uploadQC', component: UploadQC },
           { path: 'imputation', component: Imputation },
