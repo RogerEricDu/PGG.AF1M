@@ -7,19 +7,34 @@ const { y } = useScroll(window)
     <div class="app-header-sticky" :class="{ show: y > 78 }">
       <div class="container">
         <h1 class="logo">
-          <RouterLink to="/"></RouterLink>
-        </h1>
+        <RouterLink to="/"></RouterLink>
+      </h1>
         <ul class="app-header-nav">
-        <li class="home"><RouterLink to="/">Home</RouterLink></li>
-        <li> <RouterLink to="/data">Data</RouterLink> </li>
-        <li> <RouterLink to="/population">Population</RouterLink> </li>
-        <li> <RouterLink to="/allelefreq">Variants</RouterLink> </li>
-        <li> <RouterLink to="/analysis">Analysis</RouterLink></li>
-        <li> <RouterLink to="/summary">Summary</RouterLink> </li>
-        <li> <RouterLink to="/about">About</RouterLink> </li>
-        <li> <RouterLink to="/guide">Guide</RouterLink> </li>
+          <li :class="{ active: $route.path === '/' }">
+            <RouterLink to="/">Home</RouterLink>
+          </li>
+          <li :class="{ active: $route.path === '/data' }">
+            <RouterLink to="/data">Data</RouterLink>
+          </li>
+          <li :class="{ active: $route.path === '/population' }">
+            <RouterLink to="/population">Population</RouterLink>
+          </li>
+          <li :class="{ active: $route.path === '/allelefreq' }">
+            <RouterLink to="/allelefreq">Variants</RouterLink>
+          </li>
+          <li :class="{ active: $route.path === '/analysis' }">
+            <RouterLink to="/analysis">Analysis</RouterLink>
+          </li>
+          <li :class="{ active: $route.path === '/summary' }">
+            <RouterLink to="/summary">Summary</RouterLink>
+          </li>
+          <li :class="{ active: $route.path === '/about' }">
+            <RouterLink to="/about">About</RouterLink>
+          </li>
+          <li :class="{ active: $route.path === '/guide' }">
+            <RouterLink to="/guide">Guide</RouterLink>
+          </li>
         </ul>
-        
       </div>
     </div>
   </template>
@@ -62,47 +77,40 @@ const { y } = useScroll(window)
 }
 
 .app-header-nav {
-    width: 800px;
     display: flex;
     padding-left: 40px;
     justify-content: space-between;
     position: relative;
     z-index: 998;
-  
+
     li {
-      width: 100px;
-      text-align: center;
+      list-style: none;
+      margin: 0 10px;
+      font-weight: bold;
 
-    a {
-      font-size: 16px;
-      line-height: 32px;
-      height: 32px;
-      display: inline-block;
+      a {
+        display: block;
+        padding: 10px 20px;
+        border-radius: 40px;
+        font-size: 16px;
+        line-height: 32px;
+        color: #333;
+        text-align: center;
+        text-decoration: none;
+        background-color: transparent;
+        transition: background-color 0.3s, color 0.3s;
 
-      &:hover {
-        color: $xtxColor;
-        border-bottom: 1px solid $xtxColor;
+        &:hover {
+          background-color: grey;
+          color: white;
+        }
+      }
+
+      &.active a {
+        background-color: #333;
+        color: white;
+        border-color: #333;
       }
     }
-
-    .active {
-      color: $xtxColor;
-      border-bottom: 1px solid $xtxColor;
-    }
   }
-  .search {
-    width: 300px;
-    height: 36px;
-    position: relative;
-    border-bottom: 1px solid #e7e7e7;
-    line-height: 40px;
-
-
-    input {
-      width: 140px;
-      padding-left: 5px;
-      color: #666;
-    }
-  }
-}
 </style>
