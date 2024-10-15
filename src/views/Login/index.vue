@@ -1,50 +1,124 @@
 <script setup>
+import { ref } from 'vue'
+import { ElMessage } from 'element-plus' // 用于提示信息
+import { userLogin, userSignUp } from '@/api/user.js' // 导入API方法
+
+const isLoginMode = ref(true) // 用于切换登录和注册模式
+
+const form = ref({
+  username: '',
+  password: '',
+  email: '',
+  agree: false
+})
+
+const rules = {
+  username: [
+    { required: true, message: 'Please input your username', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: 'Please input your password', trigger: 'blur' }
+  ],
+  email: [
+    { required: !isLoginMode.value, message: 'Please input your email', trigger: 'blur' }
+  ]
+}
+
+const formRef = ref(null) // 引用el-form
+
+const doLogin = async () => {
+  try {
+    // 封装成对象并调用userLogin
+    const loginData = {
+      username: form.value.username,
+      password: form.value.password
+    }
+    await userLogin(loginData)
+    ElMessage.success('Login successful!')
+    // 重定向到主页或其他页面
+    // router.push('/') // 取消注释并根据需要重定向
+  } catch (error) {
+    ElMessage.error('Login failed. Please try again.')
+  }
+}
+
+const doSignUp = async () => {
+  const isValid = await formRef.value.validate()
+  if (isValid) {
+    try {
+      // 封装成对象并调用userSignUp
+      const signUpData = {
+        username: form.value.username,
+        password: form.value.password,
+        email: form.value.email
+      }
+      await userSignUp(signUpData)
+      ElMessage.success('Sign up successful!')
+      isLoginMode.value = true // 注册成功后返回登录页面
+    } catch (error) {
+      ElMessage.error('Sign up failed. Please try again.')
+    }
+  }
+}
+
+const switchToSignUp = () => {
+  isLoginMode.value = false
+}
+
+const switchToLogin = () => {
+  isLoginMode.value = true
+}
 </script>
+
 
 
 <template>
   <div>
-    <header class="login-header">
-<!--       <div class="container m-top-20">
-
-        <RouterLink class="entry" to="/"  style="width: 200px;">
-          Enter the HomePage
-        </RouterLink>
-      </div> -->
-    </header>
+    <header class="login-header"></header>
     <section class="login-section">
       <div class="wrapper">
         <nav>
-          <a href="javascript:;">Log In</a>
+          <a href="javascript:void(0);">{{ isLoginMode ? 'Log In' : 'Sign Up' }}</a>
         </nav>
         <div class="account-box">
           <div class="form">
             <el-form ref="formRef" :model="form" :rules="rules" label-position="right" label-width="80px" status-icon>
-              <el-form-item prop="account" label="Account:">
+              <el-form-item prop="username" label="Username:">
                 <el-input 
-                ref="Account"
-                v-model="form.account"           
-                placeholder="Please input your account"
-                name="Account"
-                type="text"
-                tabindex="1"
-                autocomplete="on"/>
+                  v-model="form.username"           
+                  placeholder="Please input your username"
+                  name="Username"
+                  type="text"
+                  tabindex="1"
+                  autocomplete="on"/>
               </el-form-item>
               <el-form-item prop="password" label="Password:">
                 <el-input 
-                v-model="form.password"
-                type="password"
-                placeholder="Please input password"
-                show-password
+                  v-model="form.password"
+                  type="password"
+                  placeholder="Please input password"
+                  show-password/>
+              </el-form-item>
+              <!-- 注册页面时显示邮箱 -->
+              <el-form-item v-if="!isLoginMode" prop="email" label="Email:">
+                <el-input 
+                  v-model="form.email"
+                  type="email"
+                  placeholder="Please input email"
                 />
               </el-form-item>
-              <el-form-item prop="agree" label-width="22px">
+              <!-- 同意政策的复选框 -->
+              <el-form-item prop="agree" label-width="22px" v-if="!isLoginMode">
                 <el-checkbox size="large" v-model="form.agree">
                   I agree to the Privacy Policy and Services
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn" @click="doLogin">Log In</el-button>
-              <el-button size="large" class="subBtn" @click="doSignUp">Sign Up</el-button>
+              <el-button size="large" class="subBtn" @click="isLoginMode ? doLogin() : doSignUp()">
+                {{ isLoginMode ? 'Log In' : 'Yes' }}
+              </el-button>
+              <el-button size="large" class="subBtn" @click="isLoginMode ? switchToSignUp() : switchToLogin()">
+                {{ isLoginMode ? 'Sign Up' : 'No' }}
+              </el-button>
             </el-form>
           </div>
         </div>
@@ -52,6 +126,7 @@
     </section>
   </div>
 </template>
+
 
 <style scoped lang='scss'>
 .login-header {

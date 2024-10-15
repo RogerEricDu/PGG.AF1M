@@ -3,7 +3,6 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/views/Login/index.vue'
-import SignUp from '@/views/SignUp/index.vue'
 import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
 import Data from '@/views/Data/index.vue'
@@ -115,10 +114,6 @@ const router = createRouter({
       path:'/login',
       component:Login
     },
-    {
-      path:'/signup',
-      component:SignUp
-    }
   ]
 })
 
