@@ -10,7 +10,7 @@ const tabPosition = ref('left')
 <template>
   <div class="summary-page-container">
     <div class="summary-container">
-        <el-icon class="summary-icon"><DocumentCopy /></el-icon>
+        <el-icon class="summary-icon" style="font-size: 36px;"><DocumentCopy /></el-icon>
         <h1>Summary</h1>
     </div>
 
@@ -41,10 +41,6 @@ const tabPosition = ref('left')
   border-radius: 5px;
   border: 2px whitesmoke;
   
-}
-.summary-icon{
-  border:black;
-  font-size: 36px;
 }
 
 .demo-tabs {

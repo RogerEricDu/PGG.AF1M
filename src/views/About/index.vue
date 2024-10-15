@@ -13,7 +13,7 @@ const tabPosition = ref('left')
 <template>
   <div class="page-container">
     <div class="about-container">
-      <el-icon class="memo-icon"><Memo /></el-icon>
+      <el-icon class="memo-icon" style="font-size: 36px;"><Memo /></el-icon>
       <h1>About</h1>
     </div>
     <div class="content-container">
@@ -42,10 +42,6 @@ const tabPosition = ref('left')
 }
 .content-container{
   flex: 1;
-}
-.memo-icon{
-  border:black;
-  font-size: 36px;
 }
 
 .about-tabs {

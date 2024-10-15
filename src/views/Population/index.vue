@@ -27,7 +27,7 @@ const teamMembers = [
 <template>
     <div class="page-container">
         <div class="about-container">
-            <el-icon class="memo-icon"><Memo /></el-icon>
+            <el-icon class="memo-icon" style="font-size: 36px;"><Memo /></el-icon>
             <h1>Population</h1>
         </div>
         <div class="mainContent-container">

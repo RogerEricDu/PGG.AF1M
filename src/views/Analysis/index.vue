@@ -1,7 +1,7 @@
 <template>
   <div class="analysis-page-container">
     <div class="analysis-container">
-        <el-icon class="analysis-icon"><SetUp /></el-icon>
+        <el-icon class="analysis-icon" style="font-size: 36px;"><SetUp /></el-icon>
         <h1>Data Analysis</h1>
     </div>
 
@@ -62,10 +62,6 @@
 .analysis-content-container{
   flex: 1;
   
-}
-.analysis-icon{
-  border:black;
-  font-size: 36px;
 }
 .analysis-navigation-container {
   display: flex;

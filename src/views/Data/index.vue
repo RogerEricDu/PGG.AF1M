@@ -1,7 +1,7 @@
 <template>
   <div class="data-page-container">
     <div class="data-container">
-        <el-icon class="data-icon"><SetUp /></el-icon>
+        <el-icon class="data-icon" style="font-size: 36px;"><SetUp /></el-icon>
         <h1>Data Statistics</h1>
     </div>
 
@@ -45,10 +45,6 @@
 .data-content-container{
   flex: 1;
   
-}
-.data-icon{
-  border:black;
-  font-size: 36px;
 }
 .navigation-container {
   display: flex;

@@ -13,7 +13,7 @@ const tabPosition = ref('left')
 <template>
   <div class="guide-page-container">
     <div class="guide-container">
-      <el-icon class="guide-icon1"><EditPen /></el-icon><h1>Guide</h1>
+      <el-icon class="guide-icon1" style="font-size: 36px;"><EditPen /></el-icon><h1>Guide</h1>
       
     </div>
     <div class="guide-content-container">
@@ -41,10 +41,6 @@ const tabPosition = ref('left')
 }
 .guide-content-container{
   flex: 1;
-}
-.guide-icon1{
-  border:black;
-  font-size: 36px;
 }
 
 .guide-tabs {

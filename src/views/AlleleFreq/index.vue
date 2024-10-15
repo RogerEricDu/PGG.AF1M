@@ -115,7 +115,7 @@ export default {
 <template>
 <div class="AlleleFreq-page-container">
     <div class="AlleleFreq-container">
-      <el-icon class="AlleleFreq-icon1"><Document /></el-icon><h1>Variants</h1>  
+      <el-icon class="AlleleFreq-icon1" style="font-size: 36px;"><Document /></el-icon><h1>Variants</h1>  
     </div>
     <div style="height:100%">
       <SearchingBar></SearchingBar>
@@ -192,10 +192,7 @@ export default {
   flex: 1;
   
 }
-.AlleleFreq-icon{
-  border:black;
-  font-size: 36px;
-}
+
 .AlleleFreq-navigation-container {
   display: flex;
   justify-content: space-between;
