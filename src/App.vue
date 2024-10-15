@@ -17,7 +17,7 @@ import LayoutSticky from '@/components/LayoutSticky.vue'
 </template>
 
 <style scoped lang="scss">
-.test{
+/* .test{
   color:$priceColor;
 }
 header {
@@ -54,7 +54,7 @@ nav a {
 nav a:first-of-type {
   border: 0;
 }
-
+ */
 @media (min-width: 1024px) {
   header {
     display: flex;
@@ -78,7 +78,6 @@ nav a:first-of-type {
     font-size: 1rem;
 
     padding: 1rem 0;
-    margin-top: 1rem;
   }
 }
 </style>

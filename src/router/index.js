@@ -122,4 +122,15 @@ const router = createRouter({
   ]
 })
 
+//路由守卫，后面根据后端看一下是否有token判断是否登录了
+router.beforeEach((to,from,next)=>{
+  if (to.path === '/main' && !isAuthenticated){
+    next('/login')
+  }
+  else{
+    next()
+  }
+})
+
+
 export default router
