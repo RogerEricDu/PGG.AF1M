@@ -6,25 +6,38 @@ import { getToken } from '@/utils/auth'
 
 // 创建一个 Axios 实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // API的基础路径
-  timeout: 5000 // 请求超时时间
+  baseURL: import.meta.env.VITE_APP_BASE_API, // 使用 import.meta.env 代替 process.env
+  timeout: 5000
 })
 
-// 请求拦截器
+/* // request interceptor
 service.interceptors.request.use(
   config => {
-    // 在请求头中加入 Token
-    const token = getToken()
-    if (token) {
-      config.headers['Authorization'] = 'Bearer ' + token
+
+    if (store.getters.token) {
+      config.headers['X-Token'] = getToken()
     }
     return config
   },
   error => {
-    // 请求错误时的处理
-    console.error(error)
+    console.log(error) // for debug
     return Promise.reject(error)
- }
+  }
+)
+ */
+// 请求拦截器
+service.interceptors.request.use(
+  config => {
+    const token = getToken()
+    if (token) {
+      config.headers['Authorization'] = 'Bearer ' + token // 添加 Bearer 前缀
+    }
+    return config
+  },
+  error => {
+    console.log(error) // for debug
+    return Promise.reject(error)
+  }
 )
 
 // 响应拦截器
