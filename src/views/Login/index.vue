@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus' // 用于提示信息
 import { userLogin, userSignUp } from '@/api/user.js' // 导入API方法
 
 const isLoginMode = ref(true) // 用于切换登录和注册模式
@@ -34,11 +33,11 @@ const doLogin = async () => {
       password: form.value.password
     }
     await userLogin(loginData)
-    ElMessage.success('Login successful!')
+    this.$message.success('Login successful!')
     // 重定向到主页或其他页面
     // router.push('/') // 取消注释并根据需要重定向
   } catch (error) {
-    ElMessage.error('Login failed. Please try again.')
+    this.$message.error('Login failed. Please try again.')
   }
 }
 
@@ -53,10 +52,10 @@ const doSignUp = async () => {
         email: form.value.email
       }
       await userSignUp(signUpData)
-      ElMessage.success('Sign up successful!')
+      this.$message.success('Sign up successful!')
       isLoginMode.value = true // 注册成功后返回登录页面
     } catch (error) {
-      ElMessage.error('Sign up failed. Please try again.')
+      this.$message.error('Sign up failed. Please try again.')
     }
   }
 }

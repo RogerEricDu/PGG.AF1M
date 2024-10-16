@@ -19,12 +19,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 //引入element plus图标库
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'  
-
-/* //测试接口函数
-import { getCategory } from "@/api/testAPI"
-getCategory().then(res=>{
-    console.log(res)
-}) */
+import { ElMessage } from 'element-plus';
 
 // 创建 Vuex 实例
 const store = createStore({
@@ -49,6 +44,10 @@ const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
   }
+
+//Elmessage全局注册，this.$message直接调用
+app.config.globalProperties.$message = ElMessage;
+
 
 //pinia加入到app应用中
 app.use(createPinia())

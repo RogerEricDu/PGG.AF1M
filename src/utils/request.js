@@ -1,7 +1,6 @@
 //utils常见文件，用来配置和封装axios
 //设置请求的默认参数、拦截器等
 import axios from 'axios'
-import { ElMessage } from 'element-plus' //库中的 Message 组件，用来显示通知或提示信息
 import { getToken } from '@/utils/auth'
 
 // 创建一个 Axios 实例
@@ -46,7 +45,7 @@ service.interceptors.response.use(
       const res = response.data
       if (res.code !== 200) {
         // 如果后端返回的 code 不为 200，则视为错误
-        ElMessage({
+        this.$message({
           message: res.message || 'Error',
           type: 'error',
           duration: 5000
@@ -58,7 +57,7 @@ service.interceptors.response.use(
     },
     error => {
       console.error('Response error: ', error)
-      ElMessage({
+      this.$message({
         message: error.message,
         type: 'error',
         duration: 5000

@@ -42,7 +42,7 @@ const actions = {
         })
         .catch(error => {
           // 登录失败处理
-          ElMessage.error('登录失败，请重试') // 这里使用 ElMessage 提示用户
+          this.$message.error('登录失败，请重试') // 这里使用 ElMessage 提示用户
           reject(error)
         })
     })
@@ -69,7 +69,7 @@ const actions = {
         commit('SET_INTRODUCTION', introduction)
         resolve(data)
       }).catch(error => {
-        ElMessage.error('获取用户信息失败')
+        this.$message.error('获取用户信息失败')
         reject(error)
       })
     })
@@ -86,7 +86,7 @@ const actions = {
         dispatch('tagsView/delAllViews', null, { root: true })
         resolve()
       }).catch(error => {
-        ElMessage.error('登出失败')
+        this.$message.error('登出失败')
         reject(error)
       })
     })

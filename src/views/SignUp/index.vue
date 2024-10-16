@@ -66,7 +66,7 @@ const doDoubleSignUp = () => {
       // TODO SIGNUP
       await userStore.registerUser({ account, password, check_password })
       // 1. 提示用户
-      ElMessage({ type: 'success', message: 'Success to Sign Up' })
+      this.$message({ type: 'success', message: 'Success to Sign Up' })
       // 2. 跳转首页
       router.replace({ path: '/login' })
     }
