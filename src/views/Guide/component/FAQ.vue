@@ -1,5 +1,5 @@
 <template>
-    <h3 style="font-size: 24px; margin-bottom: 20px;">| FAQ</h3>
+    <h3 style="font-size: 24px; margin-bottom: 20px; ">| FAQ</h3>
 <div class="FAQ-container">
     <p class="subtitle-container" style="font-weight: bold;font-size: 18px;">1. How to choose the reference panels?</p>
 </br>

@@ -4,7 +4,7 @@
     <p>
         In the database section, BiG.Data provides visualization of the fine-scale genetic structure of the Han Chinese population and multiple genetic information of genome-wide SNVs by genetic and geographical sub-populations
     </p>
-    <h3 style="font-size: 24px; margin-bottom: 20px;">| Genetic Structure <a href="/data" style="color: darkcyan;">(Jump)</a></h3>
+    <h3 style="font-size: 20px; margin-bottom: 20px;">| Genetic Structure <a href="/data" style="color: darkcyan;">(Jump)</a></h3>
     <p class="subtitle-container" style="font-weight: bold;font-size: 18px;">1. Genetic Affinity</p>
     <p>
         This page shows the genetic relationship within the Han Chinese population at two different levels. The first half is divided into sub-populations by provinces, and the second half is divided by genetic structure. Click on a sub-population on the map and the genetic relationship between the sub-population and other sub-populations is shown on the right.
@@ -21,7 +21,7 @@
     <p>
         This part shows the shared genetic drift among selected 3 populations, which can also obtain recent gene flow from 2 source population to the target population. Only 2 of 3 populations from Source1, Source2 and Target should be selected and click the ‘Search’ button will gain the results.
     </p>
-    <h3 style="font-size: 24px; margin-bottom: 20px;">| Variant <a href="/alleleFreq" style="color: darkcyan;">(Jump)</a></h3>
+    <h3 style="font-size: 20px; margin-bottom: 20px;">| Variant <a href="/alleleFreq" style="color: darkcyan;">(Jump)</a></h3>
     <p>
         The high-quality genome-wide SNP genotyped data can be queried on this page. We provide two different ways of querying, position or rsID. For one selected SNV, there is multiple genetic information such as allele frequency, variant annotation, genome diversity and so on. In addition to displaying a map of frequency distribution and a data table, we also provide external links to other databases.
     </p>

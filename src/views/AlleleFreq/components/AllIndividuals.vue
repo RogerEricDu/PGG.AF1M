@@ -83,7 +83,9 @@ const handleSelectionChange = (selection: any[]) => {
       </el-table-column>
       <el-table-column label="FurtherInfo" width="120">
         <template #default="{ row }">
-          <a :href="'/further_info?id=' + row.id" style="color:#6e9197; font-weight:bold;">CHECK</a>
+          <div class="centered-link">
+            <a :href="'/further_info?id=' + row.id" style="color:#6e9197; font-weight:bold;">INFO</a>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -135,5 +137,8 @@ const handleSelectionChange = (selection: any[]) => {
 
 .demo-pagination-block .demonstration {
   margin-bottom: 16px;
+}
+.centered-link {
+  text-align: center;
 }
 </style>

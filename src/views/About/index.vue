@@ -52,15 +52,17 @@ const tabPosition = ref('left')
   font-size: 20px;
   margin-bottom: 20px;
   font-weight: bold;
-  color: #6e9197;
+  color: #4a7073;
   border-radius: 5px; 
   cursor: pointer; /* 可以使导航项鼠标移上去时显示为手型 */
   margin-left: 5px;
-  background-color:#f5f5f5;
+
 }
 
-.about-tabs .el-tabs__item:hover{
-  background-color: lightgray; /* 鼠标移上去时的背景颜色 */
+.about-tabs .el-tabs__item:hover, 
+.about-tabs .el-tabs__item.is-active {
+  background-color: #95a5a6; /* 浅青蓝色背景，点击/悬停时 */
+  color: white; /* 点击后字体变白 */
 }
 
 .about-tabs > .el-tabs__content {
@@ -68,7 +70,7 @@ const tabPosition = ref('left')
   color: #6b778c;
   font-size: 32px;
   font-weight: 600;
-  background-color: white; /* 右侧内容部分背景变为白色 */
+  background-color: white;
 }
 
 

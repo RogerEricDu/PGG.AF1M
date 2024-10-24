@@ -70,7 +70,7 @@ const handleSelectionChange = (selection: any[]) => {
 
 <template>
   <div class="gene-container">
-    <h2 style="text-align:center">All Individuals</h2>
+    <h2 style="text-align:center">By Region</h2>
     <el-table :data="tableData" border style="margin: auto;text-align: center;" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column> <!-- 添加此行以进行选择 -->
       <el-table-column
@@ -85,7 +85,9 @@ const handleSelectionChange = (selection: any[]) => {
       </el-table-column>
       <el-table-column label="FurtherInfo" width="120">
         <template #default="{ row }">
-          <a :href="'/further_info?id=' + row.id" style="color:#6e9197; font-weight:bold;">CHECK</a>
+          <div class="centered-link">
+            <a :href="'/further_info?id=' + row.id" style="color:#6e9197; font-weight:bold;">INFO</a>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -137,5 +139,8 @@ const handleSelectionChange = (selection: any[]) => {
 
 .demo-pagination-block .demonstration {
   margin-bottom: 16px;
+}
+.centered-link {
+  text-align: center;
 }
 </style>

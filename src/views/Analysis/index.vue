@@ -72,18 +72,25 @@
 .analysis-navigation-item {
   font-size: 20px;
   font-weight: bold;
-  color: #6e9197;
+  color: #2c3e50; /* 深蓝灰色，未点击时的字体颜色 */
   flex: 1;
   text-align: center;
   padding: 15px;
   border-radius: 5px; 
-  cursor: pointer; /* 可以使导航项鼠标移上去时显示为手型 */
+  cursor: pointer;
   margin-left: 5px;
-  background-color:#f5f5f5;
+  background-color: #ecf0f1; /* 浅灰色，未点击时的背景颜色 */
+  transition: background-color 0.3s, color 0.3s; /* 添加过渡效果 */
 }
 
 .analysis-navigation-item:hover {
-  background-color: lightgray; /* 鼠标移上去时的背景颜色 */
+  background-color: #bdc3c7; /* 悬停时变为浅灰蓝 */
+}
+
+.analysis-navigation-item:active, 
+.analysis-navigation-item.router-link-active {
+  background-color: #95a5a6; /* 点击/激活时背景色变为亮蓝色 */
+  color: white; /* 点击时字体变为白色 */
 }
 
 </style>
