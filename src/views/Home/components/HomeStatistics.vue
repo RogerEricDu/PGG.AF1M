@@ -1,22 +1,61 @@
-<script lang="ts" setup>
-import {ref} from 'vue'
-const input = ref('')
-
-function handleSubmit() {
-      // 处理提交按钮点击事件
-      console.log('Submit button clicked');
-      // 在这里添加接口
-    }
+<script>
+export default {
+  data() {
+    return {
+      searchType: '',
+      selectedChr: '',
+      input: '',
+      region: '', 
+      province: '', 
+      chromosomes: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'], // Chromosomes list
+    };
+  },
+  methods: {
+    handleSubmit() {
+      // 这里后面写提交搜索功能的接口，把search的内容post到对应的表单
+      console.log({
+        searchType: this.searchType,
+        selectedChr: this.selectedChr,
+        input: this.input,
+        region: this.region,
+        province: this.province,
+      });
+    },
+  },
+};
 </script>
 
 <template>
-    <h2>Quick Start(By individuals as default).</h2>
-    <div class="input-container">
-    <el-input v-model="input" style="width: 800px; height:45px;" placeholder="rs114514 or  1:114514123" >
-        <template #append>
-            <el-button type="primary" class="submit-button" @click="handleSubmit"><strong style="font-size: 18px;">Submit</strong></el-button>
-        </template>   
-    </el-input>
+    <h2 style="text-align: center;">Quick Start</h2>
+    <div class="searching-container">
+        <!-- 选择 Individuals, Region 或 Province -->
+        <el-select v-model="searchType" placeholder="Select Search Type" style="width: 200px;">
+        <el-option label="All Individuals" value="individuals"></el-option>
+        <el-option label="By Region" value="region"></el-option>
+        <el-option label="By Province" value="province"></el-option>
+        </el-select>
+
+        <!-- 选择染色体 -->
+        <el-select v-model="selectedChr" placeholder="Select Chromosome" style="width: 200px; margin-left: 10px;">
+        <el-option v-for="chr in chromosomes" :key="chr" :label="chr" :value="chr"></el-option>
+        </el-select>
+
+        <!-- 输入 Variant 或 rsID -->
+        <el-input v-model="input" style="width: 400px; margin-left: 10px;" placeholder="Variant or rsID">
+        </el-input>
+
+        <!-- 如果选择了 Region，显示 Region 输入框 -->
+        <el-input v-if="searchType === 'region'" v-model="region" style="width: 200px; margin-left: 10px;" placeholder="Region">
+        </el-input>
+
+        <!-- 如果选择了 Province，显示 Province 输入框 -->
+        <el-input v-if="searchType === 'province'" v-model="province" style="width: 300px; margin-left: 10px;" placeholder="Province">
+        </el-input>
+
+        <!-- 提交按钮 -->
+        <el-button type="primary" class="submit-button" @click="handleSubmit" style="margin-left: 10px;">
+        <strong style="font-size: 18px;">Search</strong>
+        </el-button>
     </div>
 
     <div class="data-context">
@@ -39,6 +78,10 @@ function handleSubmit() {
         text-indent: 50px;
         line-height: 1.5;
         font-size: 18px;
+    }
+    .searching-container{
+        display: flex;
+        justify-content: center;
     }
     a {
     color: #6e9197; /* 保持链接的默认颜色 */

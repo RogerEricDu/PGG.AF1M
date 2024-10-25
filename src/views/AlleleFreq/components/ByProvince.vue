@@ -2,7 +2,7 @@
 import { ref } from 'vue'; // 从 Vue 中导入 ref
 
 const tableHeader = ref({
-  id: 'ID',
+  variant: 'Variant',
   chr: 'Chr',
   position: 'Position',
   ref: 'Ref',
@@ -12,31 +12,31 @@ const tableHeader = ref({
 });
 
 const tableData = ref([
-  { id: 1, chr: 1, position: 13261, ref: 'G', alt: 'A',alleleFrequency:0.1 ,province:'Yunnan'},
-  { id: 2, chr: 1, position: 13273, ref: 'G', alt: 'C', alleleFrequency:0.1,province:'Yunnan'},
-  { id: 3, chr: 1, position: 13284, ref: 'G', alt: 'A', alleleFrequency:0.1,province:'Yunnan'},
-  { id: 4, chr: 1, position: 13372, ref: 'G', alt: 'C', alleleFrequency:0.1 ,province:'Yunnan'},
-  { id: 5, chr: 1, position: 13424, ref: 'A', alt: 'T', alleleFrequency:0.1,province:'Yunnan'},
-  { id: 6, chr: 1, position: 13451, ref: 'A', alt: 'C', alleleFrequency:0.1,province:'Yunnan'},
-  { id: 7, chr: 1, position: 13539, ref: 'G', alt: 'C', alleleFrequency:0.1,province:'Yunnan'},
-  { id: 8, chr: 1, position: 13543, ref: 'T', alt: 'G',alleleFrequency:0.1 ,province:'Yunnan'},
-  { id: 9, chr: 1, position: 14436, ref: 'G', alt: 'A',alleleFrequency:0.1 ,province:'Yunnan'},
-  { id: 10, chr: 1, position: 14462, ref: 'A', alt: 'G',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 11, chr: 1, position: 14464, ref: 'A', alt: 'T',alleleFrequency:0.1 ,province:'Yunnan'},
-  { id: 12, chr: 1, position: 14553, ref: 'C', alt: 'T',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 13, chr: 1, position: 14610, ref: 'T', alt: 'C',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 14, chr: 1, position: 14653, ref: 'C', alt: 'T',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 15, chr: 1, position: 14716, ref: 'C', alt: 'T',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 16, chr: 1, position: 14728, ref: 'C', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 17, chr: 1, position: 14742, ref: 'G', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 18, chr: 1, position: 14748, ref: 'G', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 19, chr: 1, position: 14752, ref: 'G', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 20, chr: 1, position: 14754, ref: 'G', alt: 'C',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 1, chr: 1,variant:'1:13261-G-A',  position: 13261, ref: 'G', alt: 'A',alleleFrequency:0.1 ,province:'Yunnan'},
+  { id: 2, chr: 1,variant:'1:13273-G-C',  position: 13273, ref: 'G', alt: 'C', alleleFrequency:0.1,province:'Yunnan'},
+  { id: 3, chr: 1,variant:'1:13284-G-A',  position: 13284, ref: 'G', alt: 'A', alleleFrequency:0.1,province:'Yunnan'},
+  { id: 4, chr: 1,variant:'1:13372-G-C',  position: 13372, ref: 'G', alt: 'C', alleleFrequency:0.1 ,province:'Yunnan'},
+  { id: 5, chr: 1,variant:'1:13424-A-T',  position: 13424, ref: 'A', alt: 'T', alleleFrequency:0.1,province:'Yunnan'},
+  { id: 6, chr: 1,variant:'1:13451-A-C',  position: 13451, ref: 'A', alt: 'C', alleleFrequency:0.1,province:'Yunnan'},
+  { id: 7, chr: 1,variant:'1:13539-G-C',  position: 13539, ref: 'G', alt: 'C', alleleFrequency:0.1,province:'Yunnan'},
+  { id: 8, chr: 1,variant:'1:13543-T-G',  position: 13543, ref: 'T', alt: 'G',alleleFrequency:0.1 ,province:'Yunnan'},
+  { id: 9, chr: 1,variant:'1:14436-G-A',  position: 14436, ref: 'G', alt: 'A',alleleFrequency:0.1 ,province:'Yunnan'},
+  { id: 10, chr: 1,variant:'1:14462-A-G',  position: 14462, ref: 'A', alt: 'G',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 11, chr: 1,variant:'1:14464-A-T',  position: 14464, ref: 'A', alt: 'T',alleleFrequency:0.1 ,province:'Yunnan'},
+  { id: 12, chr: 1,variant:'1:14553-C-T',  position: 14553, ref: 'C', alt: 'T',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 13, chr: 1,variant:'1:14610-T-C',  position: 14610, ref: 'T', alt: 'C',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 14, chr: 1,variant:'1:14653-C-T',  position: 14653, ref: 'C', alt: 'T',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 15, chr: 1,variant:'1:14716-C-T',  position: 14716, ref: 'C', alt: 'T',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 16, chr: 1,variant:'1:14728-C-A',  position: 14728, ref: 'C', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 17, chr: 1,variant:'1:14742-G-A',  position: 14742, ref: 'G', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 18, chr: 1,variant:'1:14748-G-A',  position: 14748, ref: 'G', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 19, chr: 1,variant:'1:14752-G-A',  position: 14752, ref: 'G', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 20, chr: 1,variant:'1:14754-G-C',  position: 14754, ref: 'G', alt: 'C',alleleFrequency:0.1,province:'Yunnan'},
 ]);
 
 // 定义每一列的宽度，这里只是示例，你可以根据需求自定义
 const columnWidths = {
-  id: 80,
+  variant: 150,
   chr: 100,
   position: 120,
   ref: 80,
@@ -50,29 +50,45 @@ const getColumnWidth = (columnName) => {
   return `${columnWidths[columnName]}px`;
 };
 
-const currentPage = ref(1)
-const pageSize = ref(10)
-const small = ref(false)
-const background = ref(false)
-const disabled = ref(false)
+const currentPage = ref(1);
+const pageSize = ref(10);
+const small = ref(false);
+const background = ref(false);
+const disabled = ref(false);
 
 const handleSizeChange = (val: number) => {
-  console.log(`${val} 条每页`)
-}
+  console.log(`${val} 条每页`);
+};
 const handleCurrentChange = (val: number) => {
-  console.log(`当前页: ${val}`)
-}
+  console.log(`当前页: ${val}`);
+};
 
 const handleSelectionChange = (selection: any[]) => {
   console.log('已选项:', selection);
-}
+};
+
+// 生成对应的URL
+const generateFurtherInfoLink = (row) => {
+  const params = new URLSearchParams({
+    id: row.id,
+    variant: row.variant,
+    chr: row.chr.toString(),
+    position: row.position.toString(),
+    ref: row.ref,
+    alt: row.alt,
+    alleleFrequency: row.alleleFrequency.toString(),
+    province: row.province,
+    table: 'ByProvince', // 这里区分不同的表格
+  });
+  return `/further_info?${params.toString()}`;
+};
 </script>
 
 <template>
   <div class="gene-container">
     <h2 style="text-align:center">By Province</h2>
     <el-table :data="tableData" border style="margin: auto;text-align: center;" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55"></el-table-column> <!-- 添加此行以进行选择 -->
+      <el-table-column type="selection" width="55" align="center"></el-table-column> 
       <el-table-column
         :prop="index"
         :label="item"
@@ -86,7 +102,7 @@ const handleSelectionChange = (selection: any[]) => {
       <el-table-column label="FurtherInfo" width="120">
         <template #default="{ row }">
           <div class="centered-link">
-            <a :href="'/further_info?id=' + row.id" style="color:#6e9197; font-weight:bold;">INFO</a>
+            <a :href="generateFurtherInfoLink(row)" style="color:#6e9197; font-weight:bold;">INFO</a>
           </div>
         </template>
       </el-table-column>
