@@ -61,6 +61,7 @@
 
 <style scoped>
 .box-container {
+  user-select: text;
   display: flex;
   flex-wrap: wrap; /* 允许换行以容纳所有框 */
   justify-content: center; /* 水平居中对齐 */
