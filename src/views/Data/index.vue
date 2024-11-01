@@ -9,10 +9,10 @@
     <div class="content-box">
       <!-- 导航栏 -->
       <div class="navigation-container">
+        <router-link to="/data/gene-flow" class="navigation-item">Data Set</router-link>
         <router-link to="/data/gene-affinity" class="navigation-item">Gene Affinity</router-link>
         <router-link to="/data/population-structure" class="navigation-item">Population Structure</router-link>
         <router-link to="/data/ancestry" class="navigation-item">Ancestry</router-link>
-        <router-link to="/data/gene-flow" class="navigation-item">Gene Flow</router-link>
       </div>
 
       <!-- 其他内容 -->
