@@ -40,49 +40,73 @@
           <template #label>
             <span>Provincial<br/>Population</span> <!-- 使用 <br/> 标签换行 -->
           </template>
-          <div>图表 1 的内容</div>
+          <div class="provincial-population-title">
+            <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Provincial Population -</h3>
+            <p style="flex: 1; text-align: right;">Click on the map to display population structure of the area.</p>
+          </div>
+          <ProvincialPopulation />
         </el-tab-pane>
+
         <el-tab-pane name="tab2">
           <template #label>
             <span>Genetic<br/>Subgroups</span> 
           </template>
-          <div>图表 2 的内容</div>
+          <div class="genetic-subgroups-title">
+            <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Genetic Subgroups -</h3>
+            <p style="flex: 1; text-align: right;">Click on the map to display population structure of the area.</p>
+          </div>
+          <GeneticSubgroups />
         </el-tab-pane>
+
         <el-tab-pane name="tab3">
-          <template #label>
-            <span>Variant<br/>Effect</span> 
-          </template>
-          <div>图表 3 的内容</div>
-        </el-tab-pane>
-        <el-tab-pane name="tab4">
           <template #label>
             <span>Variant<br/>Browser</span> 
           </template>
-          <div>图表 4 的内容</div>
+          <div class="Variant-Browser-title">
+            <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Variant Browser -</h3>
+            <!-- <p style="flex: 1; text-align: right;">Click on the map to display population structure of the area.</p> -->
+          </div>
+          <VariantBrowser />
         </el-tab-pane>
+
+        <el-tab-pane name="tab4">
+          <template #label>
+            <span>Variant<br/>Effect</span> 
+          </template>
+          <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Variant Effect -</h3>
+          <VariantEffect />
+        </el-tab-pane>
+
         <el-tab-pane name="tab5">
           <template #label>
             <span>Nature<br/>Selection</span> 
           </template>
-          <div>图表 5 的内容</div>
+          <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Nature Selection -</h3>
+          <NatureSelection />
         </el-tab-pane>
+
         <el-tab-pane name="tab6">
           <template #label>
             <span>Genome<br/>Diversity</span> 
           </template>
-          <div>图表 6 的内容</div>
+          <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Genome Diversity -</h3>
+          <GenomeDiversity />
         </el-tab-pane>
+
         <el-tab-pane name="tab7">
           <template #label>
             <span>Linkage<br/>Disequilibrium</span> 
           </template>
-          <div>图表 7 的内容</div>
+          <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Linkage Disequilibrium -</h3>
+          <LinkageDisequilibrium />
         </el-tab-pane>
+        
         <el-tab-pane name="tab8">
           <template #label>
             <span>Haplotype<br/>Structure</span> 
           </template>
-          <div>图表 8 的内容</div>
+          <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Haplotype Structure -</h3>
+          <HaplotypeStructure />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -92,6 +116,14 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import ProvincialPopulation from './ProvincialPopulation.vue';
+import GeneticSubgroups from './GeneticSubgroups.vue';
+import VariantBrowser from './VariantBrowser.vue';
+import VariantEffect from './VariantEffect.vue';
+import NatureSelection from './NatureSelection.vue';
+import GenomeDiversity from './GenomeDiversity.vue';
+import LinkageDisequilibrium from './LinkageDisequilibrium.vue';
+import HaplotypeStructure from './HaplotypeStructure.vue';
 
 const route = useRoute();
 const router = useRouter(); // 获取路由实例
@@ -115,8 +147,6 @@ const pggSNV = ref('');
 const gnomAD = ref('');
 const refAlleleReads = ref('');
 const altAlleleReads = ref('');
-
-
 
 const activeTab = ref('tab1'); // 默认激活的标签页
 
@@ -167,6 +197,8 @@ const goBack = () => {
 }
 
 .chart-tabs {
+  display: flex;
+  width: 100%;
   background-color: white;
   border-radius: 5px;
   padding: 20px;
@@ -185,7 +217,6 @@ const goBack = () => {
 ::v-deep深度选择器的作用是打破这种限制，
 让开发者可以在scoped模式下仍然为嵌套的子组件
 或第三方组件内部的元素添加样式。 */
-
 .custom-tabs ::v-deep .el-tabs__item {
   width: 125px;
   height: 50px;
@@ -249,6 +280,20 @@ const goBack = () => {
   flex: 1;
   margin: 0;
   padding: 0;
+}
+
+.provincial-population-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.genetic-subgroups-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 </style>
