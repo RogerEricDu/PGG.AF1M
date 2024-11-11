@@ -41,40 +41,143 @@
         </el-table>
       </div>
     </div>
+    <!-- FST chart -->
+    <div class="chart-container" v-if="methods === 'fst'" style="width: 100%; height: 100%;">
+      <div id="fstChart" style="width: 1100px; height: 400px;"></div>
+    </div>
+    <!-- ihs chart -->
+    <div class="chart-container" v-if="methods === 'ihs'" style="width: 100%; height: 100%;">
+      <div id="ihsChart" style="width: 1100px; height: 400px;"></div>
+    </div>
 
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
+import * as echarts from 'echarts';
 
 export default {
   setup() {
     const route = useRoute();
-    const region = ref('');
+    const chr = ref('');
+    const position = ref(0);
+    const region = computed(() => {
+      const start = Math.max(0, position.value - 20000);
+      const end = position.value + 20000;
+      return `${chr.value}:${start}-${end}`;
+    });
+    
     const selectedPopulation = ref('Population 1');
     const methods = ref('fst');
     const showPopulationSelect = ref(true);
-    const showRegionInput = ref(true);
     const showTable = ref(false);
     const tableData = ref([]);
+    const chartInstanceFst = ref(null); // ECharts instance for FST
+    const chartInstanceIhs = ref(null); // ECharts instance for iHS
 
-    // Extract URL parameters on component mount
     onMounted(() => {
-      const chr = route.query.chr;
-      const position = route.query.position;
-      region.value = `${chr}:${position}`;
+      chr.value = route.query.chr || '';
+      position.value = parseInt(route.query.position) || 0;
+      initFstChart(); // Initialize the FST chart on mount
     });
 
     const handleMethodChange = (value) => {
       showPopulationSelect.value = value !== 'ihs';
-      showRegionInput.value = value !== 'tajimasD';
       showTable.value = value === 'tajimasD';
-      
-      // Reset selected population when switching methods
+
       if (value !== 'ihs') {
         selectedPopulation.value = '';
+      }
+
+      // Initialize the appropriate chart when the method changes
+      if (value === 'fst') {
+        initFstChart(); // Initialize the FST chart
+      } else if (value === 'ihs') {
+        initIhsChart(); // Initialize the iHS chart
+      }
+    };
+
+    const initFstChart = () => {
+      nextTick(() => {
+        const chartDom = document.getElementById('fstChart');
+        chartInstanceFst.value = echarts.init(chartDom);
+        updateFstChart(); // Initialize the chart with data
+      });
+    };
+
+    const updateFstChart = () => {
+      if (!chartInstanceFst.value) return;
+
+      const chartPosition = [10000, 11223, 13222, 12300, 12342]; // Example positions
+      const fstValue = [0.1, 0.2, 0.3, 0.4, 0.5]; // Example FST values
+
+      if (chartPosition.length === fstValue.length && chartPosition.length > 0) {
+        const data = chartPosition.map((pos, index) => [pos, fstValue[index]]);
+      
+        const option = {
+          xAxis: {
+            type: 'value',
+            name: 'Position',
+          },
+          yAxis: {
+            type: 'value',
+            name: 'FST Value',
+          },
+          series: [
+            {
+              symbolSize: 10,
+              data: data,
+              type: 'scatter',
+            },
+          ],
+        };
+
+        chartInstanceFst.value.setOption(option);
+      } else {
+        console.error('Data length mismatch or empty data', chartPosition, fstValue);
+      }
+    };
+
+    const initIhsChart = () => {
+      nextTick(() => {
+        const chartDom = document.getElementById('ihsChart');
+        chartInstanceIhs.value = echarts.init(chartDom);
+        updateIhsChart(); // Initialize the chart with data
+      });
+    };
+
+    const updateIhsChart = () => {
+      if (!chartInstanceIhs.value) return;
+
+      const chartPosition = [10000, 11000, 12000, 13000, 14000]; // Example positions for iHS
+      const ihsValue = [-0.2, -0.1, 0, 0.1, 0.2]; // Example iHS values
+
+      if (chartPosition.length === ihsValue.length && chartPosition.length > 0) {
+        const data = chartPosition.map((pos, index) => [pos, ihsValue[index]]);
+      
+        const option = {
+          xAxis: {
+            type: 'value',
+            name: 'Position',
+          },
+          yAxis: {
+            type: 'value',
+            name: 'iHS Value',
+          },
+          series: [
+            {
+              symbolSize: 10,
+              data: data,
+              type: 'scatter',
+            },
+          ],
+        };
+
+        chartInstanceIhs.value.setOption(option);
+      } else {
+        console.error('Data length mismatch or empty data', chartPosition, ihsValue);
       }
     };
 
@@ -83,14 +186,14 @@ export default {
       selectedPopulation,
       methods,
       showPopulationSelect,
-      showRegionInput,
       showTable,
       tableData,
-      handleMethodChange
+      handleMethodChange,
     };
   },
 };
 </script>
+
 
   
 <style scoped>

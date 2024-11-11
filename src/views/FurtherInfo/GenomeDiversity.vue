@@ -1,70 +1,141 @@
 <template>
-<div>
+  <div>
     <div class="method-selection">
-    <strong style="font-size: 15px; margin-right: 20px;">Method:</strong>
-    <el-select v-model="methods" placeholder="Select a method" style="width: 180px;"  @change="handleMethodChange">
+      <strong style="font-size: 15px; margin-right: 20px;">Method:</strong>
+      <el-select v-model="methods" placeholder="Select a method" style="width: 180px;" @change="handleMethodChange">
         <el-option label="heterozy" value="heterozy" />
         <el-option label="pairDiff" value="pairDiff" />
         <el-option label="haplo" value="haplo" />
         <el-option label="nucloeo" value="nucloeo" />
-    </el-select>
+      </el-select>
     </div>
 
     <div class="selection-row">
-        <strong style="font-size: 15px; margin-right: 20px;">Region:</strong>
-    <el-input v-model="region" readonly style="width: 180px;margin-right: 20px;"  disabled/>
-    
-    <strong style="font-size: 15px; margin-right: 20px;">Window:</strong>
-    <el-select v-model="window" placeholder="Select size" style="width: 180px;">
+      <strong style="font-size: 15px; margin-right: 20px;">Region:</strong>
+      <el-input v-model="region" readonly style="width: 180px; margin-right: 20px;" disabled />
+
+      <strong style="font-size: 15px; margin-right: 20px;">Window:</strong>
+      <el-select v-model="windowSize" placeholder="Select size" style="width: 180px;">
         <el-option label="20k" value="20k" />
         <el-option label="50k" value="50k" />
         <el-option label="100k" value="100k" />
-    </el-select>
+      </el-select>
 
-    <strong v-if="showLengthSelect" style="font-size: 15px; margin-left: 20px;margin-right: 20px;">Length:</strong>
-      <el-select v-if="showLengthSelect" v-model="showLength" placeholder="Select a Length" style="width: 180px;">
+      <strong v-if="showLengthSelect" style="font-size: 15px; margin-left: 20px; margin-right: 20px;">Length:</strong>
+      <el-select v-if="showLengthSelect" v-model="lengthSize" placeholder="Select a Length" style="width: 180px;">
         <el-option label="10k" value="10k" />
         <el-option label="20k" value="20k" />
         <el-option label="50k" value="50k" />
       </el-select>
     </div>
-</div>
+
+    <!-- heterozy chart -->
+    <div class="chart-container" v-if="methods === 'heterozy'" style="width: 100%; height: 100%;">
+      <div id="heterozyChart" style="width: 1100px; height: 400px;"></div>
+    </div>
+  </div>
 </template>
-    
+
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
+import * as echarts from 'echarts';
 
 export default {
-setup() {
+  setup() {
     const route = useRoute();
-    const region = ref('');
-    const window = ref('20k');
-    const methods = ref('pairDiff');
-    const showLengthSelect = ref(false);
+    const chr = ref('');
+    const position = ref(0);
+    const region = computed(() => {
+      const start = Math.max(0, position.value - 20000);
+      const end = position.value + 20000;
+      return `${chr.value}:${start}-${end}`;
+    });
 
-    // Extract URL parameters on component mount
+    const windowSize = ref('20k');
+    const lengthSize = ref('10k');
+    const methods = ref('heterozy');
+    const showLengthSelect = ref(false);
+    const chartInstanceHeterozy = ref(null);
+
     onMounted(() => {
-    const chr = route.query.chr;
-    const position = route.query.position;
-    region.value = `${chr}:${position}`;
+      chr.value = route.query.chr || '';
+      position.value = parseInt(route.query.position) || 0;
+      initHeterozyChart();
     });
 
     const handleMethodChange = (value) => {
-        showLengthSelect.value = value !== 'heterozy';
+      showLengthSelect.value = value !== 'heterozy';
     };
 
-    return {
-    region,
-    window,
-    methods,
-    showLengthSelect,
-    handleMethodChange
+    const initHeterozyChart = () => {
+      nextTick(() => {
+        const chartDom = document.getElementById('heterozyChart');
+        console.log(chartDom); // Add this to check if chartDom is null
+        if (chartDom) {
+          chartInstanceHeterozy.value = echarts.init(chartDom);
+          updateHeterozyChart();
+        } else {
+          console.error("Chart DOM element not found.");
+        }
+      });
     };
-},
+
+    const updateHeterozyChart = () => {
+      if (!chartInstanceHeterozy.value) {
+        console.error("Chart instance not initialized");
+        return;
+      }
+
+      const chartPosition = [10000, 11223, 13222, 12300, 12342];
+      const heterozyValue = [0.1, 0.2, 0.3, 0.4, 0.5];
+
+      if (chartPosition.length === heterozyValue.length && chartPosition.length > 0) {
+        console.log("Updating chart with data:", chartPosition, heterozyValue); // Debugging line
+        const data = chartPosition.map((pos, index) => [pos, heterozyValue[index]]);
+      
+        const option = {
+          xAxis: {
+            type: 'value',
+            name: 'Position',
+          },
+          yAxis: {
+            type: 'value',
+            name: 'Heterozy Value',
+          },
+          series: [
+            {
+              symbolSize: 10,
+              data: data,
+              type: 'scatter',
+            },
+          ],
+        };
+
+        chartInstanceHeterozy.value.setOption(option);
+      } else {
+        console.error("Data length mismatch or empty data", chartPosition, heterozyValue);
+      }
+    };
+
+    watch(() => methods.value, (newMethod) => {
+      if (newMethod === 'heterozy') {
+        initHeterozyChart();
+      }
+    });
+
+    return {
+      region,
+      windowSize,
+      lengthSize,
+      methods,
+      showLengthSelect,
+      handleMethodChange
+    };
+  },
 };
 </script>
-      
+
 <style scoped>
 .method-selection {
 margin-left: 20px;

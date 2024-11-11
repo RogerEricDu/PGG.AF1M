@@ -10,8 +10,8 @@
     </div>
 
     <div class="selection-row">
-        <strong style="font-size: 15px; margin-right: 20px;">Region:</strong>
-    <el-input v-model="region" readonly style="width: 180px;margin-right: 20px;"  disabled/>
+    <strong style="font-size: 15px; margin-right: 20px;">Region:</strong>
+    <el-input v-model="region" readonly style="width: 180px;margin-right: 20px;" disabled />
     
     <strong style="font-size: 15px; margin-right: 20px;">Window:</strong>
     <el-select v-model="window" placeholder="Select size" style="width: 180px;">
@@ -20,25 +20,115 @@
         <el-option label="100k" value="100k" />
     </el-select>
     </div>
+
+    <!-- Heatmap chart container -->
+    <div id="ldHeatmap" class="heatmap-container"></div>
 </div>
 </template>
-    
+
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
+import * as echarts from 'echarts';
 
 export default {
 setup() {
     const route = useRoute();
-    const region = ref('');
+    const chr = ref('');
+    const position = ref(0);
+    const region = computed(() => {
+    const start = Math.max(0, position.value - 20000);
+    const end = position.value + 20000;
+    return `${chr.value}:${start}-${end}`;
+    });
     const window = ref('20k');
     const methods = ref('D');
+    const chartInstance = ref(null);
 
-    // Extract URL parameters on component mount
+    // 模拟数据
+    const heatmapData = ref([
+    [0, 0, 0.8], [1, 1, 0.7], [2, 2, 0.6], [3, 3, 0.5],
+    [0, 1, 0.6], [1, 2, 0.5], [2, 3, 0.4]
+    ]);
+    const xAxisLabels = ['11844019', '11844035', '11846093', '11850620'];
+    const yAxisLabels = ['11850620', '11846093', '11844035', '11844019'];
+
+    // Initialize the chart
+    const initHeatmap = () => {
+    nextTick(() => {
+        const chartDom = document.getElementById('ldHeatmap');
+        if (chartDom) {
+        chartInstance.value = echarts.init(chartDom);
+        updateHeatmap();
+        } else {
+        console.error("Chart DOM element not found.");
+        }
+    });
+    };
+
+    // Update the heatmap with data
+    const updateHeatmap = () => {
+    const option = {
+        tooltip: {
+        position: 'top',
+        formatter: (params) => {
+            return `Position: ${xAxisLabels[params.data[0]]}, ${yAxisLabels[params.data[1]]} <br/> Value: ${params.data[2]}`;
+        }
+        },
+        xAxis: {
+            type: 'category',
+            data: xAxisLabels,
+            nameLocation: 'middle',
+            nameGap: 30,
+            nameTextStyle: {
+            fontSize: 12,
+            fontStyle: 'normal',
+            align: 'center',
+            },
+        },
+        yAxis: {
+            type: 'category',
+            data: yAxisLabels,
+            nameLocation: 'start',
+            nameRotate: 0,
+            nameTextStyle: {
+            fontSize: 12,
+            fontStyle: 'normal',
+            verticalAlign: 'bottom',
+            },
+        },
+        visualMap: {
+            min: 0,
+            max: 1,
+            calculable: true,
+            orient: 'horizontal',
+            left: 'center',
+            bottom: '0%',
+            color: ['#d94e5d', '#eac736', '#50a3ba']
+        },
+        series: [{
+            name: 'LD Heatmap',
+            type: 'heatmap',
+            data: heatmapData.value,
+            label: {
+            show: true,
+            },
+            emphasis: {
+            itemStyle: {
+                shadowBlur: 10,
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+            }
+            }
+        }]
+        };
+        chartInstance.value.setOption(option);
+    };
+
+    // Extract URL parameters and initialize chart on component mount
     onMounted(() => {
-    const chr = route.query.chr;
-    const position = route.query.position;
-    region.value = `${chr}:${position}`;
+    chr.value = route.query.chr || '';
+    position.value = parseInt(route.query.position) || 0;
+    initHeatmap();
     });
 
     return {
@@ -69,6 +159,13 @@ margin-bottom: 10px;
 
 .selection-row label {
 margin-right: 10px;
+}
+.heatmap-container {
+  display: flex; 
+  justify-content: center;
+  width: 600px;
+  height: 400px;
+  margin: 20px auto; /* Center horizontally */
 }
 </style>
       

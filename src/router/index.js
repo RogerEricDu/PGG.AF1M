@@ -53,12 +53,12 @@ const router = createRouter({
         path:'data',
         component:Data,
         meta: { requiresAuth: true }, // 需要登录才能访问的页面
-        redirect: '/data/gene-flow', 
+        redirect: '/data/geneFlow', 
         children: [
-          { path: 'gene-affinity', component: GeneAffinity },
-          { path: 'population-structure', component: PopulationStructure },
+          { path: 'geneAffinity', component: GeneAffinity },
+          { path: 'populationStructure', component: PopulationStructure },
           { path: 'ancestry', component: Ancestry },
-          { path: 'gene-flow', component: GeneFlow }
+          { path: 'geneFlow', component: GeneFlow }
         ]
       },
       {

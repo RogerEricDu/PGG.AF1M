@@ -1,13 +1,13 @@
 <template>
   <div class="PopulationStructure-container">
     <div class="PopulationStructure-title">
-      <h3 style="font-size: 24px; margin-bottom: 20px; color: #6e9197; flex: 1;">| Genetic Affinity</h3>
-      <p style="flex: 1; text-align: right;">Click on the map to display genetic affinity of the area.</p>
+      <h3 style="font-size: 24px; margin-bottom: 20px; color: #6e9197; flex: 1;">| Population Structure</h3>
+      <p style="flex: 1; text-align: right;">Click on the map to display population structure of the area.</p>
     </div>
 
     <!--  第一个板块 -->
     <div class="section-container">
-      <div class="section-title">Genetic Affinity of Shanghai</div>
+      <div class="section-title">Population Structure of Shanghai</div>
       <div class="section-content">
         <!-- 左侧地图 -->
         <div ref="provinceMap" class="map-container"></div>
@@ -21,7 +21,7 @@
 
     <!-- 第二个板块 -->
     <div class="section-container">
-      <div class="section-title">Genetic Affinity of SouthEast Han</div>
+      <div class="section-title">Population Structure of SouthEast Han</div>
       <div class="section-content">
         <!-- 左侧地图 -->
         <div ref="regionMap" class="map-container"></div>
@@ -39,10 +39,32 @@ import ecStat from 'echarts-stat';
 
 export default {
   name: 'Population Structure',
+  data() {
+    return {
+      // 模拟数据
+      populationData: [
+        { label: 'Han', x: 3.275154, y: 2.957587 },
+        { label: 'Han', x: 3.878788, y: 2.666757 },
+        { label: 'Balti', x: 3.625746, y: 2.119041 },
+        { label: 'Deng', x: -3.912363, y: 1.325108 },
+        { label: 'Gongbo', x: -0.551694, y: -2.814223 },
+        { label: 'Luoba', x: 2.855808, y: 3.483301 },
+        { label: 'Monba', x: -3.594448, y: 2.856651 },
+        { label: 'Sherpa', x: 0.421993, y: -2.372646 },
+        { label: 'Tajik', x: 1.650821, y: 3.407572 },
+        { label: 'TIB', x: -2.082902, y: 3.384412 },
+        { label: 'Wakhi', x: 0.639276, y: -3.41284 },
+        { label: 'Kashmiri', x: 2.300274, y: -3.552432 }
+      ],
+      COLOR_ALL: ['#ff6666', '#66b3ff', '#99ff99', '#ffcc99', '#ff99ff', '#c2c2f0', '#ffb3e6', '#c2f0c2', '#ffad33', '#b3b3ff', '#f0b3b3'],
+      POPULATION_LABELS: ['Han', 'Balti', 'Deng', 'Gongbo', 'Luoba', 'Monba', 'Sherpa', 'Tajik', 'TIB', 'Wakhi', 'Kashmiri'],
+    };
+  },
   mounted() {
     echarts.registerMap('china', chinaMapData); // Register the map with ECharts
     this.initProvinceMap();
     this.initRegionMap();
+    // 使用模拟数据初始化图表
     this.initializeChart(this.$refs.provinceClusterChart);
     this.initializeChart(this.$refs.regionClusterChart);
   },
@@ -51,14 +73,14 @@ export default {
       const provinceMap = echarts.init(this.$refs.provinceMap);
       provinceMap.setOption(this.getMapOption());
       provinceMap.on('click', (params) => {
-        this.updateRoseChart(this.$refs.provinceRoseChart);
+        this.updateRoseChart(this.$refs.provinceClusterChart);
       });
     },
     initRegionMap() {
       const regionMap = echarts.init(this.$refs.regionMap);
       regionMap.setOption(this.getMapOption());
       regionMap.on('click', (params) => {
-        this.updateRoseChart(this.$refs.regionRoseChart);
+        this.updateRoseChart(this.$refs.regionClusterChart);
       });
     },
     getMapOption() {
@@ -67,42 +89,31 @@ export default {
           {
             type: 'map',
             map: 'china',
-            label: {
-              show: false,
-            },
-            itemStyle: {
-              emphasis: { areaColor: '#a0d911' },
-            },
+            label: { show: false },
+            itemStyle: { emphasis: { areaColor: '#a0d911' } },
           },
         ],
       };
     },
     initializeChart(chartContainer) {
-      if (!chartContainer) return;
+      if (!chartContainer || this.populationData.length === 0) return;
 
       const myChart = echarts.init(chartContainer);
       echarts.registerTransform(ecStat.transform.clustering);
 
-      const data = [
-        [3.275154, 2.957587],
-        [3.625746, 2.119041],
-        [-3.912363, 1.325108],
-        [-0.551694, -2.814223],
-        [2.855808, 3.483301],
-        [-3.594448, 2.856651],
-        [0.421993, -2.372646],
-        [1.650821, 3.407572],
-        [-2.082902, 3.384412],
-        [0.639276, -3.41284]
-      ];
+      
+      const pieces = this.POPULATION_LABELS.map((label, index) => ({
+        value: index,
+        label: label,
+        color: this.COLOR_ALL[index],
+      }));
 
-      const CLUSTER_COUNT = 6;
-      const DIENSIION_CLUSTER_INDEX = 2;
-      const COLOR_ALL = ['#37A2DA', '#e06343', '#37a354', '#b55dba', '#b5bd48', '#8378EA', '#96BFFF'];
-      const pieces = [];
-      for (let i = 0; i < CLUSTER_COUNT; i++) {
-        pieces.push({ value: i, label: 'cluster ' + i, color: COLOR_ALL[i] });
-      }
+      // Process data for clustering
+      const data = this.populationData.map((item) => [
+        item.x,
+        item.y,
+        this.POPULATION_LABELS.indexOf(item.label)
+      ]);
 
       const option = {
         dataset: [
@@ -111,22 +122,31 @@ export default {
             transform: {
               type: 'ecStat:clustering',
               config: {
-                clusterCount: CLUSTER_COUNT,
+                clusterCount: this.POPULATION_LABELS.length,
                 outputType: 'single',
-                outputClusterIndexDimension: DIENSIION_CLUSTER_INDEX
+                outputClusterIndexDimension: 2
               }
             }
           }
         ],
-        tooltip: { position: 'top' },
+        tooltip: {
+          position: 'top',
+          formatter: (params) => {
+            const index = params.data[2]; // 获取族群索引
+            const label = this.POPULATION_LABELS[index]; // 获取族群名称
+            const x = params.data[0].toFixed(6); // 获取并格式化X坐标
+            const y = params.data[1].toFixed(6); // 获取并格式化Y坐标
+            return `${label}: ${x}, ${y}`; // 返回格式化的tooltip文本
+          }
+        },
         visualMap: {
           type: 'piecewise',
           top: 'middle',
           min: 0,
-          max: CLUSTER_COUNT,
+          max: this.POPULATION_LABELS.length - 1,
           left: 10,
-          splitNumber: CLUSTER_COUNT,
-          dimension: DIENSIION_CLUSTER_INDEX,
+          splitNumber: this.POPULATION_LABELS.length,
+          dimension: 2,
           pieces: pieces
         },
         grid: { left: 120 },
@@ -135,7 +155,7 @@ export default {
         series: {
           type: 'scatter',
           encode: { tooltip: [0, 1] },
-          symbolSize: 15,
+          symbolSize: 8,
           itemStyle: { borderColor: '#555' },
           datasetIndex: 1
         }
@@ -146,6 +166,8 @@ export default {
   }
 };
 </script>
+
+
 
 
 <style scoped>
