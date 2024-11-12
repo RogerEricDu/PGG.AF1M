@@ -11,7 +11,7 @@ import AllIndividuals from '@/views/AlleleFreq/components/AllIndividuals.vue'
 import ByProvince from '@/views/AlleleFreq/components/ByProvince.vue'
 import ByRegion from '@/views/AlleleFreq/components/ByRegion.vue'
 import FurtherInfo from '@/views/FurtherInfo/index.vue'
-import Analysis from '@/views/Analysis/index.vue'
+import Tools from '@/views/Tools/index.vue'
 import Summary from '@/views/Summary/index.vue'
 import About from '@/views/About/index.vue'
 import Guide from '@/views/Guide/index.vue'
@@ -19,11 +19,9 @@ import GeneAffinity from '@/views/Data/component/GeneAffinity.vue'
 import PopulationStructure from '@/views/Data/component/PopulationStructure.vue'
 import Ancestry from '@/views/Data/component/Ancestry.vue'
 import GeneFlow from '@/views/Data/component/GeneFlow.vue'
-import UploadQC from '@/views/Analysis/component/UploadQC.vue'
-import Imputation from '@/views/Analysis/component/Imputation.vue'
-import GWAS from '@/views/Analysis/component/GWAS.vue'
-import AncestryInference from '@/views/Analysis/component/AncestryInference.vue'
-import QuickStart from '@/views/Analysis/component/QuickStart.vue'
+import DataUpload from '@/views/Tools/component/DataUpload.vue'
+import Imputation from '@/views/Tools/component/Imputation.vue'
+import GWAS from '@/views/Tools/component/GWAS.vue'
 import Help from '@/views/Help/index.vue'
 import Population from '@/views/Population/index.vue'
 
@@ -77,15 +75,13 @@ const router = createRouter({
         meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
       {
-        path:'analysis',
-        component:Analysis,
+        path:'tools',
+        component:Tools,
         meta: { requiresAuth: true }, // 需要登录才能访问的页面
         children: [
-          { path: 'uploadQC', component: UploadQC },
+          { path: 'DataUpload', component: DataUpload },
           { path: 'imputation', component: Imputation },
           { path: 'gwas', component: GWAS },
-          { path: 'ancestryInference', component: AncestryInference },
-          { path: 'quickStart', component: QuickStart }
         ]
       },
       {

@@ -8,27 +8,24 @@
       </div>
       <div class="info-content">
         <div class="info-row">
+          <p><strong>rsID:</strong> {{ rsID }}</p>
           <p><strong>Chr:</strong> {{ chr }}</p>
           <p><strong>Position:</strong> {{ position }}</p>
-          <p><strong>Ref:</strong> {{ refAllele }}</p>
         </div>
         <div class="info-row">
+          <p><strong>Ref:</strong> {{ refAllele }}</p>
           <p><strong>Alt:</strong> {{ alt }}</p>
           <p><strong>Allele Frequency:</strong> {{ alleleFrequency }}</p>
-          <p><strong>Variation Class:</strong> {{ variationClass }}</p>
         </div>
         <div class="info-row">
+          <p><strong>Variation Class:</strong> {{ variationClass }}</p>
           <p><strong>Ref. Allele Frequency:</strong> {{ refAlleleFrequency }}</p>
           <p><strong>Alt. Allele Frequency:</strong> {{ altAlleleFrequency }}</p>
-          <p><strong>dbSNP:</strong> {{ dbSNP }}</p>
         </div>
         <div class="info-row">
+          <p><strong>dbSNP:</strong> {{ dbSNP }}</p>
           <p><strong>PGG.SNV:</strong> {{ pggSNV }}</p>
           <p><strong>gnomAD:</strong> {{ gnomAD }}</p>
-          <p><strong>Ref. Allele Reads:</strong> {{ refAlleleReads }}</p>
-        </div>
-        <div class="info-row">
-          <p><strong>Alt. Allele Reads:</strong> {{ altAlleleReads }}</p>
         </div>
       </div>
     </div>
@@ -139,14 +136,14 @@ const region = ref('');
 const province = ref('');
 
 //这些变量后面要post到后端在读取
+const rsID = ref('')
 const variationClass = ref('');
 const refAlleleFrequency = ref('');
 const altAlleleFrequency = ref('');
 const dbSNP = ref('');
 const pggSNV = ref('');
 const gnomAD = ref('');
-const refAlleleReads = ref('');
-const altAlleleReads = ref('');
+
 
 const activeTab = ref('tab1'); // 默认激活的标签页
 

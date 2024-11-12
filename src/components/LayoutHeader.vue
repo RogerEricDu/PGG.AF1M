@@ -17,8 +17,8 @@
         <li :class="{ active: $route.path === '/allelefreq' }">
           <RouterLink to="/allelefreq">Variants</RouterLink>
         </li>
-        <li :class="{ active: $route.path === '/analysis' }">
-          <RouterLink to="/analysis">Analysis</RouterLink>
+        <li :class="{ active: $route.path === '/tools' }">
+          <RouterLink to="/tools">Tools</RouterLink>
         </li>
         <li :class="{ active: $route.path === '/summary' }">
           <RouterLink to="/summary">Summary</RouterLink>
