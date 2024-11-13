@@ -14,8 +14,8 @@
       <!-- 导航栏 -->
       <div class="tools-navigation-container">
         <router-link to="/tools/DataUpload" class="tools-navigation-item">DataUpload</router-link>
-        <router-link to="/tools/imputation" class="tools-navigation-item">Imputation</router-link>
-        <router-link to="/tools/gwas" class="tools-navigation-item">GWAS</router-link>
+        <router-link to="/tools/Imputation" class="tools-navigation-item">Imputation</router-link>
+        <router-link to="/tools/Results" class="tools-navigation-item">Results</router-link>
       </div>
 
       <!-- 其他内容 -->

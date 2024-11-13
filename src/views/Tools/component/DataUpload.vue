@@ -1,5 +1,5 @@
 <template>
-  <div class="bloodChemistryUpdate">
+  <div class="DataUpload">
     <div class="header">
       <h2>Upload SNP File</h2>
       <p>Please follow the steps below to upload the SNP information data file.</p>
@@ -86,28 +86,19 @@ export default {
       try {
         const response = await updateBloodChemistryFile(formData);
         console.log(response);
-        this.$message.success('上传成功!');
+        this.$message.success('Upload Success!');
         this.$router.push({
-          path: `/batch/normalList`,
+          path: `/tools`,
           query: { projectId: this.projectId, batchId: this.batchId }
         });
       } catch (error) {
         console.log(error);
-        this.$message.error('请求异常，请返回重试!');
+        this.$message.error('Request Error, Please Try Again!');
         this.$router.push({
-          path: `/batch/normalList`,
+          path: `/tools`,
           query: { projectId: this.projectId, batchId: this.batchId }
         });
       }
-    },
-    downloadTemplate() {
-      const filePath = '/bloodChemistryTable.xlsx'; 
-      const link = document.createElement('a');
-      link.href = filePath;
-      link.download = '血生化信息填写模板.xlsx';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     },
     handleRemove(file, fileList) {
       console.log('Remove', file, fileList);
@@ -126,7 +117,7 @@ export default {
 
 
 <style scoped>
-.bloodChemistryUpdate {
+.DataUpload {
   margin-top: 30px;
   margin-left: 50px;
   margin-right: 50px;
@@ -155,7 +146,7 @@ export default {
 }
 
 .step {
-  font-size: 18px;
+  font-size: 16px;
   margin-bottom: 10px;
   color: #333;
 }

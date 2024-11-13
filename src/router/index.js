@@ -21,7 +21,7 @@ import Ancestry from '@/views/Data/component/Ancestry.vue'
 import GeneFlow from '@/views/Data/component/GeneFlow.vue'
 import DataUpload from '@/views/Tools/component/DataUpload.vue'
 import Imputation from '@/views/Tools/component/Imputation.vue'
-import GWAS from '@/views/Tools/component/GWAS.vue'
+import Results from '@/views/Tools/component/Results.vue'
 import Help from '@/views/Help/index.vue'
 import Population from '@/views/Population/index.vue'
 
@@ -80,8 +80,8 @@ const router = createRouter({
         meta: { requiresAuth: true }, // 需要登录才能访问的页面
         children: [
           { path: 'DataUpload', component: DataUpload },
-          { path: 'imputation', component: Imputation },
-          { path: 'gwas', component: GWAS },
+          { path: 'Imputation', component: Imputation },
+          { path: 'Results', component: Results },
         ]
       },
       {
