@@ -37,12 +37,12 @@
             enterable: true,
             formatter: function(params) {
               const provinceInfo = `
-              <div style="padding: 0px; width: 200px;">
+              <div style="padding: 0px; width: 240px;">
                 <div style="background-color: #f0f0f0; padding: 5px; font-size: 14px;">
                    ${params.name} : ${params.value || 'NULL'}
                 </div>
                 <div style="background-color: #ffffff; padding: 5px; font-size: 14px;">
-                  <div id="pieChart" style="width: 180px; height: 180px; margin-top: 10px;"></div>
+                  <div id="pieChart" style="width: 240px; height: 180px; margin-top: 10px;"></div>
                 </div>
               </div>
               `;
@@ -56,7 +56,7 @@
                       radius: '70%',
                       data: [
                         { value: 0, name: 'A/A' },
-                        { value: 0, name: 'A/G' },
+                        { value: 20, name: 'A/G' },
                         { value: 100, name: 'G/G' }
                       ],
                       label: {

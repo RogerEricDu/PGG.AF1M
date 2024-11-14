@@ -33,7 +33,7 @@
           type="primary"
           class="select-button"
         >
-          <UploadFilled /> Select File
+          Select File
         </el-button>
       </el-upload>
     </el-card>

@@ -16,7 +16,7 @@
         <el-table-column prop="symbol" label="SYMBOL" width="100"></el-table-column>
         <el-table-column prop="biotype" label="BIOTYPE" width="150"></el-table-column>
         <el-table-column prop="consequence" label="Consequence" width="150"></el-table-column>
-        <el-table-column prop="gene" label="Gene" width="100"></el-table-column>
+        <!-- <el-table-column prop="transcript" label="Transcript" width="100"></el-table-column> -->
         <el-table-column prop="feature" label="Feature" width="150"></el-table-column>
         <el-table-column prop="featureType" label="Feature Type"></el-table-column>
       </el-table>
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       variantData: [
-        { chr: '1', pos: 12345, ref: 'A', alt: 'G', symbol: 'GENE1', biotype: 'protein_coding', consequence: 'missense_variant', gene: 'GENE1', feature: 'Feature1', featureType: 'Transcript' },
+        { chr: '1', pos: 12345, ref: 'A', alt: 'G', symbol: 'GENE1', biotype: 'protein_coding', consequence: 'missense_variant', feature: 'Feature1', featureType: 'Transcript' },
         // 添加更多数据...
       ],
     };
@@ -41,7 +41,7 @@ export default {
     downloadExcel() {
       // 初始化表头
       const ws_data = [
-        ['Chr', 'Pos', 'Ref', 'Alt', 'SYMBOL', 'BIOTYPE','Consequence','Gene','Feature','Feature Type'] // 表头
+        ['Chr', 'Pos', 'Ref', 'Alt', 'SYMBOL', 'BIOTYPE','Consequence','Feature','Feature Type'] // 表头
       ];
 
       // 遍历 variantData，逐行添加数据到 ws_data 中
@@ -54,7 +54,6 @@ export default {
           row.symbol,
           row.biotype,
           row.consequence,
-          row.gene,
           row.feature,
           row.featureType
         ]);

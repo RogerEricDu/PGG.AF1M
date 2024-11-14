@@ -5,6 +5,20 @@
       <p>View frequency data across populations for a specific SNP.</p>
     </div>
 
+    <!-- Download Form -->
+    <el-card class="download-card">
+      <div class="step">
+      <h3>Download Data</h3>
+      <el-button
+        type="success"
+        @click="submitUpload"
+        class="download-button"
+      >
+        Download File
+      </el-button>
+    </div>
+    </el-card>
+
     <!-- Search Form -->
     <el-card>
       <div class="step">
@@ -97,6 +111,10 @@ export default {
   color: #666;
 }
 
+.download-card {
+  margin-bottom: 20px;
+}
+
 .step-card {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
@@ -121,5 +139,11 @@ export default {
 
 .chart-card {
   margin-top: 20px;
+}
+
+.download-button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 20px;
 }
 </style>

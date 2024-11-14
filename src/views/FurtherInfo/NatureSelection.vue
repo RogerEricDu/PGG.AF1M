@@ -84,7 +84,7 @@ export default {
     });
 
     const handleMethodChange = (value) => {
-      showPopulationSelect.value = value !== 'ihs';
+      showPopulationSelect.value = value !== 'ihs' && value !== 'tajimasD';
       showTable.value = value === 'tajimasD';
 
       if (value !== 'ihs') {

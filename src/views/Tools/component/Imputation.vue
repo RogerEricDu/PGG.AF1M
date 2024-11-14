@@ -8,17 +8,39 @@
     <!-- Imputation Settings Form -->
     <el-card>
       <div class="step">
-      <h3>Imputation Settings</h3>
-      <el-form :model="imputationParams">
-        <el-form-item label="Imputation Method">
-          <el-select v-model="imputationParams.method">
-            <el-option label="KNN Imputation" value="knn"></el-option>
-            <el-option label="Random Forest" value="rf"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-button type="primary" @click="runImputation">Start Imputation</el-button>
-      </el-form>
-    </div>
+        <h3>Imputation Settings</h3>
+        <el-form :model="imputationParams">
+          <el-form-item label="Imputation Panel">
+            <el-select v-model="imputationParams.panel">
+              <el-option label="10,000 Panel" value="10k"></el-option>
+              <el-option label="20,000 Panel" value="20k"></el-option>
+            </el-select>
+          </el-form-item>
+
+         
+            <div class="step">
+              <h3>STEP 2: Select the file to start Imputation</h3>
+            </div>
+            <el-upload
+              :action="uploadUrl"
+              :multiple="false"
+              class="upload-demo"
+              ref="upload"
+              :file-list="fileLists"
+              :on-change="handleFileChange"
+              :on-remove="handleRemove"
+              :auto-upload="false"
+              :before-remove="beforeRemove"
+              :limit="1"
+            >
+              <el-button type="primary">Select File</el-button>
+            </el-upload>
+
+          <el-button type="success" @click="startImputation" :disabled="fileLists.length === 0" class="start-button">
+            Start Imputation
+          </el-button>
+        </el-form>
+      </div>
     </el-card>
 
     <!-- Imputation Progress -->
@@ -30,34 +52,66 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       imputationParams: {
-        method: 'knn', // Default method
+        panel: '10k', // Default panel
       },
+      fileLists: [],
       isImputing: false,
       imputationProgress: 0,
+      uploadUrl: '/api/imputation/run', // 后端处理上传请求的 URL
     };
   },
   methods: {
-    runImputation() {
+    handleFileChange(file) {
+      // 使用上传的文件更新 fileLists 数组
+      this.fileLists = [file];
+    },
+    async startImputation() {
+      if (this.fileLists.length === 0) {
+        this.$message.error("Please select a file.");
+        return;
+      }
+
       this.isImputing = true;
       this.imputationProgress = 0;
-      // Placeholder for imputation process logic
-      this.imputationSimulation();
+
+      // 创建 FormData 上传文件和参数
+      const formData = new FormData();
+      formData.append("file", this.fileLists[0].raw); // 上传的文件
+      formData.append("panel", this.imputationParams.panel);
+
+      try {
+        // 发送请求到后端进行 imputation
+        const response = await axios.post(this.uploadUrl, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent) => {
+            if (progressEvent.total) {
+              this.imputationProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            }
+          },
+        });
+        this.$message.success('Imputation complete!');
+      } catch (error) {
+        console.error(error);
+        this.$message.error("Imputation failed.");
+      } finally {
+        this.isImputing = false;
+      }
     },
-    imputationSimulation() {
-      // Simulate progress for demonstration
-      const interval = setInterval(() => {
-        if (this.imputationProgress >= 100) {
-          clearInterval(interval);
-          this.isImputing = false;
-          this.$message.success('Imputation Complete!');
-        } else {
-          this.imputationProgress += 10;
-        }
-      }, 500);
+    handleRemove(file, fileList) {
+      // 当文件被删除时，清空文件列表
+      this.fileLists = [];
+    },
+    beforeRemove(file, fileList) {
+      // 删除确认
+      return this.$confirm(`Are you sure you want to remove ${file.name}?`);
     },
   },
 };
@@ -93,7 +147,6 @@ export default {
   margin-bottom: 15px;
 }
 
-
 .imputation-page {
   margin-top: 30px;
   margin-left: 50px;
@@ -101,5 +154,9 @@ export default {
   font-family: Arial, sans-serif;
 }
 
-
+.start-button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 20px;
+}
 </style>
