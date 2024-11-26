@@ -87,17 +87,21 @@ export default {
         return;
       }
 
-      const chartPosition = [10000, 11223, 13222, 12300, 12342];
-      const heterozyValue = [0.1, 0.2, 0.3, 0.4, 0.5];
+      const chartPosition = [10000, 21223, 33222, 2300, 12342];
+      const heterozyValue = [0.07, 0.28, 0.23, 0.43, 0.10];
 
       if (chartPosition.length === heterozyValue.length && chartPosition.length > 0) {
         console.log("Updating chart with data:", chartPosition, heterozyValue); // Debugging line
         const data = chartPosition.map((pos, index) => [pos, heterozyValue[index]]);
       
+        const [start, end] = region.value.split(/[:-]/).slice(1).map(Number);
+
         const option = {
           xAxis: {
             type: 'value',
             name: 'Position',
+            min: start, // 动态起点
+            max: end,   // 动态终点
           },
           yAxis: {
             type: 'value',

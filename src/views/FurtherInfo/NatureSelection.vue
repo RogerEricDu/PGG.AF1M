@@ -15,7 +15,7 @@
       
       <strong v-if="showPopulationSelect" style="font-size: 15px; margin-right: 20px;">Population:</strong>
       <el-select v-if="showPopulationSelect" v-model="selectedPopulation" placeholder="Select a population" style="width: 180px;">
-        <el-option label="Population 1" value="pop1" />
+        <el-option label="HAN vs TIB" value="pop1" />
         <el-option label="Population 2" value="pop2" />
         <el-option label="Population 3" value="pop3" />
       </el-select>
@@ -69,7 +69,7 @@ export default {
       return `${chr.value}:${start}-${end}`;
     });
     
-    const selectedPopulation = ref('Population 1');
+    const selectedPopulation = ref('');
     const methods = ref('fst');
     const showPopulationSelect = ref(true);
     const showTable = ref(false);
@@ -110,16 +110,20 @@ export default {
     const updateFstChart = () => {
       if (!chartInstanceFst.value) return;
 
-      const chartPosition = [10000, 11223, 13222, 12300, 12342]; // Example positions
-      const fstValue = [0.1, 0.2, 0.3, 0.4, 0.5]; // Example FST values
+      const chartPosition = [10000, 21223, 33222, 2300, 12342]; // Example positions
+      const fstValue = [0.07, 0.28, 0.23, 0.43, 0.10];// Example FST values
 
       if (chartPosition.length === fstValue.length && chartPosition.length > 0) {
         const data = chartPosition.map((pos, index) => [pos, fstValue[index]]);
+
+        const [start, end] = region.value.split(/[:-]/).slice(1).map(Number);
       
         const option = {
           xAxis: {
             type: 'value',
             name: 'Position',
+            min: start, // 动态起点
+            max: end,   // 动态终点
           },
           yAxis: {
             type: 'value',
@@ -157,10 +161,14 @@ export default {
       if (chartPosition.length === ihsValue.length && chartPosition.length > 0) {
         const data = chartPosition.map((pos, index) => [pos, ihsValue[index]]);
       
+        const [start, end] = region.value.split(/[:-]/).slice(1).map(Number);
+
         const option = {
           xAxis: {
             type: 'value',
             name: 'Position',
+            min: start, // 动态起点
+            max: end,   // 动态终点
           },
           yAxis: {
             type: 'value',

@@ -2,6 +2,7 @@
 import AllIndividuals from './components/AllIndividuals.vue'
 import ByProvince from './components/ByProvince.vue'
 import ByRegion from './components/ByRegion.vue'
+import Microarray from './components/Microarray.vue';
 import SearchingBar from './components/SearchingBar.vue'
 export default {
   // 导入上传接口
@@ -16,6 +17,7 @@ export default {
     AllIndividuals, // 注册GeneTable组件
     ByProvince,
     ByRegion,
+    Microarray,
     SearchingBar
   }
 } 
@@ -36,6 +38,7 @@ export default {
         <router-link to="/allelefreq/all_ind" class="AlleleFreq-navigation-item">All Individuals</router-link>
         <router-link to="/allelefreq/by_province" class="AlleleFreq-navigation-item">By Province</router-link>
         <router-link to="/allelefreq/by_region" class="AlleleFreq-navigation-item">By Region</router-link>
+        <router-link to="/allelefreq/microarray" class="AlleleFreq-navigation-item">100k Microarray</router-link>
       </div>
 
       <!-- 其他内容 -->
@@ -65,7 +68,7 @@ export default {
   background-color: white;
   padding: 20px;
   border-radius: 5px; /* 可以添加圆角效果 */
-  margin-top: 20px; /* 可以调整框与导航栏之间的间距 */
+  margin-top: 0px; /* 可以调整框与导航栏之间的间距 */
 }
 
 .AlleleFreq-container {

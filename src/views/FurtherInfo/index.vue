@@ -19,13 +19,13 @@
         </div>
         <div class="info-row">
           <p><strong>Variation Class:</strong> {{ variationClass }}</p>
-          <p><strong>Ref. Allele Frequency:</strong> {{ refAlleleFrequency }}</p>
-          <p><strong>Alt. Allele Frequency:</strong> {{ altAlleleFrequency }}</p>
+          <p><strong>Ref. Allele Frequency:</strong> 0.957211 {{ refAlleleFrequency }}</p>
+          <p><strong>Alt. Allele Frequency:</strong> 0.043789 {{ altAlleleFrequency }}</p>
         </div>
         <div class="info-row">
           <p><strong>dbSNP:</strong> {{ dbSNP }}</p>
           <p><strong>PGG.SNV:</strong> {{ pggSNV }}</p>
-          <p><strong>gnomAD:</strong> {{ gnomAD }}</p>
+          <p><strong>gnomAD:</strong> 1-13273-13273 {{ gnomAD }}</p>
         </div>
       </div>
     </div>
@@ -292,5 +292,19 @@ const goBack = () => {
   justify-content: space-between;
   width: 100%;
 }
-
+.el-button {
+  background: linear-gradient(135deg, #5795ef, #3a6dd5);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.el-button:hover {
+  filter: brightness(1.2); /* 提高亮度，使颜色变淡 */
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* 减弱阴影 */
+}
 </style>

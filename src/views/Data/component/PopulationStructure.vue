@@ -7,7 +7,7 @@
 
     <!--  第一个板块 -->
     <div class="section-container">
-      <div class="section-title">Population Structure of Shanghai</div>
+      <div class="section-title">Population Structure of Xizang</div>
       <div class="section-content">
         <!-- 左侧地图 -->
         <div ref="provinceMap" class="map-container"></div>
@@ -43,19 +43,135 @@ export default {
     return {
       // 模拟数据
       populationData: [
-        { label: 'Han', x: 3.275154, y: 2.957587 },
-        { label: 'Han', x: 3.878788, y: 2.666757 },
-        { label: 'Balti', x: 3.625746, y: 2.119041 },
-        { label: 'Deng', x: -3.912363, y: 1.325108 },
-        { label: 'Gongbo', x: -0.551694, y: -2.814223 },
-        { label: 'Luoba', x: 2.855808, y: 3.483301 },
-        { label: 'Monba', x: -3.594448, y: 2.856651 },
-        { label: 'Sherpa', x: 0.421993, y: -2.372646 },
-        { label: 'Tajik', x: 1.650821, y: 3.407572 },
-        { label: 'TIB', x: -2.082902, y: 3.384412 },
-        { label: 'Wakhi', x: 0.639276, y: -3.41284 },
-        { label: 'Kashmiri', x: 2.300274, y: -3.552432 }
+        // Balti
+        { label: 'Balti', x: -0.12, y: 0.009 },
+        { label: 'Balti', x: -0.14, y: 0.012 },
+        { label: 'Balti', x: -0.1, y: 0.008 },
+        { label: 'Balti', x: -0.11, y: 0.01 },
+        { label: 'Balti', x: -0.13, y: 0.011 },
+        { label: 'Balti', x: -0.09, y: 0.008 },
+        { label: 'Balti', x: -0.15, y: 0.013 },
+        { label: 'Balti', x: -0.1, y: 0.009 },
+        { label: 'Balti', x: -0.14, y: 0.012 },
+        { label: 'Balti', x: -0.13, y: 0.013 },
+
+        // Deng
+        { label: 'Deng', x: -0.18, y: 0.01 },
+        { label: 'Deng', x: -0.17, y: 0.009 },
+        { label: 'Deng', x: -0.2, y: 0.012 },
+        { label: 'Deng', x: -0.19, y: 0.011 },
+        { label: 'Deng', x: -0.21, y: 0.01 },
+        { label: 'Deng', x: -0.22, y: 0.013 },
+        { label: 'Deng', x: -0.18, y: 0.012 },
+        { label: 'Deng', x: -0.23, y: 0.015 },
+        { label: 'Deng', x: -0.19, y: 0.011 },
+        { label: 'Deng', x: -0.2, y: 0.01 },
+
+        // Gongbo
+        { label: 'Gongbo', x: -0.08, y: 0.004 },
+        { label: 'Gongbo', x: -0.07, y: 0.003 },
+        { label: 'Gongbo', x: -0.09, y: 0.005 },
+        { label: 'Gongbo', x: -0.08, y: 0.006 },
+        { label: 'Gongbo', x: -0.1, y: 0.004 },
+        { label: 'Gongbo', x: -0.09, y: 0.003 },
+        { label: 'Gongbo', x: -0.1, y: 0.006 },
+        { label: 'Gongbo', x: -0.09, y: 0.004 },
+        { label: 'Gongbo', x: -0.1, y: 0.005 },
+        { label: 'Gongbo', x: -0.08, y: 0.004 },
+
+        // Kashmiri
+        { label: 'Kashmiri', x: -0.2, y: 0.01 },
+        { label: 'Kashmiri', x: -0.21, y: 0.011 },
+        { label: 'Kashmiri', x: -0.22, y: 0.013 },
+        { label: 'Kashmiri', x: -0.19, y: 0.012 },
+        { label: 'Kashmiri', x: -0.18, y: 0.011 },
+        { label: 'Kashmiri', x: -0.2, y: 0.01 },
+        { label: 'Kashmiri', x: -0.19, y: 0.012 },
+        { label: 'Kashmiri', x: -0.21, y: 0.01 },
+        { label: 'Kashmiri', x: -0.22, y: 0.013 },
+        { label: 'Kashmiri', x: -0.18, y: 0.012 },
+
+        // Luoba
+        { label: 'Luoba', x: 0.05, y: -0.01 },
+        { label: 'Luoba', x: 0.06, y: -0.009 },
+        { label: 'Luoba', x: 0.07, y: -0.012 },
+        { label: 'Luoba', x: 0.05, y: -0.01 },
+        { label: 'Luoba', x: 0.06, y: -0.009 },
+        { label: 'Luoba', x: 0.07, y: -0.012 },
+        { label: 'Luoba', x: 0.05, y: -0.01 },
+        { label: 'Luoba', x: 0.06, y: -0.009 },
+        { label: 'Luoba', x: 0.07, y: -0.012 },
+        { label: 'Luoba', x: 0.05, y: -0.01 },
+
+        // Monba
+        { label: 'Monba', x: 0.15, y: -0.015 },
+        { label: 'Monba', x: 0.16, y: -0.014 },
+        { label: 'Monba', x: 0.14, y: -0.016 },
+        { label: 'Monba', x: 0.17, y: -0.015 },
+        { label: 'Monba', x: 0.16, y: -0.014 },
+        { label: 'Monba', x: 0.14, y: -0.016 },
+        { label: 'Monba', x: 0.15, y: -0.015 },
+        { label: 'Monba', x: 0.16, y: -0.014 },
+        { label: 'Monba', x: 0.14, y: -0.016 },
+        { label: 'Monba', x: 0.15, y: -0.015 },
+
+        // Sherpa
+        { label: 'Sherpa', x: 0.2, y: -0.01 },
+        { label: 'Sherpa', x: 0.19, y: -0.009 },
+        { label: 'Sherpa', x: 0.21, y: -0.011 },
+        { label: 'Sherpa', x: 0.18, y: -0.01 },
+        { label: 'Sherpa', x: 0.22, y: -0.012 },
+        { label: 'Sherpa', x: 0.19, y: -0.011 },
+        { label: 'Sherpa', x: 0.2, y: -0.01 },
+        { label: 'Sherpa', x: 0.19, y: -0.009 },
+        { label: 'Sherpa', x: 0.21, y: -0.011 },
+        { label: 'Sherpa', x: 0.18, y: -0.01 },
+
+        // Tajik
+        { label: 'Tajik', x: 0.3, y: 0.015 },
+        { label: 'Tajik', x: 0.29, y: 0.016 },
+        { label: 'Tajik', x: 0.31, y: 0.014 },
+        { label: 'Tajik', x: 0.32, y: 0.015 },
+        { label: 'Tajik', x: 0.28, y: 0.014 },
+        { label: 'Tajik', x: 0.3, y: 0.015 },
+        { label: 'Tajik', x: 0.29, y: 0.016 },
+        { label: 'Tajik', x: 0.31, y: 0.014 },
+        { label: 'Tajik', x: 0.32, y: 0.015 },
+        { label: 'Tajik', x: 0.28, y: 0.014 },
+
+        // TIB
+        { label: 'TIB', x: 0.25, y: 0.01 },
+        { label: 'TIB', x: 0.24, y: 0.011 },
+        { label: 'TIB', x: 0.26, y: 0.009 },
+        { label: 'TIB', x: 0.27, y: 0.01 },
+        { label: 'TIB', x: 0.23, y: 0.009 },
+        { label: 'TIB', x: 0.25, y: 0.01 },
+        { label: 'TIB', x: 0.24, y: 0.011 },
+        { label: 'TIB', x: 0.26, y: 0.009 },
+        { label: 'TIB', x: 0.27, y: 0.01 },
+        { label: 'TIB', x: 0.23, y: 0.009 },
+
+        // Wakhi
+        { label: 'Wakhi', x: 0.35, y: 0.02 },
+        { label: 'Wakhi', x: 0.351, y: 0.02 },
+        { label: 'Wakhi', x: 0.352, y: 0.02 },
+        { label: 'Wakhi', x: 0.353, y: 0.02 },
+        { label: 'Wakhi', x: 0.354, y: 0.02 },
+        { label: 'Wakhi', x: 0.3556, y: 0.02 },
+        { label: 'Wakhi', x: 0.356, y: 0.02 },
+        { label: 'Wakhi', x: 0.357, y: 0.02 },
+        { label: 'Wakhi', x: 0.358, y: 0.02 },
+        { label: 'Wakhi', x: 0.349, y: 0.019 },
+        { label: 'Wakhi', x: 0.36, y: 0.021 },
+        { label: 'Wakhi', x: 0.37, y: 0.018 },
+        { label: 'Wakhi', x: 0.33, y: 0.02 },
+        { label: 'Wakhi', x: 0.35, y: 0.02 },
+        { label: 'Wakhi', x: 0.34, y: 0.019 },
+        { label: 'Wakhi', x: 0.36, y: 0.021 },
+        { label: 'Wakhi', x: 0.37, y: 0.018 },
+        { label: 'Wakhi', x: 0.33, y: 0.02 },
       ],
+
       COLOR_ALL: ['#ff6666', '#66b3ff', '#99ff99', '#ffcc99', '#ff99ff', '#c2c2f0', '#ffb3e6', '#c2f0c2', '#ffad33', '#b3b3ff', '#f0b3b3'],
       POPULATION_LABELS: ['Han', 'Balti', 'Deng', 'Gongbo', 'Luoba', 'Monba', 'Sherpa', 'Tajik', 'TIB', 'Wakhi', 'Kashmiri'],
     };
@@ -155,8 +271,7 @@ export default {
         series: {
           type: 'scatter',
           encode: { tooltip: [0, 1] },
-          symbolSize: 8,
-          itemStyle: { borderColor: '#555' },
+          symbolSize: 4,
           datasetIndex: 1
         }
       };

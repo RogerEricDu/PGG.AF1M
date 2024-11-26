@@ -24,6 +24,7 @@ import Imputation from '@/views/Tools/component/Imputation.vue'
 import Results from '@/views/Tools/component/Results.vue'
 import Help from '@/views/Help/index.vue'
 import Population from '@/views/Population/index.vue'
+import Microarray from '@/views/AlleleFreq/components/Microarray.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,6 +68,7 @@ const router = createRouter({
           { path: 'all_ind', component: AllIndividuals },
           { path: 'by_province', component: ByProvince },
           { path: 'by_region', component: ByRegion },
+          { path: 'microarray', component: Microarray},
         ]
       },
       {

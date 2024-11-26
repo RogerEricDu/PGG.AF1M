@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'; // 从 Vue 中导入 ref
-import * as XLSX from 'xlsx'; // 导入 XLSX
+
 const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
@@ -50,38 +50,6 @@ const getColumnWidth = (columnName) => {
   return `${columnWidths[columnName]}px`;
 };
 
-const selectedRows = ref([]); // 存储选中的行
-
-const handleSelectionChange = (selection: any[]) => {
-  selectedRows.value = selection; // 更新选中的数据
-};
-
-// 导出选中行到 Excel
-const exportToExcel = () => {
-  if (!selectedRows.value.length) {
-    alert('Please select at least one row to export.');
-    return;
-  }
-
-  const sheetData = selectedRows.value.map(row => ({
-    ID: row.id,
-    Variant: row.variant,
-    Chromosome: row.chr,
-    Position: row.position,
-    Reference: row.ref,
-    Alternative: row.alt,
-    AlleleFrequency: row.alleleFrequency,
-  }));
-
-  // 创建工作簿和工作表
-  const worksheet = XLSX.utils.json_to_sheet(sheetData);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Selected Data');
-
-  // 导出文件
-  XLSX.writeFile(workbook, 'SelectedData.xlsx');
-};
-
 const currentPage = ref(1);
 const pageSize = ref(10);
 const small = ref(false);
@@ -95,6 +63,9 @@ const handleCurrentChange = (val: number) => {
   console.log(`当前页: ${val}`);
 };
 
+const handleSelectionChange = (selection: any[]) => {
+  console.log('已选项:', selection);
+};
 
 // 生成对应的URL
 const navigateToFurtherInfo = (row) => {
@@ -113,24 +84,10 @@ const navigateToFurtherInfo = (row) => {
 };
 </script>
 
-
-
 <template>
   <div class="gene-container">
-    <!-- 标题区域 -->
-    <div class="header-container">
-      <h2 class="page-title">By Region</h2>
-      <el-button 
-        type="primary" 
-        size="small" 
-        @click="exportToExcel"
-      >
-        Download
-      </el-button>
-    </div>
-
-    <!-- 表格区域 -->
-    <el-table :data="tableData" border style="margin: auto; text-align: center;" @selection-change="handleSelectionChange">
+    <h2 class="page-title">100k Microarray</h2>
+    <el-table :data="tableData" border style="margin: auto;text-align: center;" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"></el-table-column> 
       <el-table-column
         :prop="index"
@@ -138,22 +95,24 @@ const navigateToFurtherInfo = (row) => {
         v-for="(item, index) in tableHeader"
         :key="index"
         :width="getColumnWidth(index)"
-        align="center"
-        header-align="center"
+        align="center"  
+        header-align="center" 
       >
       </el-table-column>
-      <el-table-column label="Further Info" width="120">
+      <el-table-column label="FurtherInfo" width="120">
         <template #default="{ row }">
           <div class="centered-link">
-            <el-button type="primary" size="small" @click="navigateToFurtherInfo(row)">
+            <el-button
+              type="primary"
+              size="small"
+              @click="navigateToFurtherInfo(row)"
+            >
               INFO
             </el-button>
           </div>
         </template>
       </el-table-column>
     </el-table>
-
-    <!-- 分页 -->
     <div class="pagination-container">
       <el-pagination
         v-model:current-page="currentPage"
@@ -178,17 +137,7 @@ const navigateToFurtherInfo = (row) => {
   padding: 1%;
   width: fit-content; /* 让容器宽度根据内容自动调整 */
 }
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.page-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #2c3e50;
-}
+
 .el-table {
   border: 1px solid #dcdfe6; /* 边框变细 */
   width: 100%; /* 表格宽度充满父容器 */
@@ -215,7 +164,6 @@ const navigateToFurtherInfo = (row) => {
 .centered-link {
   text-align: center;
 }
-
 .pagination-container {
   margin-top: 20px;
   display: flex;
@@ -223,25 +171,12 @@ const navigateToFurtherInfo = (row) => {
   align-items: center;
 }
 .el-button {
-  background: linear-gradient(135deg, #5795ef, #3a6dd5);
-  color: #fff;
+  color: white;
+  background-color: #38b1b2;
   border: none;
-  border-radius: 8px;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  transition: all 0.3s ease;
 }
 
 .el-button:hover {
-  background: linear-gradient(135deg, #3a6dd5, #5795ef);
-  transform: translateY(-2px);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.el-button[disabled] {
-  background-color: #f2f2f2;
-  border-color: #dcdfe6;
-  color: #c0c4cc;
+  background-color: #2b6777;
 }
 </style>

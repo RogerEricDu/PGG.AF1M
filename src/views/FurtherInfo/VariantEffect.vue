@@ -15,9 +15,9 @@
         <el-table-column prop="alt" label="Alt" width="55"></el-table-column>
         <el-table-column prop="symbol" label="SYMBOL" width="100"></el-table-column>
         <el-table-column prop="biotype" label="BIOTYPE" width="150"></el-table-column>
-        <el-table-column prop="consequence" label="Consequence" width="150"></el-table-column>
+        <el-table-column prop="consequence" label="Consequence" width="200"></el-table-column>
         <!-- <el-table-column prop="transcript" label="Transcript" width="100"></el-table-column> -->
-        <el-table-column prop="feature" label="Feature" width="150"></el-table-column>
+        <el-table-column prop="feature" label="Feature" width="200"></el-table-column>
         <el-table-column prop="featureType" label="Feature Type"></el-table-column>
       </el-table>
     </div>
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       variantData: [
-        { chr: '1', pos: 12345, ref: 'A', alt: 'G', symbol: 'GENE1', biotype: 'protein_coding', consequence: 'missense_variant', feature: 'Feature1', featureType: 'Transcript' },
+        { chr: '1', pos: 12345, ref: 'A', alt: 'G', symbol: 'CLCN6', biotype: 'protein_coding', consequence: 'downstream_gene_variant', feature: '	ENST00000312413', featureType: 'Transcript' },
         // 添加更多数据...
       ],
     };
@@ -145,5 +145,19 @@ export default {
   text-align: center;
   font-weight: bold;
 }
-
+.el-button {
+  background: linear-gradient(135deg, #5795ef, #3a6dd5);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.el-button:hover {
+  filter: brightness(1.2); /* 提高亮度，使颜色变淡 */
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* 减弱阴影 */
+}
 </style>

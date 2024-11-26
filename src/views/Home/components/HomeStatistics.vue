@@ -73,33 +73,48 @@ export default {
 </template>
 
 <style scoped>
-    .data-context{
-        margin-top: 20px;
-        text-indent: 50px;
-        line-height: 1.5;
-        font-size: 18px;
-    }
-    .searching-container{
-        display: flex;
-        justify-content: center;
-    }
-    a {
-    color: #6e9197; /* 保持链接的默认颜色 */
-    font-weight: bold;
-    text-decoration: underline; /* 添加下划线 */
-    }
+.data-context{
+    margin-top: 20px;
+    text-indent: 50px;
+    line-height: 1.5;
+    font-size: 18px;
+}
+.searching-container{
+    display: flex;
+    justify-content: center;
+}
+a {
+color: #6e9197; /* 保持链接的默认颜色 */
+font-weight: bold;
+text-decoration: underline; /* 添加下划线 */
+}
 
-    a:hover {
-    color:seagreen; /* 鼠标悬停时的颜色 */
-    }
-    a::after {
-    font-weight: bold; /* 加粗显示 */
-    text-decoration: underline; /* 添加下划线 */
-    }
+a:hover {
+color:seagreen; /* 鼠标悬停时的颜色 */
+}
+a::after {
+font-weight: bold; /* 加粗显示 */
+text-decoration: underline; /* 添加下划线 */
+}
 
-    .input-container{
-        display: flex;
-        justify-content: center;
-    }
+.input-container{
+    display: flex;
+    justify-content: center;
+}
+.el-button {
+  background: linear-gradient(135deg, #5795ef, #3a6dd5);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.el-button:hover {
+  filter: brightness(1.2); /* 提高亮度，使颜色变淡 */
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* 减弱阴影 */
+}
 
 </style>

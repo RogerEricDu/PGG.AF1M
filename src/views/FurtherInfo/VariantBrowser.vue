@@ -23,13 +23,13 @@
           {
             name: "Example Track",
             type: "variant",
-            url: "https://example.com/path/to/variant_file.vcf",  // 替换为真实的 VCF 文件路径
+            url: "/FST_filtered_variants.vcf",  // 使用 public 文件夹中的 VCF 文件
             format: "vcf",
             displayMode: "EXPANDED"
           }
         ]
       };
-  
+
       igv.createBrowser(this.$refs.igvContainer, options).then(browser => {
         this.igvBrowser = browser;
       });

@@ -22,12 +22,41 @@ onMounted(() => {
       echarts.registerMap('China', chinaJson);
 
       const data = [
-        { name: '北京市', value: 21540 },
-        { name: '天津市', value: 15570 },
-        { name: '上海市', value: 24240 },
-        // 省略其他省份数据...
-        { name: '澳门特别行政区', value: 59000 }
-      ];
+          { name: 'Beijing', value: 5828 },
+          { name: 'Tianjin', value: 5228 },
+          { name: 'Shanghai', value: 355 },
+          { name: 'Chongqing', value: 5947 },
+          { name: 'Hebei', value: 5778 },
+          { name: 'Shanxi', value: 4479 },
+          { name: 'Liaoning', value: 1792 },
+          { name: 'Jilin', value: 1823 },
+          { name: 'Heilongjiang', value: 2320 },
+          { name: 'Jiangsu', value: 4067 },
+          { name: 'Zhejiang', value: 150 },
+          { name: 'Anhui', value: 5415 },
+          { name: 'Fujian', value: 1403 },
+          { name: 'Jiangxi', value: 3962 },
+          { name: 'Shandong', value: 2894 },
+          { name: 'Henan', value: 3309 },
+          { name: 'Hubei', value: 481 },
+          { name: 'Hunan', value: 3952 },
+          { name: 'Guangdong', value: 4261 },
+          { name: 'Guangxi', value: 6030 },
+          { name: 'Hainan', value: 3243 },
+          { name: 'Sichuan', value: 5406 },
+          { name: 'Guizhou', value: 4145 },
+          { name: 'Yunnan', value: 1171 },
+          { name: 'Shaanxi', value: 974 },
+          { name: 'Gansu', value: 1145 },
+          { name: 'Qinghai', value: 5901 },
+          { name: 'Taiwan', value: 5729 },
+          { name: 'Xizang', value: 7443 },
+          { name: 'Inner Mongolia', value: 722 },
+          { name: 'Ningxia', value: 4132 },
+          { name: 'Xinjiang', value: 923 },
+          { name: 'Hong Kong', value: 940 },
+          { name: 'Macau', value: 5770 }
+        ];
 
       data.sort((a, b) => a.value - b.value);
 
@@ -55,9 +84,9 @@ onMounted(() => {
                     type: 'pie',
                     radius: '70%',
                     data: [
-                      { value: 0, name: 'A/A' },
-                      { value: 10, name: 'A/G' },
-                      { value: 200, name: 'G/G' }
+                      { value: 1, name: 'A/A' },
+                      { value: 22, name: 'A/G' },
+                      { value: 321, name: 'G/G' }
                     ],
                     label: {
                       formatter: '{b}: {c}',
@@ -74,8 +103,8 @@ onMounted(() => {
         },
         visualMap: {
           left: 'right',
-          min: 500,
-          max: 30000,
+          min: 0,
+          max: 8000,
           inRange: {
             color: [
               '#313695', '#4575b4', '#74add1', '#abd9e9',
