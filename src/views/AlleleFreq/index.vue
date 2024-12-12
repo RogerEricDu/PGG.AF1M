@@ -26,7 +26,7 @@ export default {
 
 <template>
 <div class="AlleleFreq-page-container">
-    <div class="AlleleFreq-container" style="height:100%">
+    <div class="header-container" style="height:100%">
       <el-icon class="AlleleFreq-icon1" style="font-size: 36px;"><Document /></el-icon><h1>Variants</h1>  
     </div>
     <div class="AlleleFreq-search-container" style="height:100%">
@@ -50,15 +50,27 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .AlleleFreq-page-container {
-  background: #fff;
-  user-select: text; /* 允许文本被选择 */
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 1200px; /* 设置容器宽度为 700px */
-  margin: 0 auto; /* 居中显示 */
+  width: 1200px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 高级感背景 */
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+/* 标题部分 */
+.header-container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(to right, #3a6073, #16222a); /* 深色背景 */
+  color: white;
+  border-radius: 15px;
+  margin-bottom: 20px; /* 标题与内容框的重叠效果 */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 .AlleleFreq-icon1{
   border:black;

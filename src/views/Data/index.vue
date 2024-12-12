@@ -28,60 +28,103 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 1200px; /* 设置容器宽度为 700px */
+  width: 1200px;
   margin: 0 auto; /* 居中显示 */
-}
-.content-box {
-  background-color: white;
-  padding: 10px;
-  border-radius: 5px; /* 可以添加圆角效果 */
-  margin-top: 20px; /* 可以调整框与导航栏之间的间距 */
+  background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 页面背景渐变 */
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* 页面边缘阴影 */
 }
 
 .data-container {
   display: flex;
+  align-items: center;
   padding: 20px;
+  background: linear-gradient(to right, #3a6073, #16222a); /* 深色背景 */
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: -10px; /* 将标题部分稍微覆盖到内容框上 */
+  position: relative;
+  z-index: 10;
 }
-.data-content-container{
-  flex: 1;
-  
+
+.data-container h1 {
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+  margin-left: 10px;
+  color: #f1f1f1;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
 }
+
+.content-box {
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px; /* 圆角加大 */
+  margin-top: -20px; /* 让内容框更贴近标题 */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* 柔和阴影效果 */
+  border: 1px solid #e0e0e0; /* 增加细边框 */
+  animation: fadeInUp 0.5s ease; /* 内容区域的入场动画 */
+}
+
+/* 渐变分割线 */
+.el-divider {
+  height: 3px;
+  background: linear-gradient(to right, #3a6073, #16222a); /* 和标题一致的渐变色 */
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
 .navigation-container {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
-  background: linear-gradient(to right, #3a6073, #16222a); /* 渐变背景色 */
-  border-radius: 10px; /* 边框圆角 */
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+  background: linear-gradient(to right, #3a6073, #16222a);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .navigation-item {
   font-size: 18px;
   font-weight: bold;
-  color: #ecf0f1; /* 默认字体颜色 */
+  color: #ecf0f1;
   flex: 1;
   text-align: center;
   padding: 15px;
-  border-radius: 8px; /* 边框圆角 */
+  border-radius: 8px;
   cursor: pointer;
-  margin: 0 10px; /* 间距 */
-  background-color: transparent; /* 透明背景 */
-  transition: all 0.3s ease; /* 添加过渡效果 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+  margin: 0 10px;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navigation-item:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* 悬浮透明白色背景 */
-  transform: scale(1.05); /* 缩放效果 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 放大阴影 */
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .navigation-item.router-link-active {
-  background-color: #1abc9c; /* 激活状态的背景色 */
-  color: #ffffff; /* 激活状态的字体颜色 */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 深色阴影 */
-  transform: scale(1.1); /* 激活状态稍微放大 */
+  background-color: #1abc9c;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
 }
+
+/* 动画效果 */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 </style>

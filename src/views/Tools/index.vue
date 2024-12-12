@@ -30,10 +30,23 @@
 .tools-page-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 1200px; /* 设置容器宽度为 700px */
-  margin: 0 auto; /* 居中显示 */
+  width: 1200px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 高级感背景 */
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
+.tools-container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(to right, #3a6073, #16222a); /* 深色背景 */
+  color: white;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
 .tools-photo-container {
     text-align: center; /* 将图像居中 */
     margin-top: 20px; /* 添加上边距 */

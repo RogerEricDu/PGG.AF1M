@@ -89,6 +89,7 @@ export default {
 
 <style scoped>
 .page-container {
+  width: 100%;
   padding: 20px;
 }
 .page-title {

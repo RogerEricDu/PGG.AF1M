@@ -2,16 +2,16 @@
   <div class="population-dataset-page">
     <!-- 顶部导航选项框 -->
     <div class="navigation-container">
-      <button 
-        class="navigation-item" 
-        :class="{ active: currentTab === 'Population' }" 
+      <button
+        class="navigation-item"
+        :class="{ active: currentTab === 'Population' }"
         @click="currentTab = 'Population'"
       >
         Population
       </button>
-      <button 
-        class="navigation-item" 
-        :class="{ active: currentTab === 'Dataset' }" 
+      <button
+        class="navigation-item"
+        :class="{ active: currentTab === 'Dataset' }"
         @click="currentTab = 'Dataset'"
       >
         Dataset
@@ -54,6 +54,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';
@@ -102,45 +103,50 @@ const datasetData = ref([
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 1200px; /* 设置容器宽度为 700px */
-  margin: 0 auto; /* 居中显示 */
+  width: 90%; /* 调整为自适应宽度 */
+  max-width: 1200px;
+  margin: 20px auto; /* 页面居中显示，增加呼吸感 */
+  background: linear-gradient(to bottom, #f8f9fb, #ffffff); /* 高级感渐变背景 */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* 页面整体阴影 */
 }
 
 .navigation-container {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
-  background: linear-gradient(to right, #3a6073, #16222a); /* 渐变背景色 */
-  border-radius: 10px; /* 边框圆角 */
+  background: linear-gradient(to right, #3a6073, #16222a);
+  border-radius: 10px;
   padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* 强化层次感 */
 }
 
 .navigation-item {
   font-size: 18px;
   font-weight: bold;
-  color: #ecf0f1; /* 默认字体颜色 */
+  color: #ecf0f1;
   text-align: center;
-  padding: 15px 20px;
-  margin: 0 20px; /* 标签之间的间距 */
-  border-radius: 8px; /* 边框圆角 */
+  padding: 15px 30px;
+  margin: 0 50px; /* 增加标签间距 */
+  border-radius: 15px;
   cursor: pointer;
-  background-color: transparent; /* 初始透明背景 */
-  transition: all 0.3s ease; /* 添加过渡效果 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 初始阴影效果 */
+  background-color: transparent;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navigation-item:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* 悬浮透明白色背景 */
-  transform: scale(1.05); /* 缩放效果 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 放大阴影 */
+  background: linear-gradient(to right, #1abc9c, #16a085); /* 渐变高亮效果 */
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .navigation-item.active {
-  background-color: #1abc9c; /* 激活状态的背景色 */
-  color: #ffffff; /* 激活状态的字体颜色 */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 激活状态深色阴影 */
-  transform: scale(1.1); /* 激活状态放大 */
+  background: linear-gradient(to right, #1abc9c, #16a085); /* 激活状态 */
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
 }
 
 .content-container {
@@ -151,18 +157,54 @@ const datasetData = ref([
 
 .card {
   display: flex;
+  flex-wrap: wrap; /* 适配移动端 */
   width: 100%;
   max-width: 1200px;
   margin-bottom: 20px;
-  background: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 卡片阴影 */
+  border-radius: 15px;
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px); /* 卡片悬浮效果 */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* 阴影加强 */
 }
 
 .card-left {
   flex: 1;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-left h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.card-left p {
+  font-size: 16px;
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+.links a {
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #1abc9c;
+  margin-right: 15px;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: #16a085;
 }
 
 .card-right {
@@ -171,11 +213,14 @@ const datasetData = ref([
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(to bottom, #f8f9fb, #ffffff); /* 卡片图片背景 */
 }
 
 .card-right img {
   max-width: 100%;
   height: auto;
+  border-radius: 10px;
 }
+
 </style>
 
