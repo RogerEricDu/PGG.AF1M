@@ -33,7 +33,7 @@
 }
 .content-box {
   background-color: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 5px; /* 可以添加圆角效果 */
   margin-top: 20px; /* 可以调整框与导航栏之间的间距 */
 }
@@ -48,31 +48,40 @@
 }
 .navigation-container {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px; /* 可以调整导航栏与标题之间的间距 */
+  justify-content: space-around;
+  margin-top: 20px;
+  background: linear-gradient(to right, #3a6073, #16222a); /* 渐变背景色 */
+  border-radius: 10px; /* 边框圆角 */
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 阴影效果 */
 }
 
 .navigation-item {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
-  color: #2c3e50; /* 深蓝灰色，未点击时的字体颜色 */
+  color: #ecf0f1; /* 默认字体颜色 */
   flex: 1;
   text-align: center;
   padding: 15px;
-  border-radius: 5px; 
+  border-radius: 8px; /* 边框圆角 */
   cursor: pointer;
-  margin-left: 5px;
-  background-color: #ecf0f1; /* 浅灰色，未点击时的背景颜色 */
-  transition: background-color 0.3s, color 0.3s; /* 添加过渡效果 */
+  margin: 0 10px; /* 间距 */
+  background-color: transparent; /* 透明背景 */
+  transition: all 0.3s ease; /* 添加过渡效果 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
 }
 
 .navigation-item:hover {
-  background-color: #bdc3c7; /* 悬停时变为浅灰蓝 */
+  background-color: rgba(255, 255, 255, 0.2); /* 悬浮透明白色背景 */
+  transform: scale(1.05); /* 缩放效果 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 放大阴影 */
 }
-.navigation-item:active, 
+
 .navigation-item.router-link-active {
-  background-color: #95a5a6; /* 点击/激活时比 #b0c4c5 深的灰蓝色 */
-  color: white; /* 点击时字体变为白色 */
+  background-color: #1abc9c; /* 激活状态的背景色 */
+  color: #ffffff; /* 激活状态的字体颜色 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 深色阴影 */
+  transform: scale(1.1); /* 激活状态稍微放大 */
 }
 
 </style>

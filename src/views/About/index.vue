@@ -61,7 +61,7 @@ const tabPosition = ref('left')
 
 .about-tabs .el-tabs__item:hover, 
 .about-tabs .el-tabs__item.is-active {
-  background-color: #95a5a6; /* 浅青蓝色背景，点击/悬停时 */
+  background: linear-gradient(to right, #3a6073, #16222a); /* 渐变背景色 */
   color: white; /* 点击后字体变白 */
 }
 

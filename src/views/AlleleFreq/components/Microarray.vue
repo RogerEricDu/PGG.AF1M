@@ -137,7 +137,17 @@ const navigateToFurtherInfo = (row) => {
   padding: 1%;
   width: fit-content; /* 让容器宽度根据内容自动调整 */
 }
-
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.page-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+}
 .el-table {
   border: 1px solid #dcdfe6; /* 边框变细 */
   width: 100%; /* 表格宽度充满父容器 */
@@ -164,6 +174,7 @@ const navigateToFurtherInfo = (row) => {
 .centered-link {
   text-align: center;
 }
+
 .pagination-container {
   margin-top: 20px;
   display: flex;
@@ -171,12 +182,25 @@ const navigateToFurtherInfo = (row) => {
   align-items: center;
 }
 .el-button {
-  color: white;
-  background-color: #38b1b2;
+  background: linear-gradient(135deg, #5795ef, #3a6dd5);
+  color: #fff;
   border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
 .el-button:hover {
-  background-color: #2b6777;
+  background: linear-gradient(135deg, #3a6dd5, #5795ef);
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.el-button[disabled] {
+  background-color: #f2f2f2;
+  border-color: #dcdfe6;
+  color: #c0c4cc;
 }
 </style>
