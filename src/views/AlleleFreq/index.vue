@@ -35,10 +35,10 @@ export default {
       <p style="font-size: 20px;font-weight: bold;text-align: center;">Choose the section you would like to use.</p>
       <!-- 导航栏 -->
       <div class="AlleleFreq-navigation-container">
-        <router-link to="/allelefreq/all_ind" class="AlleleFreq-navigation-item">All Individuals</router-link>
-        <router-link to="/allelefreq/by_province" class="AlleleFreq-navigation-item">By Province</router-link>
-        <router-link to="/allelefreq/by_region" class="AlleleFreq-navigation-item">By Region</router-link>
-        <router-link to="/allelefreq/microarray" class="AlleleFreq-navigation-item">100k Microarray</router-link>
+        <router-link to="/allelefreq/all_ind" class="AlleleFreq-navigation-item">Individuals</router-link>
+        <router-link to="/allelefreq/by_province" class="AlleleFreq-navigation-item">Province</router-link>
+        <router-link to="/allelefreq/by_region" class="AlleleFreq-navigation-item">Region</router-link>
+        <router-link to="/allelefreq/microarray" class="AlleleFreq-navigation-item">Microarray Data</router-link>
       </div>
 
       <!-- 其他内容 -->
@@ -130,5 +130,6 @@ export default {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 深色阴影 */
   transform: scale(1.1); /* 激活状态稍微放大 */
 }
+
 
 </style>

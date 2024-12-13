@@ -2,7 +2,7 @@
   <div class="tools-page-container">
     <div class="tools-container">
         <el-icon class="tools-icon" style="font-size: 36px;"><SetUp /></el-icon>
-        <h1>Data Analysis</h1>
+        <h1>Tools</h1>
     </div>
 
     <!-- 包裹内容的框 -->
@@ -93,7 +93,7 @@
   padding: 15px;
   border-radius: 8px; /* 边框圆角 */
   cursor: pointer;
-  margin: 0 10px; /* 间距 */
+  margin: 0 20px; /* 间距 */
   background-color: transparent; /* 透明背景 */
   transition: all 0.3s ease; /* 添加过渡效果 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
