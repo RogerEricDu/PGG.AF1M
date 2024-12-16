@@ -15,6 +15,7 @@
       <div class="tools-navigation-container">
         <router-link to="/tools/DataUpload" class="tools-navigation-item">DataUpload</router-link>
         <router-link to="/tools/Imputation" class="tools-navigation-item">Imputation</router-link>
+        <router-link to="/tools/GWAS" class="tools-navigation-item">GWAS</router-link>
         <router-link to="/tools/Results" class="tools-navigation-item">Results</router-link>
       </div>
 

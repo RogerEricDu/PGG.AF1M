@@ -5,33 +5,36 @@ const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
   position: 'Position',
+  province:'Province',
   ref: 'Ref',
   alt: 'Alt',
-  alleleFrequency: 'Allele Frequency',
-  province:'Province'
+  refFrequency:'Ref Frequency',
+  altFrequency:'Alt Frequency',
+  dataset:'Dataset',
+  sampleSize:'SampleSize',
 });
 
 const tableData = ref([
-  { id: 1, chr: 1,variant:'1:13261-G-A',  position: 13261, ref: 'G', alt: 'A',alleleFrequency:0.1 ,province:'Yunnan'},
-  { id: 2, chr: 1,variant:'1:13273-G-C',  position: 13273, ref: 'G', alt: 'C', alleleFrequency:0.1,province:'Yunnan'},
-  { id: 3, chr: 1,variant:'1:13284-G-A',  position: 13284, ref: 'G', alt: 'A', alleleFrequency:0.1,province:'Yunnan'},
-  { id: 4, chr: 1,variant:'1:13372-G-C',  position: 13372, ref: 'G', alt: 'C', alleleFrequency:0.1 ,province:'Yunnan'},
-  { id: 5, chr: 1,variant:'1:13424-A-T',  position: 13424, ref: 'A', alt: 'T', alleleFrequency:0.1,province:'Yunnan'},
-  { id: 6, chr: 1,variant:'1:13451-A-C',  position: 13451, ref: 'A', alt: 'C', alleleFrequency:0.1,province:'Yunnan'},
-  { id: 7, chr: 1,variant:'1:13539-G-C',  position: 13539, ref: 'G', alt: 'C', alleleFrequency:0.1,province:'Yunnan'},
-  { id: 8, chr: 1,variant:'1:13543-T-G',  position: 13543, ref: 'T', alt: 'G',alleleFrequency:0.1 ,province:'Yunnan'},
-  { id: 9, chr: 1,variant:'1:14436-G-A',  position: 14436, ref: 'G', alt: 'A',alleleFrequency:0.1 ,province:'Yunnan'},
-  { id: 10, chr: 1,variant:'1:14462-A-G',  position: 14462, ref: 'A', alt: 'G',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 11, chr: 1,variant:'1:14464-A-T',  position: 14464, ref: 'A', alt: 'T',alleleFrequency:0.1 ,province:'Yunnan'},
-  { id: 12, chr: 1,variant:'1:14553-C-T',  position: 14553, ref: 'C', alt: 'T',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 13, chr: 1,variant:'1:14610-T-C',  position: 14610, ref: 'T', alt: 'C',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 14, chr: 1,variant:'1:14653-C-T',  position: 14653, ref: 'C', alt: 'T',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 15, chr: 1,variant:'1:14716-C-T',  position: 14716, ref: 'C', alt: 'T',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 16, chr: 1,variant:'1:14728-C-A',  position: 14728, ref: 'C', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 17, chr: 1,variant:'1:14742-G-A',  position: 14742, ref: 'G', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 18, chr: 1,variant:'1:14748-G-A',  position: 14748, ref: 'G', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 19, chr: 1,variant:'1:14752-G-A',  position: 14752, ref: 'G', alt: 'A',alleleFrequency:0.1,province:'Yunnan'},
-  { id: 20, chr: 1,variant:'1:14754-G-C',  position: 14754, ref: 'G', alt: 'C',alleleFrequency:0.1,province:'Yunnan'},
+  { id: 1, chr: 1,variant:'1:13261-G-A',  position: 13261, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 2, chr: 1,variant:'1:13273-G-C',  position: 13273, ref: 'G', alt: 'C',province:'Yunnan'},
+  { id: 3, chr: 1,variant:'1:13284-G-A',  position: 13284, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 4, chr: 1,variant:'1:13372-G-C',  position: 13372, ref: 'G', alt: 'C',province:'Yunnan'},
+  { id: 5, chr: 1,variant:'1:13424-A-T',  position: 13424, ref: 'A', alt: 'T',province:'Yunnan'},
+  { id: 6, chr: 1,variant:'1:13451-A-C',  position: 13451, ref: 'A', alt: 'C',province:'Yunnan'},
+  { id: 7, chr: 1,variant:'1:13539-G-C',  position: 13539, ref: 'G', alt: 'C',province:'Yunnan'},
+  { id: 8, chr: 1,variant:'1:13543-T-G',  position: 13543, ref: 'T', alt: 'G',province:'Yunnan'},
+  { id: 9, chr: 1,variant:'1:14436-G-A',  position: 14436, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 10, chr: 1,variant:'1:14462-A-G',  position: 14462, ref: 'A', alt: 'G',province:'Yunnan'},
+  { id: 11, chr: 1,variant:'1:14464-A-T',  position: 14464, ref: 'A', alt: 'T',province:'Yunnan'},
+  { id: 12, chr: 1,variant:'1:14553-C-T',  position: 14553, ref: 'C', alt: 'T',province:'Yunnan'},
+  { id: 13, chr: 1,variant:'1:14610-T-C',  position: 14610, ref: 'T', alt: 'C',province:'Yunnan'},
+  { id: 14, chr: 1,variant:'1:14653-C-T',  position: 14653, ref: 'C', alt: 'T',province:'Yunnan'},
+  { id: 15, chr: 1,variant:'1:14716-C-T',  position: 14716, ref: 'C', alt: 'T',province:'Yunnan'},
+  { id: 16, chr: 1,variant:'1:14728-C-A',  position: 14728, ref: 'C', alt: 'A',province:'Yunnan'},
+  { id: 17, chr: 1,variant:'1:14742-G-A',  position: 14742, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 18, chr: 1,variant:'1:14748-G-A',  position: 14748, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 19, chr: 1,variant:'1:14752-G-A',  position: 14752, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 20, chr: 1,variant:'1:14754-G-C',  position: 14754, ref: 'G', alt: 'C',province:'Yunnan'},
 ]);
 
 // 定义每一列的宽度，这里只是示例，你可以根据需求自定义
@@ -39,10 +42,13 @@ const columnWidths = {
   variant: 150,
   chr: 100,
   position: 120,
+  province:100,
   ref: 80,
   alt: 80,
-  alleleFrequency: 120,
-  province:100,
+  refFrequency: 120,
+  altFrequency: 120,
+  dataset:200,
+  sampleSize:105,
 };
 
 // 根据列名获取对应的宽度
@@ -70,7 +76,6 @@ const exportToExcel = () => {
     Position: row.position,
     Reference: row.ref,
     Alternative: row.alt,
-    AlleleFrequency: row.alleleFrequency,
   }));
 
   // 创建工作簿和工作表
@@ -105,8 +110,6 @@ const navigateToFurtherInfo = (row) => {
     position: row.position.toString(),
     ref: row.ref,
     alt: row.alt,
-    alleleFrequency: row.alleleFrequency.toString(),
-    table: 'ByProvince', // 区分表格
   });
   const url = `/further_info?${params.toString()}`;
   window.location.href = url; // 跳转到目标页面

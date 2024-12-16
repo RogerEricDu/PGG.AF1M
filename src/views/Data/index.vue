@@ -2,7 +2,7 @@
   <div class="population-dataset-page">
     <div class="header-container">
       <el-icon class="population-icon1" style="font-size: 36px;"><Document /></el-icon>
-      <h1>Population</h1>
+      <h1>Data Set</h1>
     </div>
 
     <!-- 动态标签 -->
@@ -12,7 +12,7 @@
         <span class="label">Populations</span>
       </div>
       <div class="stat">
-        <span class="number">{{ datasetCount }}+</span>
+        <span class="number">{{ datasetCount }}</span>
         <span class="label">Datasets</span>
       </div>
       <div class="stat">
@@ -88,7 +88,7 @@ const datasetCount = ref(0);
 const sampleCount = ref(0);
 
 const targetPopulation = 11; // 最终显示的Population数量
-const targetDataset = 10; // 最终显示的Dataset数量
+const targetDataset = 2; // 最终显示的Dataset数量
 const targetSample = 120000; // 最终显示的Sample数量
 
 let intervalId;

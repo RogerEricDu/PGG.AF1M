@@ -21,6 +21,7 @@ import Ancestry from '@/views/Statistics/component/Ancestry.vue'
 import GeneFlow from '@/views/Statistics/component/GeneFlow.vue'
 import DataUpload from '@/views/Tools/component/DataUpload.vue'
 import Imputation from '@/views/Tools/component/Imputation.vue'
+import GWAS from '@/views/Tools/component/GWAS.vue'
 import Results from '@/views/Tools/component/Results.vue'
 import Help from '@/views/Help/index.vue'
 import Data from '@/views/Data/index.vue'
@@ -84,6 +85,7 @@ const router = createRouter({
           { path: 'DataUpload', component: DataUpload },
           { path: 'Imputation', component: Imputation },
           { path: 'Results', component: Results },
+          { path: 'GWAS',component:GWAS }
         ]
       },
       {

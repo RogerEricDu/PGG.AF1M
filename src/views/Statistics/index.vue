@@ -8,7 +8,9 @@
     <!-- 包裹内容的框 -->
     <div class="content-box">
       <!-- 导航栏 -->
-      <div class="navigation-container">
+      <!-- <h1>Data Statistics</h1> -->
+    </div>
+    <div class="navigation-container">
         <router-link to="/statistics/geneFlow" class="navigation-item">Data Set</router-link>
         <router-link to="/statistics/geneAffinity" class="navigation-item">Gene Affinity</router-link>
         <router-link to="/statistics/populationStructure" class="navigation-item">Population Structure</router-link>
@@ -19,7 +21,6 @@
       <div class="data-content-container"> <!-- 二级路由的内容放在这里配置展示 -->
         <RouterView></RouterView>
       </div>
-    </div>
   </div>
 </template>
 

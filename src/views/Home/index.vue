@@ -2,7 +2,7 @@
     <div class="home-page">
       <!-- Banner Section -->
       <div class="banner-section">
-        <h2>Welcome to BiG.Data!</h2>
+        <h2>Welcome to PGG.LAF!</h2>
         <el-carousel height="600px">
           <el-carousel-item v-for="item in imageUrl" :key="item">
             <img :src="item.url" alt="Banner Image" />

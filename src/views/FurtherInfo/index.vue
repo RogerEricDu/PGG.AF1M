@@ -19,13 +19,23 @@
         </div>
         <div class="info-row">
           <p><strong>Variation Class:</strong> {{ variationClass }}</p>
-          <p><strong>Ref. Allele Frequency:</strong> 0.957211 {{ refAlleleFrequency }}</p>
-          <p><strong>Alt. Allele Frequency:</strong> 0.043789 {{ altAlleleFrequency }}</p>
+          <p><strong>Ref. Allele Frequency:</strong> {{ refAlleleFrequency }}</p>
+          <p><strong>Alt. Allele Frequency:</strong> {{ altAlleleFrequency }}</p>
+        </div>
+        <div class="info-row">
+          <p><strong>HomoRef:</strong> {{ homoRef }}</p>
+          <p><strong>Hetero:</strong> {{ hetero }}</p>
+          <p><strong>HomoAlt:</strong> {{ homoAlt }}</p>
+        </div>
+        <div class="info-row">
+          <p><strong>HomoRef Frequency:</strong> {{ homoRefFrequency }}</p>
+          <p><strong>Hetero Frequency:</strong> {{ heteroFrequency }}</p>
+          <p><strong>HomoAlt Frequency:</strong> {{ homoAltFrequency }}</p>
         </div>
         <div class="info-row">
           <p><strong>dbSNP:</strong> {{ dbSNP }}</p>
           <p><strong>PGG.SNV:</strong> {{ pggSNV }}</p>
-          <p><strong>gnomAD:</strong> 1-13273-13273 {{ gnomAD }}</p>
+          <p><strong>gnomAD:</strong> {{ gnomAD }}</p>
         </div>
       </div>
     </div>
@@ -140,6 +150,12 @@ const rsID = ref('')
 const variationClass = ref('');
 const refAlleleFrequency = ref('');
 const altAlleleFrequency = ref('');
+const homoRef = ref('');
+const hetero = ref('');
+const homoAlt = ref('');
+const homoRefFrequency = ref('');
+const heteroFrequency = ref('');
+const homoAltFrequency = ref('');
 const dbSNP = ref('');
 const pggSNV = ref('');
 const gnomAD = ref('');
