@@ -30,7 +30,7 @@
 .tools-page-container {
   display: flex;
   flex-direction: column;
-  width: 1200px;
+  width: 1500px;
   margin: 0 auto;
   background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 高级感背景 */
   border-radius: 15px;

@@ -30,7 +30,7 @@ export default {
       <el-icon class="AlleleFreq-icon1" style="font-size: 36px;"><Document /></el-icon><h1>Variants</h1>  
     </div>
     <div class="AlleleFreq-search-container" style="height:100%">
-      <SearchingBar></SearchingBar>
+      <!-- <SearchingBar></SearchingBar> -->
     <div class="AlleleFreq-content-box">
       <p style="font-size: 20px;font-weight: bold;text-align: center;">Choose the section you would like to use.</p>
       <!-- 导航栏 -->
@@ -54,7 +54,7 @@ export default {
 .AlleleFreq-page-container {
   display: flex;
   flex-direction: column;
-  width: 1200px;
+  width: 1500px;
   margin: 0 auto;
   background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 高级感背景 */
   border-radius: 15px;
@@ -94,6 +94,7 @@ export default {
 }
 
 .AlleleFreq-navigation-container {
+  
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
