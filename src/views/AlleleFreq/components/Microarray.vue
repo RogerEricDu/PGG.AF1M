@@ -11,35 +11,29 @@ const tableHeader = ref({
   altFrequency:'Alt Frequency',
   dataset:'Dataset',
   sampleSize:'SampleSize',
-/*   genotype1:'genotype1',
-  genotypeFrequency1:'Genotype Frequency1',
-  genotype2:'genotype2',
-  genotypeFrequency2:'Genotype Frequency2',
-  genotype3:'genotype3',
-  genotypeFrequency3:'Genotype Frequency3', */
 });
 
 const tableData = ref([
-  { id: 1, chr: 1,variant:'1:13261-G-A', position: 13261, ref: 'G', alt: 'A'},
-  { id: 2, chr: 1,variant:'1:13273-G-C',  position: 13273, ref: 'G', alt: 'C',},
-  { id: 3, chr: 1,variant:'1:13284-G-A',  position: 13284, ref: 'G', alt: 'A',},
-  { id: 4, chr: 1,variant:'1:13372-G-C',  position: 13372, ref: 'G', alt: 'C',},
-  { id: 5, chr: 1,variant:'1:13424-A-T',  position: 13424, ref: 'A', alt: 'T'},
-  { id: 6, chr: 1,variant:'1:13451-A-C',  position: 13451, ref: 'A', alt: 'C',},
-  { id: 7, chr: 1,variant:'1:13539-G-C',  position: 13539, ref: 'G', alt: 'C',},
-  { id: 8, chr: 1,variant:'1:13543-T-G',  position: 13543, ref: 'T', alt: 'G'},
-  { id: 9, chr: 1,variant:'1:14436-G-A',  position: 14436, ref: 'G', alt: 'A',},
-  { id: 10, chr: 1,variant:'1:14462-A-G',  position: 14462, ref: 'A', alt: 'G'},
-  { id: 11, chr: 1,variant:'1:14464-A-T',  position: 14464, ref: 'A', alt: 'T',},
-  { id: 12, chr: 1,variant:'1:14553-C-T',  position: 14553, ref: 'C', alt: 'T',},
-  { id: 13, chr: 1,variant:'1:14610-T-C',  position: 14610, ref: 'T', alt: 'C',},
-  { id: 14, chr: 1,variant:'1:14653-C-T',  position: 14653, ref: 'C', alt: 'T',},
-  { id: 15, chr: 1,variant:'1:14716-C-T',  position: 14716, ref: 'C', alt: 'T',},
-  { id: 16, chr: 1,variant:'1:14728-C-A',  position: 14728, ref: 'C', alt: 'A',},
-  { id: 17, chr: 1,variant:'1:14742-G-A',  position: 14742, ref: 'G', alt: 'A',},
-  { id: 18, chr: 1,variant:'1:14748-G-A',  position: 14748, ref: 'G', alt: 'A',},
-  { id: 19, chr: 1,variant:'1:14752-G-A',  position: 14752, ref: 'G', alt: 'A',},
-  { id: 20, chr: 1,variant:'1:14754-G-C',  position: 14754, ref: 'G', alt: 'C',},
+  { id: 1, chr: 1,variant:'1:13261-G-A', position: 13261, ref: 'G', alt: 'A',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 2, chr: 1,variant:'1:13273-G-C',  position: 13273, ref: 'G', alt: 'C',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 3, chr: 1,variant:'1:13284-G-A',  position: 13284, ref: 'G', alt: 'A',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 4, chr: 1,variant:'1:13372-G-C',  position: 13372, ref: 'G', alt: 'C',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 5, chr: 1,variant:'1:13424-A-T',  position: 13424, ref: 'A', alt: 'T',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 6, chr: 1,variant:'1:13451-A-C',  position: 13451, ref: 'A', alt: 'C',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 7, chr: 1,variant:'1:13539-G-C',  position: 13539, ref: 'G', alt: 'C',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 8, chr: 1,variant:'1:13543-T-G',  position: 13543, ref: 'T', alt: 'G',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 9, chr: 1,variant:'1:14436-G-A',  position: 14436, ref: 'G', alt: 'A',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 10, chr: 1,variant:'1:14462-A-G',  position: 14462, ref: 'A', alt: 'G',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 11, chr: 1,variant:'1:14464-A-T',  position: 14464, ref: 'A', alt: 'T',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 12, chr: 1,variant:'1:14553-C-T',  position: 14553, ref: 'C', alt: 'T',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 13, chr: 1,variant:'1:14610-T-C',  position: 14610, ref: 'T', alt: 'C',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 14, chr: 1,variant:'1:14653-C-T',  position: 14653, ref: 'C', alt: 'T',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 15, chr: 1,variant:'1:14716-C-T',  position: 14716, ref: 'C', alt: 'T',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 16, chr: 1,variant:'1:14728-C-A',  position: 14728, ref: 'C', alt: 'A',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 17, chr: 1,variant:'1:14742-G-A',  position: 14742, ref: 'G', alt: 'A',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 18, chr: 1,variant:'1:14748-G-A',  position: 14748, ref: 'G', alt: 'A',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 19, chr: 1,variant:'1:14752-G-A',  position: 14752, ref: 'G', alt: 'A',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
+  { id: 20, chr: 1,variant:'1:14754-G-C',  position: 14754, ref: 'G', alt: 'C',refFrequency:'0.999976',altFrequency:'0.000024',dataset:'PGG.Han',sampleSize:'20823'},
 ]);
 
 // 定义每一列的宽度，这里只是示例，你可以根据需求自定义
@@ -47,18 +41,13 @@ const columnWidths = {
   variant: 150,
   chr: 100,
   position: 120,
+  province:100,
   ref: 80,
   alt: 80,
   refFrequency: 120,
   altFrequency: 120,
   dataset:200,
   sampleSize:105,
-/*   genotype1:105,
-  genotypeFrequency1:120,
-  genotype2:105,
-  genotypeFrequency2:120,
-  genotype3:105,
-  genotypeFrequency3:120, */
 };
 
 // 根据列名获取对应的宽度
@@ -86,16 +75,6 @@ const exportToExcel = () => {
     Position: row.position,
     Reference: row.ref,
     Alternative: row.alt,
-    RefFrequency:row.refFrequency,
-    AltFrequency:row.altFrequency, 
-    Dataset:row.dataset,
-    SampleSize:row.sampleSize,
-    Genotype1:row.genotype1,
-    GenotypeFrequency1:row.genotypeFrequency1,
-    Genotype2:row.genotype2,
-    GenotypeFrequency2:row.genotypeFrequency2,
-    Genotype3:row.Genotype3,
-    GenotypeFrequency3:row.genotypeFrequency3,
   }));
 
   // 创建工作簿和工作表
@@ -130,8 +109,7 @@ const navigateToFurtherInfo = (row) => {
     position: row.position.toString(),
     ref: row.ref,
     alt: row.alt,
-    alleleFrequency: row.alleleFrequency.toString(),
-    table: 'AllIndividuals', // 区分表格
+    dataset:row.dataset
   });
   const url = `/further_info?${params.toString()}`;
   window.location.href = url; // 跳转到目标页面
@@ -144,7 +122,7 @@ const navigateToFurtherInfo = (row) => {
   <div class="gene-container">
     <!-- 标题区域 -->
     <div class="header-container">
-      <h2 class="page-title">100k Microarray</h2>
+      <h2 class="page-title">Microarray Data</h2>
       <el-button 
         type="primary" 
         size="small" 
@@ -195,7 +173,6 @@ const navigateToFurtherInfo = (row) => {
     </div>
   </div>
 </template>
-
 
 
 

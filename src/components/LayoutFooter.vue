@@ -84,6 +84,7 @@
     margin-bottom: 20px;
   }
   .app_footer {
+  width: 100%;
     overflow: hidden;
     background-color: #f5f5f5;
     padding-top: 20px;

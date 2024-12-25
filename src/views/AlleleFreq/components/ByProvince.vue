@@ -110,6 +110,7 @@ const navigateToFurtherInfo = (row) => {
     position: row.position.toString(),
     ref: row.ref,
     alt: row.alt,
+    dataset:row.dataset
   });
   const url = `/further_info?${params.toString()}`;
   window.location.href = url; // 跳转到目标页面

@@ -1,53 +1,52 @@
 <script lang="ts" setup>
 import { ref } from 'vue'; // 从 Vue 中导入 ref
 import * as XLSX from 'xlsx'; // 导入 XLSX
+import axios from 'axios'; // 导入 axios
+
 const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
   position: 'Position',
   ref: 'Ref',
   alt: 'Alt',
-  refFrequency:'Ref Frequency',
-  altFrequency:'Alt Frequency',
-  dataset:'Dataset',
-  sampleSize:'SampleSize',
+  refFrequency: 'Ref Frequency',
+  altFrequency: 'Alt Frequency',
+  dataset: 'Dataset',
+  sampleSize: 'SampleSize',
 });
 
-const tableData = ref([
-  { id: 1, chr: 1,variant:'1:13261-G-A', position: 13261, ref: 'G', alt: 'A'},
-  { id: 2, chr: 1,variant:'1:13273-G-C',  position: 13273, ref: 'G', alt: 'C',},
-  { id: 3, chr: 1,variant:'1:13284-G-A',  position: 13284, ref: 'G', alt: 'A',},
-  { id: 4, chr: 1,variant:'1:13372-G-C',  position: 13372, ref: 'G', alt: 'C',},
-  { id: 5, chr: 1,variant:'1:13424-A-T',  position: 13424, ref: 'A', alt: 'T'},
-  { id: 6, chr: 1,variant:'1:13451-A-C',  position: 13451, ref: 'A', alt: 'C',},
-  { id: 7, chr: 1,variant:'1:13539-G-C',  position: 13539, ref: 'G', alt: 'C',},
-  { id: 8, chr: 1,variant:'1:13543-T-G',  position: 13543, ref: 'T', alt: 'G'},
-  { id: 9, chr: 1,variant:'1:14436-G-A',  position: 14436, ref: 'G', alt: 'A',},
-  { id: 10, chr: 1,variant:'1:14462-A-G',  position: 14462, ref: 'A', alt: 'G'},
-  { id: 11, chr: 1,variant:'1:14464-A-T',  position: 14464, ref: 'A', alt: 'T',},
-  { id: 12, chr: 1,variant:'1:14553-C-T',  position: 14553, ref: 'C', alt: 'T',},
-  { id: 13, chr: 1,variant:'1:14610-T-C',  position: 14610, ref: 'T', alt: 'C',},
-  { id: 14, chr: 1,variant:'1:14653-C-T',  position: 14653, ref: 'C', alt: 'T',},
-  { id: 15, chr: 1,variant:'1:14716-C-T',  position: 14716, ref: 'C', alt: 'T',},
-  { id: 16, chr: 1,variant:'1:14728-C-A',  position: 14728, ref: 'C', alt: 'A',},
-  { id: 17, chr: 1,variant:'1:14742-G-A',  position: 14742, ref: 'G', alt: 'A',},
-  { id: 18, chr: 1,variant:'1:14748-G-A',  position: 14748, ref: 'G', alt: 'A',},
-  { id: 19, chr: 1,variant:'1:14752-G-A',  position: 14752, ref: 'G', alt: 'A',},
-  { id: 20, chr: 1,variant:'1:14754-G-C',  position: 14754, ref: 'G', alt: 'C',},
-]);
+const tableData = ref([]); // 初始化为空数组，待后端返回数据填充
+
+// 搜索框的绑定值
+const searchParams = ref({
+  chromosome: '',
+  position: '',
+  rsid: '',
+  variant: ''
+});
+
+// 搜索并请求后端数据
+const searchData = async () => {
+  try {
+    const response = await axios.post('/select/snp', searchParams.value);
+    tableData.value = response.data; // 后端返回的数据填充到表格
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
 
 // 定义每一列的宽度，这里只是示例，你可以根据需求自定义
 const columnWidths = {
   variant: 150,
   chr: 100,
   position: 120,
-  province:100,
+  province: 100,
   ref: 80,
   alt: 80,
   refFrequency: 120,
   altFrequency: 120,
-  dataset:200,
-  sampleSize:105,
+  dataset: 200,
+  sampleSize: 105,
 };
 
 // 根据列名获取对应的宽度
@@ -99,7 +98,6 @@ const handleCurrentChange = (val: number) => {
   console.log(`当前页: ${val}`);
 };
 
-
 // 生成对应的URL
 const navigateToFurtherInfo = (row) => {
   const params = new URLSearchParams({
@@ -109,19 +107,81 @@ const navigateToFurtherInfo = (row) => {
     position: row.position.toString(),
     ref: row.ref,
     alt: row.alt,
+    dataset: row.dataset,
   });
   const url = `/further_info?${params.toString()}`;
   window.location.href = url; // 跳转到目标页面
 };
+
 </script>
 
 
 
 <template>
   <div class="gene-container">
+      <!-- 搜索框区域 -->
+      <div class="search-container">
+        Chromosome:
+        <el-select 
+          v-model="searchParams.chromosome" 
+          placeholder="Chromosome" 
+          style="width: 180px; margin-right: 10px;"
+        >
+        <el-option label="1" value="1"></el-option>
+        <el-option label="2" value="2"></el-option>
+        <el-option label="3" value="3"></el-option>
+        <el-option label="4" value="4"></el-option>
+        <el-option label="5" value="5"></el-option>
+        <el-option label="6" value="6"></el-option>
+        <el-option label="7" value="7"></el-option>
+        <el-option label="8" value="8"></el-option>
+        <el-option label="9" value="9"></el-option>
+        <el-option label="10" value="10"></el-option>
+        <el-option label="11" value="11"></el-option>
+        <el-option label="12" value="12"></el-option>
+        <el-option label="13" value="13"></el-option>
+        <el-option label="14" value="14"></el-option>
+        <el-option label="15" value="15"></el-option>
+        <el-option label="16" value="16"></el-option>
+        <el-option label="17" value="17"></el-option>
+        <el-option label="18" value="18"></el-option>
+        <el-option label="19" value="19"></el-option>
+        <el-option label="20" value="20"></el-option>
+        <el-option label="21" value="21"></el-option>
+        <el-option label="22" value="22"></el-option>
+        <el-option label="X" value="X"></el-option>
+        <el-option label="Y" value="Y"></el-option>
+        </el-select>
+        Position:
+        <el-input 
+          v-model="searchParams.position" 
+          placeholder="Position" 
+
+          style="width: 200px; margin-right: 10px;"
+        />
+        RSID:
+        <el-input 
+          v-model="searchParams.rsid" 
+          placeholder="RSID" 
+          style="width: 200px;margin-right: 10px;"
+        />
+        Variants:
+        <el-input 
+          v-model="searchParams.variant" 
+          placeholder="Variant"
+          style="width: 200px; margin-right: 10px;"
+        />
+        <el-button 
+          type="primary" 
+          @click="searchData"
+        >
+          Search
+        </el-button>
+      </div>
     <!-- 标题区域 -->
     <div class="header-container">
       <h2 class="page-title">All Individuals</h2>
+      <!-- 导出按钮 -->
       <el-button 
         type="primary" 
         size="small" 
@@ -175,7 +235,39 @@ const navigateToFurtherInfo = (row) => {
 
 
 
+
 <style scoped>
+.search-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* 让元素之间的间距更加均匀 */
+  align-items: center;
+  flex-wrap: wrap; /* 让容器在小屏幕上自动换行 */
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.search-button {
+  height: 40px;
+  padding: 0 20px;
+  font-size: 14px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #5795ef, #3a6dd5);
+  color: #fff;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-button:hover {
+  background: linear-gradient(135deg, #3a6dd5, #5795ef);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.search-button:active {
+  transform: scale(0.98);
+}
+
 .gene-container{
   margin: auto;
   padding: 1%;
@@ -194,7 +286,7 @@ const navigateToFurtherInfo = (row) => {
 }
 .el-table {
   border: 1px solid #dcdfe6; /* 边框变细 */
-  width: 100%; /* 表格宽度充满父容器 */
+  width: 1250px; /* 表格宽度充满父容器 */
   margin: 0 auto; /* 表格居中 */
   text-align: center; /* 表格内容居中 */
 }

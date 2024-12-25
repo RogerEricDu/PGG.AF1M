@@ -15,7 +15,7 @@
         <div class="info-row">
           <p><strong>Ref:</strong> {{ refAllele }}</p>
           <p><strong>Alt:</strong> {{ alt }}</p>
-          <p><strong>Allele Frequency:</strong> {{ alleleFrequency }}</p>
+          <p><strong>Dataset:</strong> {{ dataset }}</p>
         </div>
         <div class="info-row">
           <p><strong>Variation Class:</strong> {{ variationClass }}</p>
@@ -141,7 +141,7 @@ const chr = ref('');
 const position = ref('');
 const refAllele = ref('');
 const alt = ref('');
-const alleleFrequency = ref('');
+const dataset = ref('');
 const region = ref('');
 const province = ref('');
 
@@ -170,7 +170,7 @@ onMounted(() => {
   position.value = route.query.position as string;
   refAllele.value = route.query.ref as string;
   alt.value = route.query.alt as string;
-  alleleFrequency.value = route.query.alleleFrequency as string;
+  dataset.value = route.query.dataset as string;
   region.value = route.query.region as string;
   province.value = route.query.province as string;
 });
