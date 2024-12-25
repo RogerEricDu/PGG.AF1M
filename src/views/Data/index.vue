@@ -37,12 +37,25 @@
       >
         Population
       </button>
+      <button
+        class="navigation-item"
+        :class="{ active: currentTab === 'GeographicDistribution' }"
+        @click="currentTab = 'GeographicDistribution'"
+      >
+        Geographic Distribution
+      </button>
 
     </div>
 
     <!-- 内容展示 -->
     <div class="content-container">
-      <div v-if="currentTab === 'Population'" class="tab-content">
+      <div v-show="currentTab === 'GeographicDistribution'" class="tab-content">
+        <!-- 一个echarts地图 -->
+        <div ref="chartContainer" class="chart-container" style="width: 1100px; height: 600px;"></div>
+      </div>
+
+      <!-- Population 数据展示 -->
+      <div v-show="currentTab === 'Population'" class="tab-content">
         <div v-for="(item, index) in populationData" :key="index" class="card">
           <div class="card-left">
             <h2>{{ item.title }}</h2>
@@ -57,7 +70,8 @@
         </div>
       </div>
 
-      <div v-if="currentTab === 'Dataset'" class="tab-content">
+      <!-- Dataset 数据展示 -->
+      <div v-show="currentTab === 'Dataset'" class="tab-content">
         <div v-for="(item, index) in datasetData" :key="index" class="card">
           <div class="card-left">
             <h2>{{ item.title }}</h2>
@@ -79,6 +93,7 @@
 
 <script setup>
 import { ref,onMounted,onUnmounted } from 'vue';
+import * as echarts from 'echarts';
 
 const currentTab = ref('Dataset'); // 当前选中的标签
 
@@ -90,11 +105,15 @@ const sampleCount = ref(0);
 const targetPopulation = 11; // 最终显示的Population数量
 const targetDataset = 2; // 最终显示的Dataset数量
 const targetSample = 120000; // 最终显示的Sample数量
+// 初始化 ECharts 地图
+const chartContainer = ref(null);
 
 let intervalId;
 
+
+
 onMounted(() => {
-  // 启动动画计时器
+  // 动态数字标签动画
   intervalId = setInterval(() => {
     if (populationCount.value < targetPopulation) populationCount.value++;
     if (datasetCount.value < targetDataset) datasetCount.value++;
@@ -110,6 +129,109 @@ onMounted(() => {
       clearInterval(intervalId);
     }
   }, 50); // 每隔50ms更新一次
+
+
+  if (!chartContainer.value) {
+    console.error('chartContainer is null or undefined');
+    return;
+  }
+  const myChart = echarts.init(chartContainer.value);
+
+  // 加载本地的 China.json 地图数据
+  fetch('/map/china.json')
+    .then(response => response.json())
+    .then(chinaJson => {
+      if (!chinaJson || !chinaJson.features) {
+      console.error('Invalid China JSON format');
+      return;
+    }
+      echarts.registerMap('China', chinaJson);
+
+      const data = [
+        { name: 'Beijing', value: 21540 },
+        { name: 'Tianjin', value: 15570 },
+        { name: 'Shanghai', value: 24240 },
+        { name: 'Chongqing', value: 31020 },
+        { name: 'Hebei', value: 7500 },
+        { name: 'Henan', value: 9890 },
+        { name: 'Yunnan', value: 6420 },
+        { name: 'Liaoning', value: 7850 },
+        { name: 'Heilongjiang', value: 5230 },
+        { name: 'Hunan', value: 8700 },
+        { name: 'Anhui', value: 5600 },
+        { name: 'Shandong', value: 10300 },
+        { name: 'Xinjiang', value: 3870 },
+        { name: 'Jiangsu', value: 9820 },
+        { name: 'Zhejiang', value: 8420 },
+        { name: 'Jiangxi', value: 4640 },
+        { name: 'Hubei', value: 9350 },
+        { name: 'Guangxi', value: 5930 },
+        { name: 'Gansu', value: 3100 },
+        { name: 'Shanxi', value: 5030 },
+        { name: 'Inner Mongolia', value: 4110 },
+        { name: 'Shaanxi', value: 7200 },
+        { name: 'Jilin', value: 4800 },
+        { name: 'Fujian', value: 6700 },
+        { name: 'Guizhou', value: 3500 },
+        { name: 'Guangdong', value: 12600 },
+        { name: 'Qinghai', value: 1550 },
+        { name: 'Xizang', value: 1340 },
+        { name: 'Sichuan', value: 9200 },
+        { name: 'Ningxia', value: 2320 },
+        { name: 'Hainan', value: 1900 },
+        { name: 'Taiwan', value: 8250 },
+        { name: 'Hongkong', value: 7150 },
+        { name: 'Macau', value: 59000 }
+      ];
+      data.sort((a, b) => a.value - b.value);
+
+      const mapOption = {
+        visualMap: {
+          left: 'right',
+          min: 500,
+          max: 30000,
+          inRange: {
+            color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+          },
+          text: ['High', 'Low'],
+          calculable: true
+        },
+        series: [
+          {
+            type: 'map',
+            roam: true,
+            map: 'China',
+            data: data
+          }
+        ]
+      };
+
+      const barOption = {
+        xAxis: { type: 'value' },
+        yAxis: {
+          type: 'category',
+          axisLabel: { rotate: 30 },
+          data: data.map(item => item.name)
+        },
+        series: {
+          type: 'bar',
+          data: data.map(item => item.value),
+          label: {
+            show: true,
+            position: 'right',
+            formatter: '{c}'
+          }
+        }
+      };
+
+      let currentOption = mapOption;
+      myChart.setOption(mapOption);
+
+      setInterval(() => {
+        currentOption = currentOption === mapOption ? barOption : mapOption;
+        myChart.setOption(currentOption, true);
+      }, 5000);
+    });
 });
 
 onUnmounted(() => {
@@ -203,6 +325,7 @@ const datasetData = ref([
 </script>
 
 <style scoped>
+
 .population-dataset-page {
   display: flex;
   flex-direction: column;

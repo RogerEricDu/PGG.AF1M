@@ -49,7 +49,7 @@ const router = createRouter({
         path:'Intro',
         component:Intro
       }, */
-      {
+/*       {
         path:'statistics',
         component:Statistics,
         meta: { requiresAuth: true }, // 需要登录才能访问的页面
@@ -60,7 +60,7 @@ const router = createRouter({
           { path: 'ancestry', component: Ancestry },
           { path: 'geneFlow', component: GeneFlow }
         ]
-      },
+      }, */
       {
         path:'allelefreq',
         component:AlleleFreq, 

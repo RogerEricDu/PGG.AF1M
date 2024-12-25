@@ -57,7 +57,7 @@
             <p>Our Services</p>
             <div class="serviceBar">
               <RouterLink to="/">&nbsp;&nbsp;Home&nbsp;&nbsp;</RouterLink>
-              <RouterLink to="/statistics">&nbsp;&nbsp;Stats&nbsp;&nbsp;</RouterLink>
+<!--               <RouterLink to="/statistics">&nbsp;&nbsp;Stats&nbsp;&nbsp;</RouterLink> -->
               <RouterLink to="/data">&nbsp;&nbsp;Data&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/allelefreq">&nbsp;&nbsp;Variants&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/tools">&nbsp;&nbsp;Tools&nbsp;&nbsp;</RouterLink>
