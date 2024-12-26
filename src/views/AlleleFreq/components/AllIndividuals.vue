@@ -17,24 +17,51 @@ const tableHeader = ref({
 
 const tableData = ref([]); // 初始化为空数组，待后端返回数据填充
 
-// 搜索框的绑定值
+// 高级表单的绑定值
 const searchParams = ref({
+  referencePanel: '',
+  dataType: '',
+  dataLayer: 'individuals',
   chromosome: '',
   position: '',
   rsid: '',
-  variant: ''
+  variant: '',
+  region: '',
+  province: '',
 });
 
-// 搜索并请求后端数据
-const searchData = async () => {
-  try {
-    const response = await axios.post('/select/snp', searchParams.value);
-    tableData.value = response.data; // 后端返回的数据填充到表格
-  } catch (error) {
-    console.error('Error fetching data:', error);
+const availableDataTypes = ref([]);
+const handleReferencePanelChange = () => {
+  if (searchParams.value.referencePanel === 'T2T') {
+    availableDataTypes.value = ['TGS'];
+  } else {
+    availableDataTypes.value = ['Microarray', 'NGS'];
   }
 };
 
+// 搜索并请求后端数据
+const handleSearch = async () => {
+  try {
+    const response = await axios.post('/select/snp', searchParams.value);
+    console.log('Search Results:', response.data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+const handleReset = () => {
+  searchParams.value = {
+    referencePanel: '',
+    dataType: '',
+    dataLayer: 'individuals',
+    chromosome: '',
+    position: '',
+    rsid: '',
+    variant: '',
+    region: '',
+    province: '',
+  };
+};
 // 定义每一列的宽度，这里只是示例，你可以根据需求自定义
 const columnWidths = {
   variant: 150,
@@ -119,71 +146,117 @@ const navigateToFurtherInfo = (row) => {
 
 <template>
   <div class="gene-container">
-      <!-- 搜索框区域 -->
-      <div class="search-container">
-        Chromosome:
-        <el-select 
-          v-model="searchParams.chromosome" 
-          placeholder="Chromosome" 
-          style="width: 180px; margin-right: 10px;"
+    <!-- 高级表单区域 -->
+    <div class="search-bar">
+      <!-- 选择 Reference Panel -->
+      <div class="form-item">
+        <label for="referencePanel" class="form-label">Reference Panel:</label>
+        <el-select
+          v-model="searchParams.referencePanel"
+          placeholder="Select Reference Panel"
+          clearable
+          @change="handleReferencePanelChange"
+          id="referencePanel"
         >
-        <el-option label="1" value="1"></el-option>
-        <el-option label="2" value="2"></el-option>
-        <el-option label="3" value="3"></el-option>
-        <el-option label="4" value="4"></el-option>
-        <el-option label="5" value="5"></el-option>
-        <el-option label="6" value="6"></el-option>
-        <el-option label="7" value="7"></el-option>
-        <el-option label="8" value="8"></el-option>
-        <el-option label="9" value="9"></el-option>
-        <el-option label="10" value="10"></el-option>
-        <el-option label="11" value="11"></el-option>
-        <el-option label="12" value="12"></el-option>
-        <el-option label="13" value="13"></el-option>
-        <el-option label="14" value="14"></el-option>
-        <el-option label="15" value="15"></el-option>
-        <el-option label="16" value="16"></el-option>
-        <el-option label="17" value="17"></el-option>
-        <el-option label="18" value="18"></el-option>
-        <el-option label="19" value="19"></el-option>
-        <el-option label="20" value="20"></el-option>
-        <el-option label="21" value="21"></el-option>
-        <el-option label="22" value="22"></el-option>
-        <el-option label="X" value="X"></el-option>
-        <el-option label="Y" value="Y"></el-option>
+          <el-option label="GRCh37" value="GRCh37"></el-option>
+          <el-option label="GRCh38" value="GRCh38"></el-option>
+          <el-option label="T2T" value="T2T"></el-option>
         </el-select>
-        Position:
-        <el-input 
-          v-model="searchParams.position" 
-          placeholder="Position" 
-
-          style="width: 200px; margin-right: 10px;"
-        />
-        RSID:
-        <el-input 
-          v-model="searchParams.rsid" 
-          placeholder="RSID" 
-          style="width: 200px;margin-right: 10px;"
-        />
-        Variants:
-        <el-input 
-          v-model="searchParams.variant" 
-          placeholder="Variant"
-          style="width: 200px; margin-right: 10px;"
-        />
-        <el-button 
-          type="primary" 
-          @click="searchData"
-        >
-          Search
-        </el-button>
       </div>
+
+      <!-- 数据类型 -->
+      <div class="form-item">
+        <label for="dataType" class="form-label">Data Type:</label>
+        <el-select
+          v-model="searchParams.dataType"
+          placeholder="Select Data Type"
+          clearable
+          id="dataType"
+        >
+          <el-option
+            v-for="type in availableDataTypes"
+            :key="type"
+            :label="type"
+            :value="type"
+          />
+        </el-select>
+      </div>
+
+      <!-- 数据分层 -->
+      <div class="form-item">
+        <label for="dataLayer" class="form-label">Data Layer:</label>
+        <el-input
+          v-model="searchParams.dataLayer"
+          placeholder="Data Layer"
+          readonly
+          id="dataLayer"
+        />
+      </div>
+
+      <!-- 选择染色体 -->
+      <div class="form-item">
+        <label for="chromosome" class="form-label">Chromosome:</label>
+        <el-select
+          v-model="searchParams.chromosome"
+          placeholder="Select Chromosome"
+          clearable
+          id="chromosome"
+        >
+          <el-option v-for="chr in 22" :key="chr" :label="chr" :value="chr" />
+          <el-option label="X" value="X"></el-option>
+          <el-option label="Y" value="Y"></el-option>
+        </el-select>
+      </div>
+
+      <!-- 位置输入 -->
+      <div class="form-item">
+        <label for="position" class="form-label">Position:</label>
+        <el-input
+          v-model="searchParams.position"
+          placeholder="Position"
+          clearable
+          prefix-icon="el-icon-map-location"
+          id="position"
+        />
+      </div>
+
+      <!-- RSID 输入 -->
+      <div class="form-item">
+        <label for="rsid" class="form-label">RSID:</label>
+        <el-input
+          v-model="searchParams.rsid"
+          placeholder="RSID"
+          clearable
+          prefix-icon="el-icon-search"
+          id="rsid"
+        />
+      </div>
+
+      <!-- Variant 输入 -->
+      <div class="form-item">
+        <label for="variant" class="form-label">Variant:</label>
+        <el-input
+          v-model="searchParams.variant"
+          placeholder="Variant"
+          clearable
+          prefix-icon="el-icon-document"
+          id="variant"
+        />
+      </div>
+
+      <!-- 按钮组 -->
+      <div class="form-item button-group">
+        <el-button type="primary" @click="handleSearch">Search</el-button>
+        <el-button type="warning" @click="handleReset">Reset</el-button>
+      </div>
+    </div>
+
     <!-- 标题区域 -->
     <div class="header-container">
       <h2 class="page-title">All Individuals</h2>
       <!-- 导出按钮 -->
       <el-button 
-        type="primary" 
+        type="success" 
         size="small" 
         @click="exportToExcel"
       >
@@ -237,35 +310,18 @@ const navigateToFurtherInfo = (row) => {
 
 
 <style scoped>
-.search-container {
+.search-bar {
   display: flex;
-  justify-content: center;
-  gap: 15px; /* 让元素之间的间距更加均匀 */
-  align-items: center;
-  flex-wrap: wrap; /* 让容器在小屏幕上自动换行 */
-  margin-top: 20px;
-  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 20px;
+  background: linear-gradient(135deg, #e9efff, #ffffff);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-
-.search-button {
-  height: 40px;
-  padding: 0 20px;
-  font-size: 14px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #5795ef, #3a6dd5);
-  color: #fff;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.search-button:hover {
-  background: linear-gradient(135deg, #3a6dd5, #5795ef);
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.search-button:active {
-  transform: scale(0.98);
+.form-item {
+  flex: 1;
+  min-width: 200px;
 }
 
 .gene-container{
@@ -318,7 +374,7 @@ const navigateToFurtherInfo = (row) => {
   align-items: center;
 }
 .el-button {
-  background: linear-gradient(135deg, #5795ef, #3a6dd5);
+/*   background: linear-gradient(135deg, #5795ef, #3a6dd5); */
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -329,7 +385,7 @@ const navigateToFurtherInfo = (row) => {
 }
 
 .el-button:hover {
-  background: linear-gradient(135deg, #3a6dd5, #5795ef);
+/*   background: linear-gradient(135deg, #3a6dd5, #5795ef); */
   transform: translateY(-2px);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }

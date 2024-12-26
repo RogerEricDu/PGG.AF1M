@@ -405,6 +405,7 @@ const datasetData = ref([
 }
 
 .navigation-item {
+  width: 300px;
   font-size: 18px;
   font-weight: bold;
   color: #ecf0f1;
