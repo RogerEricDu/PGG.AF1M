@@ -1,157 +1,251 @@
-<script>
-export default {
-  data() {
-    return {
-      searchType: '',
-      selectedChr: '',
-      input: '',
-      region: '',
-      province: '',
-      chromosomes: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'], // Chromosomes list
-    };
-  },
-  methods: {
-    handleSubmit() {
-      // 提交搜索内容
-      console.log({
-        searchType: this.searchType,
-        selectedChr: this.selectedChr,
-        input: this.input,
-        region: this.region,
-        province: this.province,
-      });
-    },
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'; // 从 Vue 中导入 ref
+import * as XLSX from 'xlsx'; // 导入 XLSX
+const tableHeader = ref({
+  variant: 'Variant',
+  chr: 'Chr',
+  position: 'Position',
+  province:'Province',
+  ref: 'Ref',
+  alt: 'Alt',
+  refFrequency:'Ref Frequency',
+  altFrequency:'Alt Frequency',
+  dataset:'Dataset',
+  sampleSize:'SampleSize',
+});
+
+const tableData = ref([
+  { id: 1, chr: 1,variant:'1:13261-G-A',  position: 13261, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 2, chr: 1,variant:'1:13273-G-C',  position: 13273, ref: 'G', alt: 'C',province:'Yunnan'},
+  { id: 3, chr: 1,variant:'1:13284-G-A',  position: 13284, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 4, chr: 1,variant:'1:13372-G-C',  position: 13372, ref: 'G', alt: 'C',province:'Yunnan'},
+  { id: 5, chr: 1,variant:'1:13424-A-T',  position: 13424, ref: 'A', alt: 'T',province:'Yunnan'},
+  { id: 6, chr: 1,variant:'1:13451-A-C',  position: 13451, ref: 'A', alt: 'C',province:'Yunnan'},
+  { id: 7, chr: 1,variant:'1:13539-G-C',  position: 13539, ref: 'G', alt: 'C',province:'Yunnan'},
+  { id: 8, chr: 1,variant:'1:13543-T-G',  position: 13543, ref: 'T', alt: 'G',province:'Yunnan'},
+  { id: 9, chr: 1,variant:'1:14436-G-A',  position: 14436, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 10, chr: 1,variant:'1:14462-A-G',  position: 14462, ref: 'A', alt: 'G',province:'Yunnan'},
+  { id: 11, chr: 1,variant:'1:14464-A-T',  position: 14464, ref: 'A', alt: 'T',province:'Yunnan'},
+  { id: 12, chr: 1,variant:'1:14553-C-T',  position: 14553, ref: 'C', alt: 'T',province:'Yunnan'},
+  { id: 13, chr: 1,variant:'1:14610-T-C',  position: 14610, ref: 'T', alt: 'C',province:'Yunnan'},
+  { id: 14, chr: 1,variant:'1:14653-C-T',  position: 14653, ref: 'C', alt: 'T',province:'Yunnan'},
+  { id: 15, chr: 1,variant:'1:14716-C-T',  position: 14716, ref: 'C', alt: 'T',province:'Yunnan'},
+  { id: 16, chr: 1,variant:'1:14728-C-A',  position: 14728, ref: 'C', alt: 'A',province:'Yunnan'},
+  { id: 17, chr: 1,variant:'1:14742-G-A',  position: 14742, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 18, chr: 1,variant:'1:14748-G-A',  position: 14748, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 19, chr: 1,variant:'1:14752-G-A',  position: 14752, ref: 'G', alt: 'A',province:'Yunnan'},
+  { id: 20, chr: 1,variant:'1:14754-G-C',  position: 14754, ref: 'G', alt: 'C',province:'Yunnan'},
+]);
+
+// 定义每一列的宽度，这里只是示例，你可以根据需求自定义
+const columnWidths = {
+  variant: 150,
+  chr: 100,
+  position: 120,
+  province:100,
+  ref: 80,
+  alt: 80,
+  refFrequency: 120,
+  altFrequency: 120,
+  dataset:200,
+  sampleSize:105,
+};
+
+// 根据列名获取对应的宽度
+const getColumnWidth = (columnName) => {
+  return `${columnWidths[columnName]}px`;
+};
+
+const selectedRows = ref([]); // 存储选中的行
+
+const handleSelectionChange = (selection: any[]) => {
+  selectedRows.value = selection; // 更新选中的数据
+};
+
+// 导出选中行到 Excel
+const exportToExcel = () => {
+  if (!selectedRows.value.length) {
+    alert('Please select at least one row to export.');
+    return;
+  }
+
+  const sheetData = selectedRows.value.map(row => ({
+    ID: row.id,
+    Variant: row.variant,
+    Chromosome: row.chr,
+    Position: row.position,
+    Reference: row.ref,
+    Alternative: row.alt,
+  }));
+
+  // 创建工作簿和工作表
+  const worksheet = XLSX.utils.json_to_sheet(sheetData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Selected Data');
+
+  // 导出文件
+  XLSX.writeFile(workbook, 'SelectedData.xlsx');
+};
+
+const currentPage = ref(1);
+const pageSize = ref(10);
+const small = ref(false);
+const background = ref(false);
+const disabled = ref(false);
+
+const handleSizeChange = (val: number) => {
+  console.log(`${val} 条每页`);
+};
+const handleCurrentChange = (val: number) => {
+  console.log(`当前页: ${val}`);
+};
+
+
+// 生成对应的URL
+const navigateToFurtherInfo = (row) => {
+  const params = new URLSearchParams({
+    id: row.id,
+    variant: row.variant,
+    chr: row.chr.toString(),
+    position: row.position.toString(),
+    ref: row.ref,
+    alt: row.alt,
+    dataset:row.dataset
+  });
+  const url = `/further_info?${params.toString()}`;
+  window.location.href = url; // 跳转到目标页面
 };
 </script>
 
+
 <template>
-  <div class="page-container">
-    <el-card class="search-card">
-      <div class="searching-container">
-        <!-- 选择搜索类型 -->
-        <el-form inline>
-          <el-form-item label="Section">
-            <el-select v-model="searchType" placeholder="Select Section" style="width: 220px;">
-              <el-option label="All Individuals" value="individuals"></el-option>
-              <el-option label="By Region" value="region"></el-option>
-              <el-option label="By Province" value="province"></el-option>
-            </el-select>
-          </el-form-item>
+  <div class="gene-container">
+    <!-- 标题区域 -->
+    <div class="header-container">
+      <h2 class="page-title">By Province</h2>
+      <el-button 
+        type="primary" 
+        size="small" 
+        @click="exportToExcel"
+      >
+        Download
+      </el-button>
+    </div>
 
-          <!-- 选择染色体 -->
-          <el-form-item label="Chromosome">
-            <el-select v-model="selectedChr" placeholder="Select Chromosome" style="width: 220px;">
-              <el-option v-for="chr in chromosomes" :key="chr" :label="chr" :value="chr"></el-option>
-            </el-select>
-          </el-form-item>
+    <!-- 表格区域 -->
+    <el-table :data="tableData" border style="margin: auto; text-align: center;" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center"></el-table-column> 
+      <el-table-column
+        :prop="index"
+        :label="item"
+        v-for="(item, index) in tableHeader"
+        :key="index"
+        :width="getColumnWidth(index)"
+        align="center"
+        header-align="center"
+      >
+      </el-table-column>
+      <el-table-column label="Further Info" width="120">
+        <template #default="{ row }">
+          <div class="centered-link">
+            <el-button type="primary" size="small" @click="navigateToFurtherInfo(row)">
+              INFO
+            </el-button>
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
 
-          <!-- 输入 Variant 或 rsID -->
-          <el-form-item label="Variant / rsID">
-            <el-input v-model="input" style="width: 400px;" placeholder="Enter Variant or rsID"></el-input>
-          </el-form-item>
-
-          <!-- 如果选择了 Region，显示 Region 输入框 -->
-          <el-form-item v-if="searchType === 'region'" label="Region">
-            <el-input v-model="region" style="width: 220px;" placeholder="Enter Region"></el-input>
-          </el-form-item>
-
-          <!-- 如果选择了 Province，显示 Province 输入框 -->
-          <el-form-item v-if="searchType === 'province'" label="Province">
-            <el-input v-model="province" style="width: 300px;" placeholder="Enter Province"></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
-
-      <!-- 提交按钮 -->
-      <div class="button-container">
-        <el-button type="primary" class="submit-button" @click="handleSubmit">
-          <strong>Search</strong>
-        </el-button>
-      </div>
-    </el-card>
-
-    <!-- 信息卡片 -->
-    <el-card class="info-card">
-      <p class="info-title">e.g. Variants: 1:11847591; rsID: rs5063;</p>
-      <p>
-        The BiG Database for Han Population (BiG.Data) is a resource developed by the Human Population Omics Group. It aims to use computational approaches to dissect genetic architecture, quantitatively characterize diversity, and reveal demographic history.
-      </p>
-      <p>
-        The dataset spans 257,519,942 SNPs and 20,000+ whole-genome sequences from 11 modern Han population datasets. Data contributors and project details can be found <a href="/about">here</a>.
-      </p>
-      <p>
-        Both chromosome numbers with physical location and rsIDs are supported for variant search. Detailed SNV information is accessible and visualizable through this platform.
-      </p>
-    </el-card>
+    <!-- 分页 -->
+    <div class="pagination-container">
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[10, 20, 30, 40]"
+        :small="small"
+        :disabled="disabled"
+        :background="background"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="tableData.length"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </div>
 </template>
 
+
+
 <style scoped>
-.page-container {
-  width: 100%;
-  padding: 20px;
+.gene-container{
+  margin: auto;
+  padding: 1%;
+  width: fit-content; /* 让容器宽度根据内容自动调整 */
+}
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 .page-title {
-  text-align: center;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
   color: #2c3e50;
 }
-.search-card {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-  background: white;
+.el-table {
+  border: 1px solid #dcdfe6; /* 边框变细 */
+  width: 100%; /* 表格宽度充满父容器 */
+  margin: 0 auto; /* 表格居中 */
+  text-align: center; /* 表格内容居中 */
 }
-.info-card {
-  max-width: 900px;
-  margin: 10px auto;
-  padding: 10px;
-  border-radius: 12px;
-  background: white;
-  color: #34495e;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-.info-title {
-  font-size: 16px;
-  font-weight: bold;
-  color: #27ae60;
-  margin-bottom: 15px;
-}
-.searching-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
-}
-.button-container {
+
+::v-deep .el-table th {
+  background-color: #f8f4f4; /* 背景淡灰色 */
+  color: black; /* 字体黑色 */
   text-align: center;
+}
+.el-table th, .el-table td {
+  text-align: center; /* 表头和表格内容居中 */
+}
+
+.demo-pagination-block + .demo-pagination-block {
   margin-top: 10px;
 }
-.submit-button {
-  padding: 10px 40px;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 8px;
+
+.demo-pagination-block .demonstration {
+  margin-bottom: 16px;
+}
+.centered-link {
+  text-align: center;
+}
+
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.el-button {
   background: linear-gradient(135deg, #5795ef, #3a6dd5);
-  color: white;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
   transition: all 0.3s ease;
 }
-.submit-button:hover {
+
+.el-button:hover {
   background: linear-gradient(135deg, #3a6dd5, #5795ef);
-  transform: translateY(-3px);
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
-a {
-  color: #3498db;
-  font-weight: bold;
-  text-decoration: none;
-}
-a:hover {
-  color: #2ecc71;
+
+.el-button[disabled] {
+  background-color: #f2f2f2;
+  border-color: #dcdfe6;
+  color: #c0c4cc;
 }
 </style>

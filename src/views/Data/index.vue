@@ -405,22 +405,22 @@ const datasetData = ref([
 }
 
 .navigation-item {
-  width: 300px;
   font-size: 18px;
   font-weight: bold;
-  color: #ecf0f1;
+  color: #ecf0f1; /* 默认字体颜色 */
+  flex: 1;
   text-align: center;
-  padding: 15px 30px;
-  margin: 0 50px; /* 增加标签间距 */
-  border-radius: 15px;
+  padding: 15px;
+  border-radius: 8px; /* 边框圆角 */
   cursor: pointer;
-  background-color: transparent;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 30px; /* 间距 */
+  background-color: transparent; /* 透明背景 */
+  transition: all 0.3s ease; /* 添加过渡效果 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
 }
 
 .navigation-item:hover {
-  background: linear-gradient(to right, #1abc9c, #16a085); /* 渐变高亮效果 */
+  background-color: rgba(255, 255, 255, 0.2);  /* 渐变高亮效果 */
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

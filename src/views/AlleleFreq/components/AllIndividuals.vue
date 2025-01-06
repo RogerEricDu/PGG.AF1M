@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue'; // 从 Vue 中导入 ref
 import * as XLSX from 'xlsx'; // 导入 XLSX
-import axios from 'axios'; // 导入 axios
+import { getAllIndividualData } from '@/api/table';
 
 const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
   position: 'Position',
+  population:'Population',
   ref: 'Ref',
   alt: 'Alt',
   refFrequency: 'Ref Frequency',
@@ -21,7 +22,8 @@ const tableData = ref([]); // 初始化为空数组，待后端返回数据填�
 const searchParams = ref({
   referencePanel: '',
   dataType: '',
-  dataLayer: 'individuals',
+  dataLayer: 'Individuals',
+  population:'',
   chromosome: '',
   position: '',
   rsid: '',
@@ -32,6 +34,7 @@ const searchParams = ref({
 
 const availableDataTypes = ref([]);
 const handleReferencePanelChange = () => {
+  searchParams.value.dataType = ''
   if (searchParams.value.referencePanel === 'T2T') {
     availableDataTypes.value = ['TGS'];
   } else {
@@ -42,7 +45,7 @@ const handleReferencePanelChange = () => {
 // 搜索并请求后端数据
 const handleSearch = async () => {
   try {
-    const response = await axios.post('/select/snp', searchParams.value);
+    const response = await getAllIndividualData(searchParams.value);
     console.log('Search Results:', response.data);
   } catch (error) {
     console.error('Error:', error);
@@ -53,7 +56,8 @@ const handleReset = () => {
   searchParams.value = {
     referencePanel: '',
     dataType: '',
-    dataLayer: 'individuals',
+    dataLayer: 'Individuals',
+    population:'',
     chromosome: '',
     position: '',
     rsid: '',
@@ -68,6 +72,7 @@ const columnWidths = {
   chr: 100,
   position: 120,
   province: 100,
+  population: 120,
   ref: 80,
   alt: 80,
   refFrequency: 120,
@@ -147,10 +152,11 @@ const navigateToFurtherInfo = (row) => {
 <template>
   <div class="gene-container">
     <!-- 高级表单区域 -->
+    <h2 class="page-title">Search Bar</h2>
     <div class="search-bar">
       <!-- 选择 Reference Panel -->
       <div class="form-item">
-        <label for="referencePanel" class="form-label">Reference Panel:</label>
+        <label for="referencePanel">Reference Panel:</label>
         <el-select
           v-model="searchParams.referencePanel"
           placeholder="Select Reference Panel"
@@ -166,7 +172,7 @@ const navigateToFurtherInfo = (row) => {
 
       <!-- 数据类型 -->
       <div class="form-item">
-        <label for="dataType" class="form-label">Data Type:</label>
+        <label for="dataType">Data Type:</label>
         <el-select
           v-model="searchParams.dataType"
           placeholder="Select Data Type"
@@ -182,20 +188,32 @@ const navigateToFurtherInfo = (row) => {
         </el-select>
       </div>
 
-      <!-- 数据分层 -->
+      <!-- 民族 -->
       <div class="form-item">
-        <label for="dataLayer" class="form-label">Data Layer:</label>
+        <label for="population">Population:</label>
+        <el-input
+          v-model="searchParams.population"
+          placeholder="Population"
+          clearable
+          id="Population"
+        />
+      </div>
+
+      <!-- 数据分层 -->
+<!--       <div class="form-item">
+        <label for="dataLayer">Data Layer:</label>
         <el-input
           v-model="searchParams.dataLayer"
           placeholder="Data Layer"
           readonly
           id="dataLayer"
+          disabled
         />
-      </div>
+      </div> -->
 
       <!-- 选择染色体 -->
       <div class="form-item">
-        <label for="chromosome" class="form-label">Chromosome:</label>
+        <label for="chromosome">Chromosome:</label>
         <el-select
           v-model="searchParams.chromosome"
           placeholder="Select Chromosome"
@@ -210,38 +228,41 @@ const navigateToFurtherInfo = (row) => {
 
       <!-- 位置输入 -->
       <div class="form-item">
-        <label for="position" class="form-label">Position:</label>
+        <label for="position">Position:</label>
         <el-input
           v-model="searchParams.position"
           placeholder="Position"
           clearable
-          prefix-icon="el-icon-map-location"
           id="position"
         />
       </div>
 
       <!-- RSID 输入 -->
       <div class="form-item">
-        <label for="rsid" class="form-label">RSID:</label>
+        <label for="rsid">RSID:</label>
         <el-input
           v-model="searchParams.rsid"
           placeholder="RSID"
           clearable
-          prefix-icon="el-icon-search"
           id="rsid"
         />
       </div>
 
       <!-- Variant 输入 -->
       <div class="form-item">
-        <label for="variant" class="form-label">Variant:</label>
+        <label for="variant">Variant:</label>
         <el-input
           v-model="searchParams.variant"
           placeholder="Variant"
           clearable
-          prefix-icon="el-icon-document"
           id="variant"
         />
+      </div>
+
+      <!-- 空着的TIPS预输入，后续可以在这里添加内容 -->
+      <div class="form-item">
+        <label for="TIPS"></label>
+
       </div>
 
       <!-- 按钮组 -->
@@ -311,19 +332,71 @@ const navigateToFurtherInfo = (row) => {
 
 <style scoped>
 .search-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  width:1280px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 每行三个格子 */
+  gap: 20px;
   padding: 20px;
   background: linear-gradient(135deg, #e9efff, #ffffff);
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-.form-item {
-  flex: 1;
-  min-width: 200px;
+  margin-bottom: 20px;
 }
 
+.search-bar .form-item {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.form-item label {
+  width: 150px; /* 设置label宽度 */
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-item .el-select, .form-item .el-input {
+  width: 250px; /* 输入框和选择框占满剩余空间 */
+}
+
+.button-group {
+  grid-column: span 1; /* 按钮组占一格 */
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.el-button {
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.el-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.el-button[disabled] {
+  background-color: #f2f2f2;
+  border-color: #dcdfe6;
+  color: #c0c4cc;
+}
+
+.search-bar .form-item input, .search-bar .form-item select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #dcdfe6;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar .form-item input:focus, .search-bar .form-item select:focus {
+  border-color: #3a6dd5;
+  box-shadow: 0px 0px 8px rgba(58, 109, 213, 0.5);
+}
 .gene-container{
   margin: auto;
   padding: 1%;
@@ -342,7 +415,7 @@ const navigateToFurtherInfo = (row) => {
 }
 .el-table {
   border: 1px solid #dcdfe6; /* 边框变细 */
-  width: 1250px; /* 表格宽度充满父容器 */
+  width: 1370px; /* 表格宽度充满父容器 */
   margin: 0 auto; /* 表格居中 */
   text-align: center; /* 表格内容居中 */
 }
@@ -373,26 +446,5 @@ const navigateToFurtherInfo = (row) => {
   justify-content: center;
   align-items: center;
 }
-.el-button {
-/*   background: linear-gradient(135deg, #5795ef, #3a6dd5); */
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-}
 
-.el-button:hover {
-/*   background: linear-gradient(135deg, #3a6dd5, #5795ef); */
-  transform: translateY(-2px);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.el-button[disabled] {
-  background-color: #f2f2f2;
-  border-color: #dcdfe6;
-  color: #c0c4cc;
-}
 </style>

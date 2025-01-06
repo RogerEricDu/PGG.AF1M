@@ -3,7 +3,7 @@ import request from '@/utils/request'
 
 export function getAllIndividualData(data) {
   return request({
-    url: '/table/allIndividual',
+    url: '/select/individualSNP',
     method: 'post',
     data
   })
@@ -11,7 +11,7 @@ export function getAllIndividualData(data) {
 
 export function getByProvinceData(data) {
   return request({
-    url: '/table/byProvince',
+    url: '/select/provinceSNP',
     method: 'post',
     data
   })
@@ -19,7 +19,7 @@ export function getByProvinceData(data) {
 
 export function getByRegionData(data) {
   return request({
-    url: '/table/byRegion',
+    url: '/select/regionSNP',
     method: 'post',
     data
   })

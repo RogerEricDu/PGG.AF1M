@@ -54,6 +54,7 @@ app.use(createPinia())
 app.use(router)
 app.use(ElementPlus)
 
+
 //axios加入app实例
 axios.defaults.baseURL = "http://localhost:8081" // baseURL,后需要修改
 
