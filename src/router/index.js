@@ -2,8 +2,6 @@
 //createWebHistory 创建history模式的路由
 
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '@/views/Login/index.vue'
-import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
 import AlleleFreqHome from '@/views/AlleleFreq/index.vue'
 import AllIndividuals from '@/views/AlleleFreq/components/AllIndividuals.vue'
@@ -25,24 +23,26 @@ import GWAS from '@/views/Tools/component/GWAS.vue'
 import Results from '@/views/Tools/component/Results.vue'
 import Help from '@/views/Help/index.vue'
 import Data from '@/views/Data/index.vue'
+import User from '@/views/User/index.vue'
+import Login from '@/views/User/component/login.vue'
+import Register from '@/views/User/component/register.vue'
+import Profile from '@/views/User/component/profile.vue'
+import Admin from '@/views/User/component/admin.vue'
+import { useAuthStore } from '@/store/authStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   //path和component对应关系的位置
   routes: [
-    {
-      path:'/',
-      component:Layout,
-      meta: { requiresAuth: true }, // 需要登录才能访问的页面
-      children:[ //二级路由
       {
-        path:'',
+        path:'/',
+        name:'Home',
         component:Home
       }, 
       {
-        path:'data',
+        path:'/data',
+        name:'Data',
         component:Data,
-        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
 /*       {
         path:'statistics',
@@ -57,10 +57,9 @@ const router = createRouter({
         ]
       }, */
       {
-        path:'allelefreq',
+        path:'/allelefreq',
         name:'AlleleFreq',
         component:AlleleFreqHome, 
-        meta: { requiresAuth: true }, // 需要登录才能访问的页面
         children: [
           { path: 'all_ind', component: AllIndividuals },
           { path: 'by_province', component: ByProvince },
@@ -68,49 +67,68 @@ const router = createRouter({
         ]
       },
       {
-        path:'further_info',
+        path:'/further_info',
+        name:'FurtherInfo',
         component:FurtherInfo,
-        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
       {
-        path:'tools',
+        path:'/tools',
+        name:'Tools',
         component:Tools,
-        meta: { requiresAuth: true }, // 需要登录才能访问的页面
         children: [
-          { path: 'DataUpload', component: DataUpload },
-          { path: 'Imputation', component: Imputation },
-          { path: 'Results', component: Results },
-          { path: 'GWAS',component:GWAS }
+          { path: 'DataUpload', component: DataUpload, meta: { requiresAuth: true } },
+          { path: 'Imputation', component: Imputation, meta: { requiresAuth: true }  },
+          { path: 'Results', component: Results, meta: { requiresAuth: true }  },
+          { path: 'GWAS',component:GWAS, meta: { requiresAuth: true }  }
         ]
       },
       {
-        path:'summary',
+        path:'/summary',
+        name:'Summary',
         component:Summary,
-        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
       {
-        path:'about',
+        path:'/about',
+        name:'About',
         component:About,
-        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
       {
-        path:'guide',
+        path:'/guide',
+        name:'Guide',
         component:Guide,
-        meta: { requiresAuth: true }, // 需要登录才能访问的页面
       },
       {
-        path:'help',
+        path:'/help',
+        name:'Help',
         component:Help,
-        meta: { requiresAuth: true }, // 需要登录才能访问的页面
+      },
+      {
+        path:'/user',
+        name:'User',
+        component:User,
+        children: [
+          { path: 'login', name: 'Login', component: Login },
+          { path: 'register', name: 'Register', component: Register }, 
+          { path: 'profile', name: 'Profile', component: Profile, meta: { requiresAuth: true } }, //需要登录
+          { path: 'admin', name: 'Admin', component: Admin, meta: { requiresAdmin: true } } //需要管理员
+        ]
       },
       ]
     },
-    {
-      path:'/login',
-      component:Login
-    },
-  ]
-})
+)
 
+
+router.beforeEach((to,from,next) =>{
+  const authStore = useAuthStore();
+  const userIsAuthenticated = authStore.isLoggedIn;
+  const userIsAdmin = authStore.user?.role ===1;
+  if(to.matched.some(record => record.meta.requiresAuth) && !userIsAuthenticated){
+    next({name:'Login'});
+  }else if(to.matched.some(record => record.meta.requiresAdmin) && !userIsAdmin){
+    next({name:'Home'})
+  }else{
+    next();
+  }
+});
 
 export default router

@@ -332,8 +332,10 @@ const navigateToFurtherInfo = (row) => {
 
 <style scoped>
 .search-bar {
-  width:1280px;
+  width:1370px;
   display: grid;
+  align-items: center;    /* 水平居中 */
+  justify-content: center; /* 垂直居中 */
   grid-template-columns: repeat(3, 1fr); /* 每行三个格子 */
   gap: 20px;
   padding: 20px;
@@ -357,7 +359,7 @@ const navigateToFurtherInfo = (row) => {
 }
 
 .form-item .el-select, .form-item .el-input {
-  width: 250px; /* 输入框和选择框占满剩余空间 */
+  width: 270px; /* 输入框和选择框占满剩余空间 */
 }
 
 .button-group {

@@ -34,6 +34,9 @@ const { y } = useScroll(window)
           <li :class="{ active: $route.path === '/guide' }">
             <RouterLink to="/guide">Guide</RouterLink>
           </li>
+          <li :class="{ active: $route.path === '/user' }">
+          <RouterLink to="/user/profile">User</RouterLink>
+           </li>
         </ul>
       </div>
     </div>

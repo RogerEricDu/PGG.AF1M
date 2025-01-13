@@ -2,6 +2,7 @@
 //设置请求的默认参数、拦截器等
 import axios from 'axios'
 import { getToken } from '@/utils/auth'
+import { ElMessage } from 'element-plus'
 
 // 创建一个 Axios 实例
 const service = axios.create({
@@ -41,29 +42,21 @@ service.interceptors.request.use(
 
 // 响应拦截器
 service.interceptors.response.use(
-    response => {
-      const res = response.data
-      if (res.code !== 200) {
-        // 如果后端返回的 code 不为 200，则视为错误
-        this.$message({
-          message: res.message || 'Error',
-          type: 'error',
-          duration: 5000
-        })
-        return Promise.reject(new Error(res.message || 'Error'))
-      } else {
-        return res
-      }
-    },
-    error => {
-      console.error('Response error: ', error)
-      this.$message({
-        message: error.message,
-        type: 'error',
-        duration: 5000
-      })
-      return Promise.reject(error)
+  response => {
+    const res = response.data
+    if (res.code !== 200) {
+      ElMessage.error(res.message || 'Error')
+      return Promise.reject(new Error(res.message || 'Error'))
+    } else {
+      return res
     }
+  },
+  error => {
+    console.error('Response error:', error)
+    ElMessage.error(error.response?.data?.message || 'Request failed')
+    return Promise.reject(error)
+  }
 )
-  
+
+
 export default service

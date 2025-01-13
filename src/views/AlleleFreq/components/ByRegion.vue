@@ -7,6 +7,7 @@ const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
   position: 'Position',
+  population:'Population',
   region:'Region',
   ref: 'Ref',
   alt: 'Alt',
@@ -22,7 +23,7 @@ const tableData = ref([]); // 初始化为空数组，待后端返回数据填�
 const searchParams = ref({
   referencePanel: '',
   dataType: '',
-  dataLayer: 'Region',
+  population: '',
   chromosome: '',
   position: '',
   rsid: '',
@@ -54,7 +55,7 @@ const handleReset = () => {
   searchParams.value = {
     referencePanel: '',
     dataType: '',
-    dataLayer: 'Region',
+    population: '',
     chromosome: '',
     position: '',
     rsid: '',
@@ -69,6 +70,7 @@ const columnWidths = {
   chr: 100,
   position: 120,
   region:100,
+  population: 120,
   ref: 80,
   alt: 80,
   refFrequency: 120,
@@ -184,15 +186,14 @@ const navigateToFurtherInfo = (row) => {
         </el-select>
       </div>
 
-      <!-- 数据分层 -->
+      <!-- 民族 -->
       <div class="form-item">
-        <label for="dataLayer">Data Layer:</label>
+        <label for="population">Population:</label>
         <el-input
-          v-model="searchParams.dataLayer"
-          placeholder="Data Layer"
-          readonly
-          id="dataLayer"
-          disabled
+          v-model="searchParams.population"
+          placeholder="Population"
+          clearable
+          id="Population"
         />
       </div>
 
@@ -404,7 +405,7 @@ const navigateToFurtherInfo = (row) => {
 }
 .el-table {
   border: 1px solid #dcdfe6; /* 边框变细 */
-  width: 1350px; /* 表格宽度充满父容器 */
+  width: 1470px; /* 表格宽度充满父容器 */
   margin: 0 auto; /* 表格居中 */
   text-align: center; /* 表格内容居中 */
 }

@@ -2,7 +2,6 @@
 import AllIndividuals from './components/AllIndividuals.vue'
 import ByProvince from './components/ByProvince.vue'
 import ByRegion from './components/ByRegion.vue'
-import SearchingBar from './components/SearchingBar.vue'
 export default {
   // 导入上传接口
   name: 'import',
@@ -16,7 +15,6 @@ export default {
     AllIndividuals, // 注册GeneTable组件
     ByProvince,
     ByRegion,
-    SearchingBar
   }
 } 
 
@@ -51,7 +49,7 @@ export default {
 .AlleleFreq-page-container {
   display: flex;
   flex-direction: column;
-  width: 1500px;
+  width: 90%;
   margin: 0 auto;
   background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 高级感背景 */
   border-radius: 15px;
