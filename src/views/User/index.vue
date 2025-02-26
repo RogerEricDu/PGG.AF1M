@@ -62,7 +62,7 @@ watch(
 .user-page-container {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
   background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 高级感背景 */
   border-radius: 15px;

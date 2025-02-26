@@ -14,7 +14,7 @@
         </div>
         <div class="info-row">
           <p><strong>Ref:</strong> {{ refAllele }}</p>
-          <p><strong>Alt:</strong> {{ alt }}</p>
+          <p><strong>Alt:</strong> {{ altAllele }}</p>
           <p><strong>Dataset:</strong> {{ dataset }}</p>
         </div>
         <div class="info-row">
@@ -140,12 +140,10 @@ const variant = ref('');
 const chr = ref('');
 const position = ref('');
 const refAllele = ref('');
-const alt = ref('');
+const altAllele = ref('');
 const dataset = ref('');
 const region = ref('');
 const province = ref('');
-
-//这些变量后面要post到后端在读取
 const rsID = ref('')
 const variationClass = ref('');
 const refAlleleFrequency = ref('');
@@ -160,19 +158,30 @@ const dbSNP = ref('');
 const pggSNV = ref('');
 const gnomAD = ref('');
 
-
+console.log(route.query);
 const activeTab = ref('tab1'); // 默认激活的标签页
 
-// 提取 URL 中的查询参数
 onMounted(() => {
-  variant.value = route.query.variant as string;
-  chr.value = route.query.chr as string;
-  position.value = route.query.position as string;
-  refAllele.value = route.query.ref as string;
-  alt.value = route.query.alt as string;
-  dataset.value = route.query.dataset as string;
-  region.value = route.query.region as string;
-  province.value = route.query.province as string;
+  const rawData = route.query.data as string; // 从 route.query 获取字符串化的 JSON
+  if (rawData) {
+    const parsedData = JSON.parse(rawData); // 将字符串解析为对象
+    variant.value = parsedData.variant;
+    chr.value = parsedData.chr;
+    position.value = parsedData.position;
+    refAllele.value = parsedData.refAllele;
+    altAllele.value = parsedData.altAllele;
+    dataset.value = parsedData.dataset;
+    refAlleleFrequency.value = parsedData.refAlleleFrequency;
+    altAlleleFrequency.value = parsedData.altAlleleFrequency;
+    homoRef.value = parsedData.genotype1;
+    hetero.value = parsedData.genotype2;
+    homoAlt.value = parsedData.genotype3;
+    homoRefFrequency.value = parsedData.genotypeFrequency1;
+    heteroFrequency.value = parsedData.genotypeFrequency2;
+    homoAltFrequency.value = parsedData.genotypeFrequency3;
+  } else {
+    console.error('No data found in route.query!');
+  }
 });
 
 // 切换标签页的回调函数

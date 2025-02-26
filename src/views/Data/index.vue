@@ -340,6 +340,7 @@ const datasetData = ref([
 }
 
 .dynamic-stats {
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   gap: 20px; /* 增加间隔 */

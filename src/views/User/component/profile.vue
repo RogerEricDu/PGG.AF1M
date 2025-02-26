@@ -2,104 +2,215 @@
   <div class="profile-page">
     <!-- 左侧部分 -->
     <div class="profile-sidebar">
-      <div class="profile-image-wrapper">
-        <img src="/HomeIcon.png" alt="Profile" class="profile-image" />
+      <!-- 头像上传 -->
+      <div class="avatar-uploader">
+        <el-upload
+          action="/api/upload"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+        >
+          <div class="profile-image-wrapper hover-effect">
+            <img :src="avatarUrl" class="profile-image" />
+            <div class="edit-overlay">
+              <el-icon :size="30"><Upload /></el-icon>
+            </div>
+          </div>
+        </el-upload>
       </div>
+
+      <!-- 登出按钮 -->
       <el-button
         type="danger"
-        class="logout-button"
+        class="custom-logout-button"
         @click="logout"
-        style="margin-top: 20px;"
       >
-        Logout
+        <div class="icon-container">
+          <el-icon><UserFilled /></el-icon>
+          <el-icon><Right /></el-icon>
+        </div>
+        <div class="text-container">
+          <slot>Logout</slot>
+        </div>
       </el-button>
     </div>
 
     <!-- 右侧部分 -->
     <div class="profile-content">
-      <!-- 动态内容 -->
       <div class="profile-tab-content">
-        <el-form
-          ref="profileFormRef"
-          :model="profileForm"
-          :rules="rules"
-          label-width="120px"
-          @submit.prevent="updateProfile"
-          class="profile-form"
-        >
-          <el-form-item label="Username" prop="username">
-            <el-input
-              type="username"
-              v-model="profileForm.username"
-              placeholder="Enter your username"
-              clearable
-            />
-          </el-form-item>
-          <el-form-item label="New Password" prop="password">
-            <el-input
-              :type="passwordVisible ? 'text' : 'password'"
-              v-model="profileForm.password"
-              placeholder="Enter new password"
-              clearable
+        <!-- 将 transition 内部的所有内容包裹在一个 div 中 -->
+        <transition name="fade-slide">
+          <div>
+            <!-- 更新资料按钮和第三方账号绑定按钮 -->
+            <div class="button-group">
+              <el-button
+                v-if="!isFormVisible"
+                class="update-profile-button"
+                type="primary" 
+                @click="toggleFormVisibility"
+              >
+                <el-icon><EditPen /></el-icon>Update Your Profile
+              </el-button>
+
+              <el-button
+                v-if="!isSocialFormVisible"
+                class="bind-social-button"
+                type="success"
+                @click="toggleSocialFormVisibility"
+              >
+                <el-icon><Link /></el-icon>Bind Social Accounts
+              </el-button>
+            </div>
+
+            <!-- 资料表单 -->
+            <el-form
+              v-if="isFormVisible"
+              ref="profileFormRef"
+              :model="profileForm"
+              :rules="rules"
+              label-width="120px"
+              @submit.prevent="updateProfile"
+              class="profile-form animated"
             >
-              <template #suffix>
-                <el-icon
-                  class="password-toggle"
-                  :name="passwordVisible ? 'view' : 'view-off'"
-                  @click="togglePasswordVisibility"
+              <!-- 原有的表单内容 -->
+              <el-form-item label="Username" prop="username">
+                <el-input
+                  type="text"
+                  v-model="profileForm.username"
+                  placeholder="Enter your username"
+                  clearable
+                />
+              </el-form-item>
+              <el-form-item label="New Password" prop="password">
+                <el-input
+                  :type="passwordVisible ? 'text' : 'password'"
+                  v-model="profileForm.password"
+                  placeholder="Enter new password"
+                  clearable
                 >
-                  <Hide
-                    :class="passwordVisible ? 'el-icon-view' : 'el-icon-view-off'"
-                  ></Hide>
-                </el-icon>
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item label="Confirm" prop="confirm">
-            <el-input
-              :type="passwordVisible ? 'text' : 'password'"
-              v-model="profileForm.confirm"
-              placeholder="Confirm new password"
-              clearable
-            ></el-input>
-            <p v-if="passwordMismatch" class="error-text">Passwords do not match!</p>
-          </el-form-item>
-          <el-form-item label="Email" prop="email">
-            <el-input
-              type="email"
-              v-model="profileForm.email"
-              placeholder="Enter your email"
-              clearable
-            ></el-input>
-            <p v-if="!emailValid && profileForm.email" class="error-text">Invalid email address!</p>
-          </el-form-item>
-          <el-form-item label="Organization">
-            <el-input
-              v-model="profileForm.organization"
-              placeholder="Enter your organization"
-              clearable
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="Department">
-            <el-input
-              v-model="profileForm.department"
-              placeholder="Enter your department"
-              clearable
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="Phone Number">
-            <el-input
-              v-model="profileForm.phoneNumber"
-              placeholder="Enter your phone number"
-              clearable
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" native-type="submit">Confirm Update</el-button>
-            <el-button type="warning" @click="resetForm" class="reset-button">Reset</el-button>
-          </el-form-item>
-        </el-form>
+                  <template #suffix>
+                    <el-icon
+                      class="password-toggle"
+                      @click="togglePasswordVisibility"
+                    >
+                      <Hide v-if="passwordVisible" />
+                      <View v-else />
+                    </el-icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <el-form-item label="Confirm" prop="confirm">
+                <el-input
+                  :type="passwordVisible ? 'text' : 'password'"
+                  v-model="profileForm.confirm"
+                  placeholder="Confirm new password"
+                  clearable
+                />
+              </el-form-item>
+              <el-form-item label="Email">
+                <el-input
+                  type="email"
+                  v-model="profileForm.email"
+                  placeholder="Enter your email"
+                  clearable
+                />
+              </el-form-item>
+              <el-form-item label="Organization">
+                <el-input
+                  v-model="profileForm.organization"
+                  placeholder="Enter your organization"
+                  clearable
+                />
+              </el-form-item>
+              <el-form-item label="Department">
+                <el-input
+                  v-model="profileForm.department"
+                  placeholder="Enter your department"
+                  clearable
+                />
+              </el-form-item>
+              <el-form-item label="Phone Number">
+                <el-input
+                  v-model="profileForm.phone_number"
+                  placeholder="Enter your phone number"
+                  clearable
+                />
+              </el-form-item>
+              <el-form-item label="两步验证">
+                <div class="mfa-section">
+                  <el-switch v-model="mfaEnabled" />
+                  <el-button type="text" @click="showQrCode">
+                    {{ mfaEnabled ? '已启用' : '点击配置' }}
+                  </el-button>
+                </div>
+              </el-form-item>
+              <el-form-item>
+                <div style="display: flex; gap: 10px;">
+                  <el-button
+                    type="primary"
+                    native-type="submit"
+                    :disabled="!isFormValid"
+                  >
+                    <el-icon><Edit /></el-icon>Confirm Update
+                  </el-button>
+                  <el-button
+                    type="warning"
+                    @click="resetForm"
+                    class="reset-button"
+                  >
+                    <el-icon><Refresh /></el-icon>Reset
+                  </el-button>
+                </div>
+                <el-button
+                  type="danger"
+                  @click="toggleFormVisibility"
+                  class="cancel-button"
+                  style="margin-left: auto;"
+                >
+                  <el-icon><CircleClose /></el-icon>Cancel
+                </el-button>
+              </el-form-item>
+            </el-form>
+
+            <!-- 第三方账号绑定表单 -->
+            <el-form
+              v-if="isSocialFormVisible"
+              ref="socialFormRef"
+              :model="socialForm"
+              label-width="120px"
+              class="social-form animated"
+            >
+              <el-form-item label="GitHub">
+                <el-button
+                  type="primary"
+                  @click="bindSocial('github')"
+                >
+                  <el-icon><Link /></el-icon>Bind GitHub
+                </el-button>
+              </el-form-item>
+              <el-form-item label="Google">
+                <el-button
+                  type="primary"
+                  @click="bindSocial('google')"
+                >
+                  <el-icon><Link /></el-icon>Bind Google
+                </el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  type="danger"
+                  @click="toggleSocialFormVisibility"
+                  class="cancel-button"
+                >
+                  <el-icon><CircleClose /></el-icon>Cancel
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </transition>
       </div>
+
+      <!-- 嵌入 ResultsPage 组件 -->
+      <ResultsPage />
     </div>
   </div>
 </template>
@@ -110,13 +221,12 @@ import { useUserStore } from "@/store/userStore";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
+import ResultsPage from "./ResultsPage.vue"; // 引入 ResultsPage 组件
 
-// 使用 Pinia 的 store
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const router = useRouter();
 
-// 初始化表单
 const profileForm = ref({
   username: "",
   password: "",
@@ -124,13 +234,19 @@ const profileForm = ref({
   email: "",
   organization: "",
   department: "",
-  phoneNumber: "",
+  phone_number: "",
 });
 
-//表单验证
 const rules = {
   username: [{ required: true, message: "Please enter your username", trigger: "blur" }],
-  password: [{ required: true, message: "Please enter a new password", trigger: "blur" }],
+  password: [
+    { required: true, message: "Please enter a new password", trigger: "blur" },
+    {
+      validator: (_, value) =>
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,}$/.test(value),
+      message: "需包含大小写字母和数字，至少8位",
+    },
+  ],
   confirm: [
     { required: true, message: "Please confirm your new password", trigger: "blur" },
     {
@@ -144,20 +260,39 @@ const rules = {
       trigger: "blur",
     },
   ],
-  email: [
-    { required: true, message: "Please enter your email", trigger: "blur" },
-  ],
+  email: [{ required: true, message: "Please enter your email", trigger: "blur" }],
 };
 
-// 密码显示状态
+const socialForm = ref({}); // 第三方账号绑定表单数据
+
+const isFormVisible = ref(false); // 控制资料表单显示
+const isSocialFormVisible = ref(false); // 控制第三方账号绑定表单显示
 const passwordVisible = ref(false);
+const mfaEnabled = ref(false);
 
-// 切换密码显示状态
-const togglePasswordVisibility = () => {
-  passwordVisible.value = !passwordVisible.value;
+
+const toggleFormVisibility = () => {
+  isFormVisible.value = !isFormVisible.value;
+  isSocialFormVisible.value = false; // 关闭社交账号表单
 };
 
-// 重置表单
+const toggleSocialFormVisibility = () => {
+  isSocialFormVisible.value = !isSocialFormVisible.value;
+  isFormVisible.value = false; // 关闭资料表单
+};
+
+const passwordMismatch = computed(() => {
+  return profileForm.value.password !== profileForm.value.confirm;
+});
+
+const isFormValid = computed(() => {
+  return (
+    profileForm.value.username &&
+    profileForm.value.password &&
+    !passwordMismatch.value
+  );
+});
+
 const resetForm = () => {
   Object.assign(profileForm.value, {
     username: "",
@@ -166,32 +301,23 @@ const resetForm = () => {
     email: "",
     organization: "",
     department: "",
-    phoneNumber: "",
+    phone_number: "",
   });
 };
 
-// 更新用户信息
 const updateProfile = async () => {
-  if (passwordMismatch.value) {
-    ElMessageBox.alert("Passwords do not match!", "Error", { type: "error" });
-    return;
-  }
-  if (!emailValid.value) {
-    ElMessageBox.alert("Invalid email address!", "Error", { type: "error" });
-    return;
-  }
-
   try {
-    await userStore.updateUserInfo(profileForm.value);
+    const { confirm, ...data } = profileForm.value;
+    await userStore.updateUserInfo(data);
     ElMessageBox.alert("Profile updated successfully", "Success", {
       type: "success",
     });
+    toggleFormVisibility();
   } catch (error) {
     ElMessageBox.alert("Failed to update profile", "Error", { type: "error" });
   }
 };
 
-// 退出登录
 const logout = () => {
   ElMessageBox.confirm("Are you sure you want to log out?", "Confirm Logout", {
     confirmButtonText: "Yes",
@@ -204,65 +330,130 @@ const logout = () => {
     })
     .catch(() => {});
 };
+
+const handleAvatarSuccess = (response) => {
+  avatarUrl.value = response.url;
+};
+
+const showQrCode = () => {
+  // 显示二维码逻辑
+};
+
+const bindSocial = (platform) => {
+    // 绑定社交账号逻辑
+    ElMessageBox.alert(`Binding ${platform} account`, "Info", { type: "info" });
+};
 </script>
 
+
 <style scoped>
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
 .profile-page {
   display: flex;
   padding: 20px;
+  gap: 20px;
 }
 
 .profile-sidebar {
   flex: 1;
   max-width: 300px;
   display: flex;
+  
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
-.logout-button {
-  width: 80%;
+.profile-content {
+  flex: 3;
+  padding: 10px;
+  overflow: hidden; /* 防止内容溢出 */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.profile-image-wrapper {
+.profile-tab-content {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-tab-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.avatar-uploader .profile-image-wrapper {
   border: 5px solid #ddd;
   border-radius: 10px;
   overflow: hidden;
   padding: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-.profile-image {
+.avatar-uploader .edit-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.profile-content {
-  flex: 2;
-  padding: 20px;
+.avatar-uploader:hover .edit-overlay {
+  opacity: 1;
 }
 
-.profile-tab-content {
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.custom-logout-button {
+  margin-top: 20px;
 }
 
-.reset-button {
-  margin-left: 10px;
+.stats-cards {
+  margin-top: 20px;
 }
 
-.error-text {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
+.social-bindings {
+  margin-top: 20px;
 }
 
-.password-toggle {
-  cursor: pointer;
-  font-size: 16px;
-  color: #909399;
+.social-icons {
+  display: flex;
+  gap: 10px;
 }
+.el-button {
+    /* background: linear-gradient(135deg, #5795ef, #3a6dd5); */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  .el-button:hover {
+    filter: brightness(1.0); /* 提高亮度，使颜色变淡 */
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* 减弱阴影 */
+  }
+  
+  .el-button[disabled] {
+    background-color: #f2f2f2;
+    border-color: #dcdfe6;
+    color: #c0c4cc;
+  }
 </style>

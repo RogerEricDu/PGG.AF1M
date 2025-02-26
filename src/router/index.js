@@ -21,6 +21,7 @@ import DataUpload from '@/views/Tools/component/DataUpload.vue'
 import Imputation from '@/views/Tools/component/Imputation.vue'
 import GWAS from '@/views/Tools/component/GWAS.vue'
 import Results from '@/views/Tools/component/Results.vue'
+import BLAST from '@/views/Tools/component/BLAST.vue'
 import Help from '@/views/Help/index.vue'
 import Data from '@/views/Data/index.vue'
 import User from '@/views/User/index.vue'
@@ -78,7 +79,8 @@ const router = createRouter({
         children: [
           { path: 'DataUpload', component: DataUpload, meta: { requiresAuth: true } },
           { path: 'Imputation', component: Imputation, meta: { requiresAuth: true }  },
-          { path: 'Results', component: Results, meta: { requiresAuth: true }  },
+/*           { path: 'Results', component: Results, meta: { requiresAuth: true }  }, */
+          { path: 'BLAST',component:BLAST, meta: { requiresAuth: true }  },
           { path: 'GWAS',component:GWAS, meta: { requiresAuth: true }  }
         ]
       },

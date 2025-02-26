@@ -66,6 +66,11 @@
           <el-table-column prop="taskName" label="Task Name" />
           <el-table-column prop="fileName" label="File Name" />
           <el-table-column prop="panel" label="Panel" />
+          <el-table-column prop="progress" label="Progress">
+          <template #default="{ row }">
+            <el-progress :percentage="row.progress"></el-progress>
+          </template>
+          </el-table-column>
           <el-table-column prop="status" label="Status">
             <template #default="{ row }">
               <el-tag :type="row.status === 'Completed' ? 'success' : 'info'">
@@ -140,6 +145,28 @@ export default {
     },
   },
   methods: {
+      // 请求进度信息
+      async getProgress(taskName) {
+        try {
+            const response = await axios.get(`/api/imputation/status/${taskName}`);
+            this.uploadRecords = response.data;
+        } catch (error) {
+            console.error(error);
+            this.$message.error("Failed to fetch task status.");
+        }
+    },
+    // 更新任务状态
+    async updateProgress(id) {
+        try {
+            const response = await axios.get(`/api/imputation/record/${id}`);
+            const record = response.data;
+            // 在页面中展示任务状态和进度
+            this.selectedResult = record;
+        } catch (error) {
+            console.error(error);
+            this.$message.error("Failed to fetch task record.");
+        }
+    },
     handleFileChange(file) {
       this.fileLists = [file];
     },

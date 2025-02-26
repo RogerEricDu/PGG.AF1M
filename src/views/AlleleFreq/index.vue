@@ -3,14 +3,11 @@ import AllIndividuals from './components/AllIndividuals.vue'
 import ByProvince from './components/ByProvince.vue'
 import ByRegion from './components/ByRegion.vue'
 export default {
-  // 导入上传接口
-  name: 'import',
-    data() {
-        return {
-        };
-    },
-    methods: {
-    },
+  mounted(){
+    if (this.$route.path === '/allelefreq'){
+      this.$router.push('/allelefreq/all_ind');
+    }
+  },
   components: {
     AllIndividuals, // 注册GeneTable组件
     ByProvince,

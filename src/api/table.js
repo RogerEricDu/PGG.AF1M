@@ -9,9 +9,25 @@ export function getAllIndividualData(data) {
   })
 }
 
+export function getAllIndividualDataMerge(data) {
+  return request({
+    url: '/select/individualMergeSNP',
+    method: 'post',
+    data
+  })
+}
+
 export function getByProvinceData(data) {
   return request({
     url: '/select/provinceSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getByProvinceDataMerge(data) {
+  return request({
+    url: '/select/provinceMergeSNP',
     method: 'post',
     data
   })
@@ -21,7 +37,14 @@ export function getByRegionData(data) {
   return request({
     url: '/select/regionSNP',
     method: 'post',
-    data
+    data,
   })
 }
 
+export function getByRegionDataMerge(data) {
+  return request({
+    url: '/select/regionMergeSNP',
+    method: 'post',
+    data
+  })
+}

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { ref } from 'vue'; // 从 Vue 中导入 ref
+import { ref,onMounted, provide } from 'vue'; // 从 Vue 中导入 ref
 import * as XLSX from 'xlsx'; // 导入 XLSX
-import { getByProvinceData } from '@/api/table';
+import { getByProvinceData,getByProvinceDataMerge } from '@/api/table';
+import{ watch } from 'vue';
 
 const tableHeader = ref({
   variant: 'Variant',
@@ -17,19 +18,37 @@ const tableHeader = ref({
   sampleSize:'SampleSize',
 });
 
-const tableData = ref([]); // 初始化为空数组，待后端返回数据填充
+const SnpData = ref([]);  // 用来保存完整的响应数据
+const tableData = ref([]); // 表格数据
+const total = ref(0); // 数据总数
+
+// 分页参数
+const currentPage = ref(1);
+const pageSize = ref(10);
 
 // 高级表单的绑定值
 const searchParams = ref({
+  queryType: 'single', // 新增查询类型，默认'single'或'compare'
   referencePanel: '',
   dataType: '',
-  population: '',
-  chromosome: '',
+  dataLayer: 'Province',
+  population: 'han',
+  chromosome: '1',
   position: '',
   rsid: '',
   variant: '',
-  province: '',
+  province: 'Anhui',
 });
+
+// 添加queryType的watch监听
+watch(
+  () => searchParams.value.queryType,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      fetchData();
+    }
+  }
+);
 
 const availableDataTypes = ref([]);
 const handleReferencePanelChange = () => {
@@ -41,20 +60,82 @@ const handleReferencePanelChange = () => {
   }
 };
 
-// 搜索并请求后端数据
-const handleSearch = async () => {
+//请求数据
+const fetchData = async () => {
   try {
-    const response = await getByProvinceData(searchParams.value);
-    console.log('Search Results:', response.data);
+    const params = {
+      ...searchParams.value,
+      page: currentPage.value,
+      size: pageSize.value,
+    };
+      // 根据queryType选择API方法
+      const apiMethod = searchParams.value.queryType === 'single' 
+    ? getByProvinceDataMerge 
+    : getByProvinceData;
+
+    const response = await apiMethod(params); // 动态调用API
+
+    console.log('Raw Response:', response); // 添加调试日志
+
+    const responseData = response.data;
+
+    // 如果返回的数据直接是数组
+    if (Array.isArray(responseData)) {
+      console.log('Parsed Response Data:', responseData);
+      SnpData.value = responseData; // 直接赋值
+      total.value = responseData.length; // 如果后端没有返回总数，可以直接用数组的长度
+
+      // 注意，这里不再过滤字段，而是直接将所有字段传递给表格
+      tableData.value = SnpData.value.map((item: any) => ({
+        ...item, // 保留所有字段
+        variant: item.variant,
+        chr: item.variant.split(':')[0],
+        position: item.position,
+        population: item.population,
+        province: searchParams.value.province,
+        ref: item.refAllele,
+        alt: item.altAllele,
+        refFrequency: item.refAlleleFrequency,
+        altFrequency: item.altAlleleFrequency,
+        dataset: item.dataset,
+        sampleSize: item.sampleSize,
+      }));
+    } else {
+      console.error('Unexpected Response Format:', responseData);
+    }
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error fetching data:', error);
   }
 };
 
+
+// 页面加载时默认查询
+onMounted(() => {
+  fetchData();
+});
+
+// 处理分页大小变化
+const handleSizeChange = (val: number) => {
+  pageSize.value = val;
+  fetchData();
+};
+
+// 处理当前页变化
+const handleCurrentChange = (val: number) => {
+  currentPage.value = val;
+  fetchData();
+};
+
+const handleSearch = async () => {
+  currentPage.value = 1; // 搜索时重置为第一页
+  await fetchData();
+};
 const handleReset = () => {
   searchParams.value = {
+    queryType: 'single', // 重置时保持默认值
     referencePanel: '',
     dataType: '',
+    dataLayer: 'Province',
     population: '',
     chromosome: '',
     position: '',
@@ -66,15 +147,15 @@ const handleReset = () => {
 
 // 定义每一列的宽度，这里只是示例，你可以根据需求自定义
 const columnWidths = {
-  variant: 150,
+  variant: 200,
   chr: 100,
   position: 120,
   province: 100,
   population: 120,
   ref: 80,
   alt: 80,
-  refFrequency: 120,
-  altFrequency: 120,
+  refFrequency: 150,
+  altFrequency: 150,
   dataset:200,
   sampleSize:105,
 };
@@ -98,12 +179,16 @@ const exportToExcel = () => {
   }
 
   const sheetData = selectedRows.value.map(row => ({
-    ID: row.id,
     Variant: row.variant,
     Chromosome: row.chr,
     Position: row.position,
-    Reference: row.ref,
-    Alternative: row.alt,
+    Population:row.population,
+    Ref: row.ref,
+    Alt: row.alt,
+    RefFreq:row.refFrequency,
+    AltFreq:row.altFrequency,
+    dataset:row.dataset,
+    sampleSize:row.sampleSize
   }));
 
   // 创建工作簿和工作表
@@ -115,34 +200,28 @@ const exportToExcel = () => {
   XLSX.writeFile(workbook, 'SelectedData.xlsx');
 };
 
-const currentPage = ref(1);
-const pageSize = ref(10);
+
 const small = ref(false);
 const background = ref(false);
 const disabled = ref(false);
 
-const handleSizeChange = (val: number) => {
-  console.log(`${val} 条每页`);
-};
-const handleCurrentChange = (val: number) => {
-  console.log(`当前页: ${val}`);
-};
-
 
 // 生成对应的URL
 const navigateToFurtherInfo = (row) => {
-  const params = new URLSearchParams({
-    id: row.id,
-    variant: row.variant,
-    chr: row.chr.toString(),
-    position: row.position.toString(),
-    ref: row.ref,
-    alt: row.alt,
-    dataset:row.dataset
-  });
-  const url = `/further_info?${params.toString()}`;
+  // 直接使用 JSON 序列化所有字段，并通过 URL 的查询参数传递
+  const url = `/further_info?data=${encodeURIComponent(JSON.stringify(row))}`;
   window.location.href = url; // 跳转到目标页面
 };
+
+// 省份列表
+const provinces = ref([
+  'Beijing', 'Tianjin', 'Shanghai', 'Chongqing', 'Anhui', 'Fujian', 'Gansu', 'Guangdong', 'Guangxi', 'Guizhou',
+  'Hainan', 'Hebei', 'Heilongjiang', 'Henan', 'Hubei', 'Hunan', 'Jiangsu', 'Jiangxi', 'Jilin', 'Liaoning',
+  'Ningxia', 'Qinghai', 'Shaanxi', 'Shandong', 'Shanxi', 'Sichuan', 'Tibet', 'Xinjiang', 'Yunnan', 'Zhejiang',
+  'HongKong', 'Macau', 'Taiwan', 'InnerMongolia', 'Singapore'
+]);
+
+
 </script>
 
 
@@ -150,6 +229,31 @@ const navigateToFurtherInfo = (row) => {
   <div class="gene-container">
     <!-- 高级表单区域 -->
     <h2 class="page-title">Search Bar</h2>
+
+    <!-- 新增查询类型选择 -->
+    <div class="query-type-container">
+        <div class="query-type-selector">
+          <el-radio-group v-model="searchParams.queryType">
+            <el-radio-button 
+              label="single"
+              class="custom-radio-button"
+            >
+              <span class="radio-label">Database-wide SNP Search</span>
+              <span class="radio-description">Retrieve comprehensive SNP data across all datasets</span>
+            </el-radio-button>
+            
+            <el-radio-button 
+              label="compare"
+              class="custom-radio-button"
+            >
+              <span class="radio-label">Single SNP Comparison</span>
+              <span class="radio-description">Compare SNP characteristics across populations</span>
+            </el-radio-button>
+          </el-radio-group>
+        </div>
+      </div>
+
+
     <div class="search-bar">
       <!-- 选择 Reference Panel -->
       <div class="form-item">
@@ -247,12 +351,27 @@ const navigateToFurtherInfo = (row) => {
       <!-- province输入 -->
       <div class="form-item">
         <label for="province">Province:</label>
-        <el-input
+        <el-select
           v-model="searchParams.province"
-          placeholder="Province"
+          placeholder="Select Province"
           clearable
           id="province"
-        />
+        >
+          <el-option
+            v-for="province in provinces"
+            :key="province"
+            :label="province"
+            :value="province"
+          />
+        </el-select>
+      </div>
+
+      <!-- 占位符 -->
+      <div class="form-item">
+      </div>
+      <div class="form-item">
+      </div>
+      <div class="form-item">
       </div>
 
       <!-- 按钮组 -->
@@ -321,15 +440,100 @@ const navigateToFurtherInfo = (row) => {
 
 
 <style scoped>
+/* 优化后的查询类型选择器样式 */
+.query-type-container {
+  margin: 20px 0;
+  padding: 15px;
+  background: linear-gradient(135deg, #f8f9ff, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.query-type-selector {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+:deep(.el-radio-group) {
+  width: 100%;
+  display: contents;
+}
+
+.custom-radio-button {
+  height: auto;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e4e7ed;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+.custom-radio-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(58, 109, 213, 0.15);
+}
+:deep(.el-radio-button__inner) {
+  background-color: transparent !important; /* 默认背景透明 */
+  border: 1px solid #ccc !important; /* 默认边框颜色 */
+}
+
+:deep(.el-radio-button.is-active .el-radio-button__inner) {
+  background-color: transparent !important; /* 选中时背景透明 */
+  box-shadow: none !important; /* 去掉选中阴影 */
+}
+
+:deep(.el-radio-button.is-active) {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+:deep(.el-radio-button__inner) {
+  width: 100%;
+  height: auto;
+  padding: 0;
+  background: transparent;
+  border: none !important;
+  display: block;
+}
+
+.radio-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.radio-description {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+  display: block;
+}
+
+:deep(.el-radio-button__orig-radio:checked + .el-radio-button__inner) {
+  background: transparent;
+  box-shadow: none;
+}
+
+:deep(.is-active.custom-radio-button) {
+  border-color: #3a6dd5;
+  background: linear-gradient(135deg, #f6f9ff, #e8f0ff);
+}
+
 .search-bar {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 每行三个格子 */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 自适应布局，每个格子最小300px */
   gap: 20px;
   padding: 20px;
   background: linear-gradient(135deg, #e9efff, #ffffff);
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  width: 100%; /* 宽度占满父容器 */
 }
 
 .search-bar .form-item {
@@ -386,10 +590,11 @@ const navigateToFurtherInfo = (row) => {
   border-color: #3a6dd5;
   box-shadow: 0px 0px 8px rgba(58, 109, 213, 0.5);
 }
-.gene-container{
+.gene-container {
   margin: auto;
   padding: 1%;
-  width: fit-content; /* 让容器宽度根据内容自动调整 */
+  max-width: 100%;
+  overflow-x: auto; /* 当内容超出容器宽度时，添加水平滚动条 */
 }
 .header-container {
   display: flex;
@@ -404,9 +609,11 @@ const navigateToFurtherInfo = (row) => {
 }
 .el-table {
   border: 1px solid #dcdfe6; /* 边框变细 */
-  width: 1470px; /* 表格宽度充满父容器 */
+  width: 100%; /* 表格宽度自适应 */
+  min-width: 1470px; /* 设置最小宽度，防止内容显示错乱 */
   margin: 0 auto; /* 表格居中 */
   text-align: center; /* 表格内容居中 */
+  overflow-x: auto; /* 超出部分允许水平滚动 */
 }
 
 ::v-deep .el-table th {

@@ -2,7 +2,7 @@
   <div class="home-page">
     <!-- Banner Section -->
     <div class="banner-section">
-      <h2>Welcome to PGG.AF!</h2>
+      <h2>Welcome to PGG.AF1M!</h2>
       <el-carousel height="600px">
         <el-carousel-item v-for="item in imageUrl" :key="item">
           <img :src="item.url" alt="Banner Image" />
@@ -17,7 +17,7 @@
       <h2>Quick Start</h2>
       <div class="searching-container">
         <el-button type="primary" class="submit-button" @click="handleSubmit" style="margin-left: 10px;">
-          <strong style="font-size: 18px;">Search Variants </strong>
+          <strong style="font-size: 18px;">Search Variants </strong><el-icon><Promotion /></el-icon>
         </el-button>
       </div>
 
