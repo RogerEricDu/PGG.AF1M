@@ -70,6 +70,7 @@
               label-width="120px"
               @submit.prevent="updateProfile"
               class="profile-form animated"
+              style="margin-top: 20px;"
             >
               <!-- 原有的表单内容 -->
               <el-form-item label="Username" prop="username">
@@ -178,6 +179,7 @@
               :model="socialForm"
               label-width="120px"
               class="social-form animated"
+              style="margin-top: 20px;"
             >
               <el-form-item label="GitHub">
                 <el-button

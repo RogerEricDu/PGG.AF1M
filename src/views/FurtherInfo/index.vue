@@ -51,7 +51,7 @@
             <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Provincial Population -</h3>
             <p style="flex: 1; text-align: right;">Click on the map to display population structure of the area.</p>
           </div>
-          <ProvincialPopulation />
+          <ProvincialPopulation :chromosome="chr" :position="position" />
         </el-tab-pane>
 
         <el-tab-pane name="tab2">
@@ -62,7 +62,7 @@
             <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Genetic Subgroups -</h3>
             <p style="flex: 1; text-align: right;">Click on the map to display population structure of the area.</p>
           </div>
-          <GeneticSubgroups />
+          <GeneticSubgroups :chromosome="chr" :position="position" />
         </el-tab-pane>
 
         <el-tab-pane name="tab3">
