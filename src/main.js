@@ -1,3 +1,4 @@
+
 //全局注册
 
 import { createApp } from 'vue'

@@ -43,10 +43,20 @@ export function uploadGwasStatus(data) {
         data
     })
 }
+
 //上传GWAS用这个接口
 export function selectGwasFile(data) {
     return request({
         url: '/tools/selectGwasFile',
+        method: 'post',
+        data
+    })
+}
+
+//上传DeepSeek接口
+export function selectDeepSeek(data) {
+    return request({
+        url: '/tools/selectDeepSeek',
         method: 'post',
         data
     })

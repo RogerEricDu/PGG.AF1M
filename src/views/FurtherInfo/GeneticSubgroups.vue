@@ -102,11 +102,11 @@ onMounted(async () => {
         }, 0);
 
         return `
-          <div style="width: 240px;">
+          <div style="width: 300px;">
             <div style="background-color: #f0f0f0; padding: 5px; font-size: 14px;">
               ${params.name} - Allele Count: ${params.value}
             </div>
-            <div id="pieChart" style="width: 240px; height: 180px; margin-top: 10px;"></div>
+            <div id="pieChart" style="width: 300px; height: 180px; margin-top: 10px;"></div>
           </div>
         `;
       }

@@ -103,7 +103,7 @@ const datasetCount = ref(0);
 const sampleCount = ref(0);
 
 const targetPopulation = 11; // 最终显示的Population数量
-const targetDataset = 2; // 最终显示的Dataset数量
+const targetDataset = 3; // 最终显示的Dataset数量
 const targetSample = 120000; // 最终显示的Sample数量
 // 初始化 ECharts 地图
 const chartContainer = ref(null);
@@ -191,7 +191,18 @@ onMounted(() => {
           min: 500,
           max: 30000,
           inRange: {
-            color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+            color: [
+              '#e0f3f8', // 淡蓝色（低值）
+              '#abd9e9', // 浅蓝色
+              '#74add1', // 中等蓝色
+              '#4575b4', // 深蓝色（中间值）
+              '#ffffbf', // 浅黄色（过渡）
+              '#fee090', // 浅橙色
+              '#fdae61', // 橙色
+              '#f46d43', // 橙红色
+              '#d73027', // 红色（高值）
+              '#a50026'  // 深红色（最高值）
+            ]
           },
           text: ['High', 'Low'],
           calculable: true
@@ -201,12 +212,18 @@ onMounted(() => {
             type: 'map',
             roam: true,
             map: 'China',
-            data: data
+            data: data,
+            emphasis: {
+            label: {
+              show: true,
+              fontSize: 14,
+              fontWeight: 'bold'
+          }},
           }
         ]
       };
 
-      const barOption = {
+/*       const barOption = {
         xAxis: { type: 'value' },
         yAxis: {
           type: 'category',
@@ -222,7 +239,7 @@ onMounted(() => {
             formatter: '{c}'
           }
         }
-      };
+      }; */
 
       let currentOption = mapOption;
       myChart.setOption(mapOption);

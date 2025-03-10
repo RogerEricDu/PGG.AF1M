@@ -1,38 +1,5 @@
 <template>
   <div class="profile-page">
-    <!-- 左侧部分 -->
-    <div class="profile-sidebar">
-      <!-- 头像上传 -->
-      <div class="avatar-uploader">
-        <el-upload
-          action="/api/upload"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-        >
-          <div class="profile-image-wrapper hover-effect">
-            <img :src="avatarUrl" class="profile-image" />
-            <div class="edit-overlay">
-              <el-icon :size="30"><Upload /></el-icon>
-            </div>
-          </div>
-        </el-upload>
-      </div>
-
-      <!-- 登出按钮 -->
-      <el-button
-        type="danger"
-        class="custom-logout-button"
-        @click="logout"
-      >
-        <div class="icon-container">
-          <el-icon><UserFilled /></el-icon>
-          <el-icon><Right /></el-icon>
-        </div>
-        <div class="text-container">
-          <slot>Logout</slot>
-        </div>
-      </el-button>
-    </div>
 
     <!-- 右侧部分 -->
     <div class="profile-content">
@@ -59,7 +26,23 @@
               >
                 <el-icon><Link /></el-icon>Bind Social Accounts
               </el-button>
+                    <!-- 登出按钮 -->
+              <el-button
+                type="danger"
+                class="update-profile-button"
+                @click="logout"
+              >
+                <div class="icon-container">
+                  <el-icon><UserFilled /></el-icon>
+                  <el-icon><Right /></el-icon>
+                </div>
+                <div class="text-container">
+                  <slot>Logout</slot>
+                </div>
+              </el-button>
             </div>
+
+            
 
             <!-- 资料表单 -->
             <el-form
@@ -202,6 +185,7 @@
                   type="danger"
                   @click="toggleSocialFormVisibility"
                   class="cancel-button"
+                  style="margin-left: auto;"
                 >
                   <el-icon><CircleClose /></el-icon>Cancel
                 </el-button>
@@ -246,7 +230,7 @@ const rules = {
     {
       validator: (_, value) =>
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,}$/.test(value),
-      message: "需包含大小写字母和数字，至少8位",
+      message: "Must contain uppercase and lowercase letters and numbers, at least 8 characters.",
     },
   ],
   confirm: [
@@ -333,9 +317,6 @@ const logout = () => {
     .catch(() => {});
 };
 
-const handleAvatarSuccess = (response) => {
-  avatarUrl.value = response.url;
-};
 
 const showQrCode = () => {
   // 显示二维码逻辑
@@ -361,14 +342,7 @@ const bindSocial = (platform) => {
   gap: 20px;
 }
 
-.profile-sidebar {
-  flex: 1;
-  max-width: 300px;
-  display: flex;
-  
-  flex-direction: column;
-  align-items: center;
-}
+
 
 .profile-content {
   flex: 3;
@@ -380,6 +354,7 @@ const bindSocial = (platform) => {
 }
 
 .profile-tab-content {
+  text-align: center;
   background: var(--card-bg);
   backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
@@ -394,36 +369,7 @@ const bindSocial = (platform) => {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
-.avatar-uploader .profile-image-wrapper {
-  border: 5px solid #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  padding: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
 
-.avatar-uploader .edit-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.avatar-uploader:hover .edit-overlay {
-  opacity: 1;
-}
-
-.custom-logout-button {
-  margin-top: 20px;
-}
 
 .stats-cards {
   margin-top: 20px;
@@ -435,9 +381,11 @@ const bindSocial = (platform) => {
 
 .social-icons {
   display: flex;
-  gap: 10px;
+  gap: 30px;
 }
 .el-button {
+    margin-left: 30px;
+    margin-right: 30px;
     /* background: linear-gradient(135deg, #5795ef, #3a6dd5); */
     color: #fff;
     border: none;

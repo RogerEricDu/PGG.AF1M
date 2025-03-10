@@ -12,6 +12,16 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+
+  resolve: {
+    alias: {
+      'stream': 'stream-browserify',
+      'process': 'process/browser',
+    }
+  },
+  define: {
+    global: 'window'
+  },
   plugins: [
     vue(),
     AutoImport({

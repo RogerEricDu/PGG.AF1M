@@ -60,8 +60,8 @@
 <!--               <RouterLink to="/statistics">&nbsp;&nbsp;Stats&nbsp;&nbsp;</RouterLink> -->
               <RouterLink to="/data">&nbsp;&nbsp;Data&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/allelefreq">&nbsp;&nbsp;Variants&nbsp;&nbsp;</RouterLink>
-<!--               <RouterLink to="/tools">&nbsp;&nbsp;Tools&nbsp;&nbsp;</RouterLink> -->
-              <RouterLink to="/summary">&nbsp;&nbsp;Summary&nbsp;&nbsp;</RouterLink>
+              <RouterLink to="/tools">&nbsp;&nbsp;Tools&nbsp;&nbsp;</RouterLink>
+<!--               <RouterLink to="/summary">&nbsp;&nbsp;Summary&nbsp;&nbsp;</RouterLink> -->
               <RouterLink to="/about">&nbsp;&nbsp;About&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/guide">&nbsp;&nbsp;Guide&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/user">&nbsp;&nbsp;User&nbsp;&nbsp;</RouterLink>

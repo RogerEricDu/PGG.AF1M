@@ -19,7 +19,7 @@ const tabPosition = ref('left')
     <div class="guide-content-container">
       <el-tabs :tab-position="tabPosition" class="guide-tabs">
         <el-tab-pane label="Database"><Database></Database></el-tab-pane>
-        <el-tab-pane label="Analysis"><Analysis></Analysis></el-tab-pane>
+        <el-tab-pane label="Tools"><Analysis></Analysis></el-tab-pane>
         <el-tab-pane label="FAQ"><FAQ></FAQ></el-tab-pane>
       </el-tabs>
     </div>

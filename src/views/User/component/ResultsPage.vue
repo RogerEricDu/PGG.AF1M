@@ -1,7 +1,7 @@
 <template>
     <div class="results-page">
       <div class="header">
-        <h2>Download and View Data</h2>
+        <h2>Download and View Results</h2>
         <p>Access and visualize uploaded data files and results.</p>
       </div>
   

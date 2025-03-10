@@ -81,7 +81,7 @@
             <span>Variant<br/>Effect</span> 
           </template>
           <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Variant Effect -</h3>
-          <VariantEffect />
+          <VariantEffect :chromosome="chr" :position="position || '0'" />
         </el-tab-pane>
 
         <el-tab-pane name="tab5">

@@ -7,11 +7,11 @@
 
     <!-- 表格内容 -->
     <div class="table-wrapper">
-      <el-table :data="pagedVariantData" class="styled-table">
+      <el-table :data="variantData" class="styled-table">
         <el-table-column prop="chr" label="Chr" width="55"></el-table-column>
-        <el-table-column prop="pos" label="Pos" width="100"></el-table-column>
-        <el-table-column prop="ref" label="Ref" width="55"></el-table-column>
-        <el-table-column prop="alt" label="Alt" width="55"></el-table-column>
+        <el-table-column prop="position" label="Pos" width="100"></el-table-column>
+        <el-table-column prop="refAllele" label="Ref" width="55"></el-table-column>
+        <el-table-column prop="altAllele" label="Alt" width="55"></el-table-column>
         <el-table-column prop="symbol" label="SYMBOL" width="100"></el-table-column>
         <el-table-column prop="biotype" label="BIOTYPE" width="150"></el-table-column>
         <el-table-column prop="consequence" label="Consequence" width="200"></el-table-column>
@@ -35,106 +35,82 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, watch, onMounted, defineProps } from 'vue';
+import { getVariantEffect } from '@/api/furtherInfo.js';
 import * as XLSX from 'xlsx';
 
-export default {
-  name: 'VariantEffect',
-  data() {
-    return {
-      // 原始数据
-      variantData: [
-        { chr: '1', pos: 12345, ref: 'A', alt: 'G', symbol: 'CLCN6', biotype: 'protein_coding', consequence: 'downstream_gene_variant', feature: 'ENST00000312413', featureType: 'Transcript' },
-        // 更多数据...
-      ],
-      // 分页相关
-      page: 1,           // 当前页
-      pageSize: 10,      // 每页显示条数
-      total: 0,          // 数据总条数
-    };
-  },
-  computed: {
-    // 计算分页后的数据
-    pagedVariantData() {
-      const start = (this.page - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      return this.variantData.slice(start, end);
+// 接收父组件传递的 `chromosome` 和 `position`
+const props = defineProps({
+  chromosome: String,
+  position: String
+});
+
+// 定义响应式数据
+const variantData = ref([]);
+const total = ref(0);
+const page = ref(1);
+const pageSize = ref(10);
+
+// 获取数据的方法
+const fetchVariantEffect = async () => {
+  if (!props.chromosome || !props.position) return;
+
+  const requestData = {
+    chromosome: props.chromosome,
+    position: props.position,
+    page: page.value,
+    size: pageSize.value
+  };
+
+  try {
+    const response = await getVariantEffect(requestData);
+    if (response.code === 200) {
+      variantData.value = response.data.map(item => ({
+        ...item,
+        chr: props.chromosome
+      }));
+      total.value = response.total;
+    } else {
+      console.error("Error fetching data:", response.message);
     }
-  },
-  methods: {
-    // 处理分页大小变化
-    handleSizeChange(size) {
-      this.pageSize = size;
-      this.page = 1; // 重置为第一页
-    },
-    // 处理页码变化
-    handlePageChange(page) {
-      this.page = page;
-    },
-    // 导出 Excel 文件
-    downloadExcel() {
-      // 初始化表头
-      const ws_data = [
-        ['Chr', 'Pos', 'Ref', 'Alt', 'SYMBOL', 'BIOTYPE', 'Consequence', 'Feature', 'Feature Type'] // 表头
-      ];
-
-      // 通过分页后的数据生成 Excel 文件
-      const dataToExport = this.pagedVariantData.length > 0 ? this.pagedVariantData : this.variantData;
-      dataToExport.forEach(row => {
-        ws_data.push([
-          row.chr,
-          row.pos,
-          row.ref,
-          row.alt,
-          row.symbol,
-          row.biotype,
-          row.consequence,
-          row.feature,
-          row.featureType
-        ]);
-      });
-
-      // 将二维数组转换为工作表
-      const ws = XLSX.utils.aoa_to_sheet(ws_data);
-
-      // 设置第一行标题加粗
-      const headerCells = Object.keys(ws)
-        .filter(cell => cell[0] !== '!')
-        .slice(0, ws_data[0].length); // 获取标题单元格
-      headerCells.forEach(cell => {
-        ws[cell].s = {
-          font: {
-            bold: true
-          }
-        };
-      });
-
-      // 设置列宽
-      ws['!cols'] = [
-        { wch: 6 }, 
-        { wch: 10 },
-        { wch: 6 },
-        { wch: 6 }, 
-        { wch: 15 }, 
-        { wch: 15 }, 
-        { wch: 15 },
-        { wch: 15 }, 
-        { wch: 15 }, 
-      ];
-
-      // 创建工作簿并将工作表添加到工作簿中
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'VariantEffect');
-
-      // 导出 Excel 文件
-      XLSX.writeFile(wb, 'VariantEffect.xlsx');
-    }
-  },
-  mounted() {
-    // 初始化时设置总条数
-    this.total = this.variantData.length;
+  } catch (error) {
+    console.error("API request failed:", error);
   }
 };
+
+// 监听 `chromosome`、`position`、`page` 和 `pageSize` 变化，自动刷新数据
+watch([() => props.chromosome, () => props.position, page, pageSize], fetchVariantEffect, { immediate: true });
+
+// 处理分页大小变化
+const handleSizeChange = (size) => {
+  pageSize.value = size;
+  page.value = 1;
+};
+
+// 处理页码变化
+const handlePageChange = (newPage) => {
+  page.value = newPage;
+};
+
+// 导出 Excel 文件
+const downloadExcel = () => {
+  const ws_data = [
+    ['Chr', 'Pos', 'Ref', 'Alt', 'SYMBOL', 'BIOTYPE', 'Consequence', 'Feature', 'Feature Type'],
+    ...variantData.value.map(row => [
+      row.chr, row.position, row.refAllele, row.altAllele,
+      row.symbol, row.biotype, row.consequence, row.feature, row.featureType
+    ])
+  ];
+
+  const ws = XLSX.utils.aoa_to_sheet(ws_data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'VariantEffect');
+  XLSX.writeFile(wb, 'VariantEffect.xlsx');
+};
+
+// 组件挂载后首次获取数据
+onMounted(fetchVariantEffect);
 </script>
 
 <style scoped>

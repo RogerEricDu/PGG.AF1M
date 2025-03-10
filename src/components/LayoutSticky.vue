@@ -25,9 +25,9 @@ const { y } = useScroll(window)
           <li :class="{ active: $route.path === '/tools' }">
             <RouterLink to="/tools">Tools</RouterLink>
           </li>
-          <li :class="{ active: $route.path === '/summary' }">
+<!--           <li :class="{ active: $route.path === '/summary' }">
             <RouterLink to="/summary">Summary</RouterLink>
-          </li>
+          </li> -->
           <li :class="{ active: $route.path === '/about' }">
             <RouterLink to="/about">About</RouterLink>
           </li>
