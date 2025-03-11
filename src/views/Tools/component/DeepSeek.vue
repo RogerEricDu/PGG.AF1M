@@ -1,7 +1,7 @@
 <template>
 <div class="blast-page">
       <div class="header">
-      <h2>BLAST Sequence Alignment</h2>
+      <h2>DeepSeek Sequence Alignment</h2>
       <p>Perform sequence alignment using BLAST.</p>
       </div>
 
