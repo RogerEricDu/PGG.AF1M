@@ -60,7 +60,6 @@ const handleReferencePanelChange = () => {
   }
 };
 
-// 请求数据
 const fetchData = async () => {
   try {
     const params = {
@@ -68,41 +67,35 @@ const fetchData = async () => {
       page: currentPage.value,
       size: pageSize.value,
     };
-      // 根据queryType选择API方法
-      const apiMethod = searchParams.value.queryType === 'single' 
-    ? getByRegionDataMerge 
-    : getByRegionData;
 
-    const response = await apiMethod(params); // 动态调用API
+    // 根据 queryType 选择 API 方法
+    const apiMethod = searchParams.value.queryType === 'single' 
+      ? getByRegionDataMerge 
+      : getByRegionData;
+
+    const response = await apiMethod(params); // 动态调用 API
 
     console.log('Raw Response:', response); // 添加调试日志
 
+    // 解析响应数据
     const responseData = response.data;
+        //const totalCount = response.total;
 
-    // 如果返回的数据直接是数组
-    if (Array.isArray(responseData)) {
-      console.log('Parsed Response Data:', responseData);
-      SnpData.value = responseData; // 直接赋值
-      total.value = responseData.length; // 如果后端没有返回总数，可以直接用数组的长度
-
-      // 注意，这里不再过滤字段，而是直接将所有字段传递给表格
-      tableData.value = SnpData.value.map((item: any) => ({
-        ...item, // 保留所有字段
-        variant: item.variant,
-        chr: item.variant.split(':')[0],
-        position: item.position,
-        population: item.population,
-        region: searchParams.value.region,
-        ref: item.refAllele,
-        alt: item.altAllele,
-        refFrequency: item.refAlleleFrequency,
-        altFrequency: item.altAlleleFrequency,
-        dataset: item.dataset,
-        sampleSize: item.sampleSize,
-      }));
-    } else {
-      console.error('Unexpected Response Format:', responseData);
-    }
+    // 更新 total 和 tableData
+    total.value = 12251537; // 总记录数
+    tableData.value = responseData.map((item: any) => ({
+      ...item, // 保留所有字段
+      variant: item.variant,
+      chr: item.variant.split(':')[0],
+      position: item.position,
+      population: item.population,
+      ref: item.refAllele,
+      alt: item.altAllele,
+      refFrequency: item.refAlleleFrequency,
+      altFrequency: item.altAlleleFrequency,
+      dataset: item.dataset,
+      sampleSize: item.sampleSize,
+    }));
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -422,8 +415,6 @@ const navigateToFurtherInfo = (row) => {
         v-model:page-size="pageSize"
         :page-sizes="[10, 20, 30, 40]"
         :small="small"
-        :disabled="disabled"
-        :background="background"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         @size-change="handleSizeChange"

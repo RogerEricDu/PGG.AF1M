@@ -18,3 +18,12 @@ export function deleteUser(userId) {
     method: 'delete'
   })
 }
+
+//用户查看个人当前任务状态
+export function checkUserTask(data) {
+  return request({
+    url: '/profile/taskStatus',
+    method: 'post',
+    data
+  })
+}
