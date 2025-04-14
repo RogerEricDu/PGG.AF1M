@@ -33,9 +33,41 @@
           <p><strong>HomoAlt Frequency:</strong> {{ homoAltFrequency }}</p>
         </div>
         <div class="info-row">
-          <p><strong>dbSNP:</strong> {{ dbSNP }}</p>
-          <p><strong>PGG.SNV:</strong> {{ pggSNV }}</p>
-          <p><strong>gnomAD:</strong> {{ gnomAD }}</p>
+          <p><strong>dbSNP:</strong>
+            <template v-if="dbSNP !== 'NA'">
+              <a :href="dbSNP" target="_blank" style="color: #409EFF;">View</a>
+            </template>
+            <template v-else>
+              NA
+            </template>
+          </p>
+          <p><strong>PGG.SNV:</strong>
+            <template v-if="pggSNV !== 'NA'">
+              <a :href="pggSNV" target="_blank" style="color: #409EFF;">View</a>
+            </template>
+            <template v-else>
+              NA
+            </template>
+          </p>
+          <p><strong>gnomAD:</strong>
+            <template v-if="gnomAD !== 'NA'">
+              <a :href="gnomAD" target="_blank" style="color: #409EFF;">View</a>
+            </template>
+            <template v-else>
+              NA
+            </template>
+          </p>
+        </div>
+        <div class="info-row">
+          <p><strong>PGGhan2:</strong>
+            <template v-if="PGGhan2 !== 'NA'">
+              <a :href="PGGhan2" target="_blank" style="color: #409EFF;">View</a>
+            </template>
+            <template v-else>
+              NA
+            </template>
+          </p>
+
         </div>
       </div>
     </div>
@@ -157,6 +189,7 @@ const homoAltFrequency = ref('');
 const dbSNP = ref('');
 const pggSNV = ref('');
 const gnomAD = ref('');
+const PGGhan2 = ref('');
 
 console.log(route.query);
 const activeTab = ref('tab1'); // 默认激活的标签页
@@ -179,6 +212,85 @@ onMounted(() => {
     homoRefFrequency.value = parsedData.genotypeFrequency1;
     heteroFrequency.value = parsedData.genotypeFrequency2;
     homoAltFrequency.value = parsedData.genotypeFrequency3;
+
+
+    const databases = {
+      pgghan2: '/pgghan2/data/variantResult?term=',
+      pggsnv: '/pggsnv/searchinfo.html?key=',
+      gnomAD: '/gnomAD/variant/{term}?dataset=gnomad_r4', 
+      dbSNP: '/snp/?term='
+    };
+
+    // 动态构建 URL 的函数表达式
+    const buildDatabaseUrl = (databaseName: string, term: string): string => {
+      const baseUrl = databases[databaseName];
+      if (baseUrl) {
+        return baseUrl + term;
+      } else {
+        console.error('Database not found!');
+        return 'NA';
+      }
+    };
+
+    // 示例用法
+    const term = `${parsedData.chr}%3A${parsedData.position}`;
+
+    // 构建不同数据库的 URL
+    const pgghan2Url = buildDatabaseUrl('pgghan2', term);
+    const pggsnvUrl = buildDatabaseUrl('pggsnv', term);
+    const gnomADUrl = buildDatabaseUrl('gnomAD', term);
+    const dbSNPUrl = buildDatabaseUrl('dbSNP', term);
+
+    // 查询 URL
+    fetch(pgghan2Url)
+      .then(response => {
+        if (response.ok) {
+          PGGhan2.value = pgghan2Url;
+        } else {
+          PGGhan2.value = 'NA';
+        }
+      })
+      .catch(error => {
+        console.error("Request failed:", error);
+        PGGhan2.value = 'NA';
+      });
+      fetch(pggsnvUrl)
+      .then(response => {
+        if (response.ok) {
+          pggSNV.value = pggsnvUrl;
+        } else {
+          pggSNV.value = 'NA';
+        }
+      })
+      .catch(error => {
+        console.error("Request failed:", error);
+        pggSNV.value = 'NA';
+      });
+      fetch(gnomADUrl)
+      .then(response => {
+        if (response.ok) {
+          gnomAD.value = gnomADUrl;
+        } else {
+          gnomAD.value = 'NA';
+        }
+      })
+      .catch(error => {
+        console.error("Request failed:", error);
+        gnomAD.value = 'NA';
+      });
+      fetch(dbSNPUrl)
+      .then(response => {
+        if (response.ok) {
+          dbSNP.value = dbSNPUrl;
+        } else {
+          dbSNP.value = 'NA';
+        }
+      })
+      .catch(error => {
+        console.error("Request failed:", error);
+        dbSNP.value = 'NA';
+      });
+
   } else {
     console.error('No data found in route.query!');
   }

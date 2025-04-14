@@ -13,8 +13,11 @@
             <el-form-item label="Upload Time">
               <el-input v-model="query.uploadTime" placeholder="e.g., 2024-11-18"></el-input>
             </el-form-item>
-            <el-form-item label="Sample Name">
-              <el-input v-model="query.sampleName" placeholder="Enter Sample Name"></el-input>
+            <el-form-item label="Task Name">
+              <el-input v-model="query.taskName" placeholder="Enter Task Name"></el-input>
+            </el-form-item>
+            <el-form-item label="Task Type">
+              <el-input v-model="query.taskType" placeholder="Enter Task Type"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="fetchTableData" class="search-button">
@@ -34,16 +37,23 @@
               <el-table-column prop="id" label="ID" :min-width="80"></el-table-column>
               <el-table-column prop="updateTime" label="Update Time" :min-width="120"></el-table-column>
               <el-table-column prop="taskName" label="Task Name" :min-width="200"></el-table-column>
-              <el-table-column prop="dataType" label="Data Type" :min-width="220">
+              <el-table-column prop="taskType" label="Task Type" :min-width="220">
                 <template #default="scope">
-                  {{ scope.row.dataType || "N/A" }}
+                  {{ scope.row.taskType || "N/A" }}
                 </template>
               </el-table-column>
-              <el-table-column prop="panel" label="Panel" :min-width="200">
+              <el-table-column prop="status" label="Status" :min-width="200">
                 <template #default="scope">
-                  {{ scope.row.panel || "N/A" }}
+                  <el-tag
+                    :type="statusType(scope.row.status)"
+                    effect="dark"
+                    class="status-tag"
+                  >
+                    {{ scope.row.status }}
+                  </el-tag>
                 </template>
               </el-table-column>
+
               <el-table-column prop="fileName" label="File Name" :min-width="200"></el-table-column>
               <el-table-column label="Functions" :min-width="300" fixed="right">
                 <template #default="scope">
@@ -114,22 +124,36 @@
       };
     },
     methods: {
+      statusType(status) {
+        switch (status?.toLowerCase()) {
+          case "running":
+            return "primary";  // 蓝
+          case "pending":
+            return "warning";  // 黄
+          case "done":
+            return "success";  // 绿
+          case "error":
+            return "danger";   // 红
+          default:
+            return "info";     // 灰蓝
+        }
+      },
       fetchTableData() {
         this.tableData = [
           {
             id: 1,
             updateTime: "2024-11-17",
             taskName: "Sample A",
-            dataType: "Microarray",
-            panel: "10k",
+            taskType: "GWAS",
+            status: "Pending",
             fileName: "file_A.txt",
           },
           {
             id: 2,
             updateTime: "2024-11-18",
             taskName: "Sample B",
-            dataType: "NGS",
-            panel: "20k",
+            taskType: "Imputation",
+            status: "Done",
             fileName: "file_B.txt",
           },
         ];
@@ -270,4 +294,14 @@
   .high-frequency-variants {
     flex: 1;
   }
+  .status-tag {
+    transition: all 0.3s ease;
+    cursor: default;
+    font-weight: bold;
+  }
+  .status-tag:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  }
+
   </style>

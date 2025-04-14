@@ -29,7 +29,7 @@ export function getVariantBrowser(data) {
 
 export function getVariantEffect(data) {
     return request({
-        url: '/furtherInfo/variantEffect',
+        url: '/vep/annotate',
         method: 'post',
         data
     })
