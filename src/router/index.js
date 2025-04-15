@@ -22,7 +22,7 @@ import Imputation from '@/views/Tools/component/Imputation.vue'
 import GWAS from '@/views/Tools/component/GWAS.vue'
 /* import Results from '@/views/Tools/component/Results.vue' */
 import BLAST from '@/views/Tools/component/BLAST.vue'
-import DeepSeek from '@/views/Tools/component/DeepSeek.vue'
+import DeepSeek from '@/views/FurtherInfo/DeepSeek.vue'
 import Help from '@/views/Help/index.vue'
 import Data from '@/views/Data/index.vue'
 import User from '@/views/User/index.vue'
@@ -82,7 +82,6 @@ const router = createRouter({
           { path: 'Imputation', component: Imputation, meta: { requiresAuth: true }  },
 /*           { path: 'Results', component: Results, meta: { requiresAuth: true }  }, */
           { path: 'BLAST', component: BLAST, meta: { requiresAuth: true }  },
-          { path: 'DeepSeek',component:DeepSeek, meta: { requiresAuth: true }  },
           { path: 'GWAS',component:GWAS, meta: { requiresAuth: true }  }
         ]
       },

@@ -72,13 +72,11 @@
                   clearable
                 >
                   <template #suffix>
-                    <el-icon
-                      class="password-toggle"
-                      @click="togglePasswordVisibility"
-                    >
-                      <Hide v-if="passwordVisible" />
-                      <View v-else />
-                    </el-icon>
+                    <div class="password-toggle" @click="togglePasswordVisibility">
+                      <el-icon>
+                        <component :is="passwordVisible ? Hide : View" />
+                      </el-icon>
+                    </div>
                   </template>
                 </el-input>
               </el-form-item>
@@ -119,7 +117,7 @@
                   clearable
                 />
               </el-form-item>
-              <el-form-item label="两步验证">
+              <el-form-item label="2FA">
                 <div class="mfa-section">
                   <el-switch v-model="mfaEnabled" />
                   <el-button type="text" @click="showQrCode">
@@ -208,7 +206,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
 import ResultsPage from "./ResultsPage.vue"; // 引入 ResultsPage 组件
-
+import { View, Hide, EditPen, Link, UserFilled, Right, Edit, Refresh, CircleClose } from '@element-plus/icons-vue'
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const router = useRouter();
@@ -256,7 +254,9 @@ const isSocialFormVisible = ref(false); // 控制第三方账号绑定表单显�
 const passwordVisible = ref(false);
 const mfaEnabled = ref(false);
 
-
+const togglePasswordVisibility = () => {
+  passwordVisible.value = !passwordVisible.value;
+};
 const toggleFormVisibility = () => {
   isFormVisible.value = !isFormVisible.value;
   isSocialFormVisible.value = false; // 关闭社交账号表单
@@ -406,4 +406,5 @@ const bindSocial = (platform) => {
     border-color: #dcdfe6;
     color: #c0c4cc;
   }
+
 </style>

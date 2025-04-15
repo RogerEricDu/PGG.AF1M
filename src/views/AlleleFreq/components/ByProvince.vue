@@ -88,6 +88,7 @@ const fetchData = async () => {
       chr: item.variant.split(':')[0],
       position: item.position,
       population: item.population,
+      province:searchParams.value.province, //province直接调用搜索栏的结果即可
       ref: item.refAllele,
       alt: item.altAllele,
       refFrequency: item.refAlleleFrequency,
@@ -175,6 +176,7 @@ const exportToExcel = () => {
     Chromosome: row.chr,
     Position: row.position,
     Population:row.population,
+    province:row.province,
     Ref: row.ref,
     Alt: row.alt,
     RefFreq:row.refFrequency,

@@ -126,6 +126,14 @@
 
         <el-tab-pane name="tab6">
           <template #label>
+            <span>DeepSeek</span> 
+          </template>
+          <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Deep Seek -</h3>
+          <DeepSeek :chromosome="chr" :position="position" />
+        </el-tab-pane>
+
+<!--         <el-tab-pane name="tab6">
+          <template #label>
             <span>Genome<br/>Diversity</span> 
           </template>
           <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Genome Diversity -</h3>
@@ -146,7 +154,7 @@
           </template>
           <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Haplotype Structure -</h3>
           <HaplotypeStructure />
-        </el-tab-pane>
+        </el-tab-pane> -->
       </el-tabs>
     </div>
   </div>
@@ -163,6 +171,7 @@ import NatureSelection from './NatureSelection.vue';
 import GenomeDiversity from './GenomeDiversity.vue';
 import LinkageDisequilibrium from './LinkageDisequilibrium.vue';
 import HaplotypeStructure from './HaplotypeStructure.vue';
+import DeepSeek from './DeepSeek.vue';
 
 const route = useRoute();
 const router = useRouter(); // 获取路由实例
@@ -190,6 +199,7 @@ const dbSNP = ref('');
 const pggSNV = ref('');
 const gnomAD = ref('');
 const PGGhan2 = ref('');
+
 
 console.log(route.query);
 const activeTab = ref('tab1'); // 默认激活的标签页
@@ -312,6 +322,7 @@ const goBack = () => {
     router.push('/allelefreq/all_ind');
   }
 };
+
 </script>
 
 <style scoped>
@@ -352,7 +363,7 @@ const goBack = () => {
 让开发者可以在scoped模式下仍然为嵌套的子组件
 或第三方组件内部的元素添加样式。 */
 .custom-tabs ::v-deep .el-tabs__item {
-  width: 125px;
+  width: 170px;
   height: 50px;
   font-size: 14px;
   font-weight: bold;
