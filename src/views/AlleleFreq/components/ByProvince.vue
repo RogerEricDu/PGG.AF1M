@@ -78,7 +78,6 @@ const fetchData = async () => {
 
     // 解析响应数据
     const responseData = response.data;
-        //const totalCount = response.total;
 
     // 更新 total 和 tableData
     total.value = 12251537; // 总记录数

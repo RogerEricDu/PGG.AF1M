@@ -20,9 +20,18 @@ export function deleteUser(userId) {
 }
 
 //用户查看个人当前任务状态
-export function checkUserTask(data) {
+export function checkUserTasks(data) {
   return request({
-    url: '/profile/taskStatus',
+    url: '/profile/tasks',
+    method: 'post',
+    data
+  })
+}
+
+//用户获取用户名和email
+export function searchUserInfo(data){
+  return request({
+    url: '/profile/userInfo',
     method: 'post',
     data
   })

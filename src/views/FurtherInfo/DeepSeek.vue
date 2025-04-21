@@ -7,9 +7,9 @@
             </template>
             <el-descriptions :column="2" border>
                   <el-descriptions-item label="SNP ID">{{ deepseekResult.snp_id || '-' }}</el-descriptions-item>
-                  <el-descriptions-item label="功能注释">{{ deepseekResult.snp_function || '-' }}</el-descriptions-item>
-                  <el-descriptions-item label="相关性">{{ deepseekResult.association || '-' }}</el-descriptions-item>
-                  <el-descriptions-item label="影响基因">{{ deepseekResult.gene_symbol || '-' }}</el-descriptions-item>
+                  <el-descriptions-item label="Functional Annotation">{{ deepseekResult.snp_function || '-' }}</el-descriptions-item>
+                  <el-descriptions-item label="Correlation">{{ deepseekResult.association || '-' }}</el-descriptions-item>
+                  <el-descriptions-item label="Affected Genes">{{ deepseekResult.gene_symbol || '-' }}</el-descriptions-item>
             </el-descriptions>
             </el-card>
 
@@ -19,8 +19,8 @@
             </template>
             <el-descriptions :column="1" border>
                   <el-descriptions-item label="Gene Symbol">{{ geneInfo.symbol || '-' }}</el-descriptions-item>
-                  <el-descriptions-item label="描述">{{ geneInfo.description || '-' }}</el-descriptions-item>
-                  <el-descriptions-item label="功能">{{ geneInfo.function || '-' }}</el-descriptions-item>
+                  <el-descriptions-item label="Description">{{ geneInfo.description || '-' }}</el-descriptions-item>
+                  <el-descriptions-item label="Function">{{ geneInfo.function || '-' }}</el-descriptions-item>
             </el-descriptions>
             </el-card>
             </div>
@@ -32,7 +32,7 @@
       <!-- 对话式提问 -->
       <el-card class="box-card" shadow="hover" style="margin-top: 30px;">
             <template #header>
-            <span>问答助手（20字以内）</span>
+            <span>Q&A Assistant (Within 20 words)</span>
             </template>
             <el-form :inline="true" @submit.prevent>
             <el-form-item>
@@ -40,22 +40,22 @@
                   v-model="userQuestion"
                   maxlength="20"
                   show-word-limit
-                  placeholder="你想问这个SNP或基因什么？"
+                  placeholder="What would you like to ask about this SNP or Gene"
                   style="width: 300px;"
                   />
             </el-form-item>
             <el-form-item>
                   <el-button type="primary" :disabled="!userQuestion || chatCount >= MAX_CHAT" @click="submitQuestion">
-                  提问
+                  Submit
                   </el-button>
             </el-form-item>
             <el-form-item v-if="chatCount > 0">
-                  <span style="color: #999;">已使用 {{ chatCount }}/{{ MAX_CHAT }} 次</span>
+                  <span style="color: #999;">Already Used {{ chatCount }}/{{ MAX_CHAT }} Times</span>
             </el-form-item>
             </el-form>
 
             <div v-if="chatAnswer" style="margin-top: 20px; white-space: pre-wrap;">
-            <el-alert type="success" :closable="false" :title="'AI 回答：' + chatAnswer" />
+            <el-alert type="success" :closable="false" :title="'Answer：' + chatAnswer" />
             </div>
       </el-card>
 
@@ -89,20 +89,20 @@ const submitQuestion = async () => {
   try {
     // 模拟回答生成，可替换成实际 AI 调用
     const question = userQuestion.value
-    const gene = geneInfo.value.symbol || '该基因'
+    const gene = geneInfo.value.symbol || 'This gene'
     const mockAnswers = [
-      `SNP 位于 ${gene}，与脑部发育相关。`,
-      `${gene} 可能影响心血管健康。`,
-      `根据 DeepSeek 数据，该 SNP 在亚洲人群中频率较高。`,
-      `${gene} 是一种关键代谢基因。`,
-      `这个变异可能影响蛋白结构功能。`
+      `This SNP is located in ${gene},which is associated with brain development.`,
+      `${gene} may influence cardiovascular health.`,
+      `According to DeepSeek data, this SNP has a higher frequency in Asian populations.`,
+      `${gene} is a key metabolic gene.`,
+      `This variant may affect protein structure and function.`
     ]
     const randomAnswer = mockAnswers[Math.floor(Math.random() * mockAnswers.length)]
     chatAnswer.value = randomAnswer
     userQuestion.value = ''
   } catch (err) {
-    console.error("问答失败", err)
-    chatAnswer.value = '抱歉，暂时无法回答您的问题。'
+    console.error("Query failed. ", err)
+    chatAnswer.value = 'Sorry, the model currently is unable to answer your question.'
   }
 }
 

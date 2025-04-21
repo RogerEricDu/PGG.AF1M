@@ -1,45 +1,28 @@
 // 封装所有和用户相关的接口函数
 import request from '@/utils/request'
 
-// 提交上传文件
-export function submitUpload(file, taskName, dataType) {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('taskName', taskName);
-    formData.append('dataType', dataType);
-
+// 上传 Excel 文件
+export function uploadSNPFile(data) {
     return request({
-        url: '/upload/submit',
+        url: '/upload/excel',
         method: 'post',
-        data: formData,
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data
+    })
 }
-
-// 更新上传状态
-export function updateStatus(id, status) {
-    const formData = new FormData();
-    formData.append('id', id);
-    formData.append('status', status);
-
-    return request({
-        url: '/upload/updateStatus',
-        method: 'post',
-        data: formData,
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
-}
-
-// 获取所有上传记录
-export function getAllUploadRecords() {
+  
+// 获取当前用户上传记录
+export function getUploadRecords(email) {
     return request({
         url: '/upload/records',
         method: 'get',
-    });
+        params: { email }
+    })
+}
+
+// 下载结果文件（你可以用 window.open 调用这个）
+export function getDownloadUrl(path) {
+return `${import.meta.env.VITE_APP_BASE_API}${path}`; // 自动拼接完整地址
 }
 
 // 启动插补任务

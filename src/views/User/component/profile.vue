@@ -194,7 +194,7 @@
       </div>
 
       <!-- 嵌入 ResultsPage 组件 -->
-      <ResultsPage />
+      <ResultsPage :username="authStore.user?.username" :email="authStore.user?.email"/>
     </div>
   </div>
 </template>
@@ -207,15 +207,16 @@ import { useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
 import ResultsPage from "./ResultsPage.vue"; // 引入 ResultsPage 组件
 import { View, Hide, EditPen, Link, UserFilled, Right, Edit, Refresh, CircleClose } from '@element-plus/icons-vue'
+
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const router = useRouter();
 
 const profileForm = ref({
-  username: "",
+  username: authStore.user?.username || "",
   password: "",
   confirm: "",
-  email: "",
+  email: authStore.user?.email || "",
   organization: "",
   department: "",
   phone_number: "",

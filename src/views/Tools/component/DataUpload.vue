@@ -31,7 +31,7 @@
         </div>
       </div>
       <el-upload
-        action="https://pog.fudan.edu.cn/cpcapi/batch/bloodChemistryUpdate"
+        :action="uploadUrl"
         :multiple="false"
         class="upload-demo"
         ref="upload"
@@ -126,13 +126,13 @@
             >
               Download
             </el-button>
-            <el-button
+<!--             <el-button
               type="primary"
               @click="showResults"
               class="view-results-button"
             >
               Show Results
-            </el-button>
+            </el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -168,8 +168,10 @@
 </template>
 
 <script>
-import * as echarts from "echarts";
+/* import * as echarts from "echarts"; */
 import { UploadFilled } from "@element-plus/icons-vue";
+import { uploadSNPFile,getUploadRecords,getDownloadUrl } from "@/api/tools";
+
 export default {
   name: 'dataUpload',
   components: {
@@ -183,8 +185,14 @@ export default {
       fileLists: [],
       uploadRecords: [],
       showResultSection: false,
+      userEmail: 'your@email.com', //邮箱后续要修改
     };
   },
+
+/*   mounted(){
+    this.loadUploadRecords();
+  }, */
+
   methods: {
     handleChange(file) {
       this.fileLists = [file]; // Only keep the latest file
@@ -238,7 +246,25 @@ export default {
     beforeRemove(file, fileList) {
       return this.$confirm(`Sure to Remove ${file.name}？`);
     },
-    showResults() {
+
+/*     async loadUploadRecords() {
+      try {
+        const res = await getUploadRecords(this.userEmail);
+        this.uploadRecords = res.data.data;
+      } catch (e) {
+        console.error("获取记录失败", e);
+      }
+    },
+    downloadFile(id) {
+      const record = this.uploadRecords.find(r => r.id === id);
+      if (record?.resultPath) {
+        window.open(getDownloadUrl(record.resultPath));
+      } else {
+        this.$message.warning('结果文件尚未生成');
+      }
+    }, */
+
+/*     showResults() {
       this.showResultSection = true;
       this.$nextTick(() => {
         this.renderBiotypeChart(); // 确保 DOM 已渲染后再初始化图表
@@ -271,7 +297,7 @@ export default {
         ],
       };
       chart.setOption(option);
-    },
+    }, */
   },
 };
 </script>
