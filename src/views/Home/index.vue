@@ -35,19 +35,6 @@
       </div>
     </div>
 
-    <div class="content-box">
-      <div class="background-container" :style="{
-        backgroundImage: `url(${images[currentTitleIndex]})`
-      }">
-        <div class="title-items">
-          <div class="title-item" v-for="(item, index) in titles" :key="index" @mouseenter="currentTitleIndex = index" @mouseleave="currentTitleIndex = -1">
-            <!-- 标题内容 -->
-            <h2>{{ item.title }}</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Statistics Section -->
     <div class="statistics-section">
       <h2>Update Timeline</h2>
@@ -78,20 +65,6 @@ const imageUrl = [
   { url: image2 },
 ];
 
-const titles = [
-  { title: "Variants Searching" },
-  { title: "User Tools" },
-  { title: "Imputation" },
-  { title: "GWAS Analysis" },
-];
-
-const images = [
-  "/HomeIcon.png",
-  "/assets/user-tools.png",
-  "/assets/imputation.png",
-  "/assets/gwas-analysis.png",
-];
-
 const currentTitleIndex = ref(-1);
 
 const updates = [
@@ -113,7 +86,7 @@ const handleSubmit = () => {
 .home-page {
   display: flex;
   flex-direction: column;
-  width: 1200px;
+  width: 1500px;
   margin: 0 auto;
   background: linear-gradient(to bottom, #f9fbfd, #e3e8ee);
   border-radius: 15px;

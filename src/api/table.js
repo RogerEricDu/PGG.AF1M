@@ -48,3 +48,19 @@ export function getByRegionDataMerge(data) {
     data
   })
 }
+
+export function getByPopulationData(data) {
+  return request({
+    url: '/select/populationSNP',
+    method: 'post',
+    data,
+  })
+}
+
+export function getByPopulationDataMerge(data) {
+  return request({
+    url: '/select/populationMergeSNP',
+    method: 'post',
+    data
+  })
+}

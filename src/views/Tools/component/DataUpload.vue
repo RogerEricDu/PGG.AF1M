@@ -26,7 +26,7 @@
           />
           <el-select v-model="dataType" placeholder="Select Data Type" style="width: 35%;">
             <el-option label="100,000 Microarrays Data" value="Microarray"></el-option>
-            <el-option label="20,000 NGS Data" value="NGS"></el-option>
+            <el-option label="NGS Data" value="NGS"></el-option>
           </el-select>
         </div>
       </div>
@@ -107,7 +107,7 @@
         >
           <template #default="{ row }">
             <el-tag 
-              :type="row.status === 'Completed' ? 'success' : row.status === 'Queued' ? 'info' : 'danger'"
+              :type="row.status === 'done' ? 'success' : row.status === 'running' ? 'info' : row.status === 'failed' ? 'danger' : ''"
             >
               {{ row.status }}
             </el-tag>
@@ -169,6 +169,7 @@
 
 <script>
 /* import * as echarts from "echarts"; */
+
 import { UploadFilled } from "@element-plus/icons-vue";
 import { uploadSNPFile,getUploadRecords,getDownloadUrl } from "@/api/tools";
 
@@ -189,52 +190,49 @@ export default {
     };
   },
 
-/*   mounted(){
+  mounted(){
     this.loadUploadRecords();
-  }, */
+  },
 
   methods: {
     handleChange(file) {
       this.fileLists = [file]; // Only keep the latest file
     },
     async submitUpload() {
-      if (!this.taskName || !this.dataType) {
-        this.$message.error('Task Name and Data Type are required.');
-        return;
-      }
+      if (!this.fileLists.length) return;
+
+      const file = this.fileLists[0].raw;
       const formData = new FormData();
-      formData.append("file", this.fileLists[0].raw);
+      formData.append("file", file);
       formData.append("taskName", this.taskName);
       formData.append("dataType", this.dataType);
+      formData.append("username", "current_user"); // 视情况传当前登录用户名
+      formData.append("email", this.userEmail);
 
       try {
-        const response = await this.uploadRequest(formData);
-        this.currentTaskName = this.taskName; // 保存当前任务名称用于显示
-        this.uploadRecords.push({
-          id: response.data.id,
-          taskName: this.taskName,
-          fileInfo: this.fileLists[0].name,
-          dataType: this.dataType,
-          status: response.data.status || 'Queued',
-        });
-        this.taskName = ''; // 清空输入框
-        this.dataType = '';
-        this.$message.success('Upload Success!');
-      } catch (error) {
-        this.$message.error('Upload Failed. Please try again.');
+        await uploadSNPFile(formData); // 用封装好的函数
+        this.$message.success("Upload started!");
+        this.loadUploadRecords(); // 刷新记录
+      } catch (err) {
+        this.$message.error("Upload failed: " + err.message);
       }
     },
-    async uploadRequest(formData) {
-      // Simulate API upload request
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({ data: { id: this.uploadRecords.length + 1, status: 'Queued' } });
-        }, 1000);
-      });
+    async loadUploadRecords() {
+      try {
+        const res = await getUploadRecords(this.userEmail); // 用封装方法
+        this.uploadRecords = res.data;
+      } catch (err) {
+        this.$message.error("Failed to load records.");
+      }
     },
     downloadFile(id) {
-      console.log(`Downloading file with ID: ${id}`);
-      this.$message.info(`Download functionality not implemented yet for ID: ${id}`);
+      const record = this.uploadRecords.find(r => r.id === id);
+      if (!record || !record.resultPath) {
+        this.$message.warning("Result not ready yet.");
+        return;
+      }
+      const url = getDownloadUrl(record.resultPath); // 用封装方法
+      window.open(url, '_blank');
     },
     handleRemove(file, fileList) {
       console.log('Remove', file, fileList);
@@ -246,58 +244,6 @@ export default {
     beforeRemove(file, fileList) {
       return this.$confirm(`Sure to Remove ${file.name}？`);
     },
-
-/*     async loadUploadRecords() {
-      try {
-        const res = await getUploadRecords(this.userEmail);
-        this.uploadRecords = res.data.data;
-      } catch (e) {
-        console.error("获取记录失败", e);
-      }
-    },
-    downloadFile(id) {
-      const record = this.uploadRecords.find(r => r.id === id);
-      if (record?.resultPath) {
-        window.open(getDownloadUrl(record.resultPath));
-      } else {
-        this.$message.warning('结果文件尚未生成');
-      }
-    }, */
-
-/*     showResults() {
-      this.showResultSection = true;
-      this.$nextTick(() => {
-        this.renderBiotypeChart(); // 确保 DOM 已渲染后再初始化图表
-      });
-    },
-    renderBiotypeChart() {
-      const chart = echarts.init(this.$refs.biotypeChart);
-      const option = {
-        title: {
-          text: "Biotype Distribution",
-          left: "center",
-        },
-        tooltip: {
-          trigger: "item",
-        },
-        series: [
-          {
-            name: "Biotype",
-            type: "pie",
-            radius: "50%",
-            data: [
-              { value: 400, name: "Transcript" },
-              { value: 250, name: "Exon" },
-              { value: 100, name: "CDS" },
-              { value: 50, name: "Intron" },
-              { value: 20, name: "5'UTR" },
-              { value: 10, name: "3'UTR" },
-            ],
-          },
-        ],
-      };
-      chart.setOption(option);
-    }, */
   },
 };
 </script>

@@ -1,29 +1,32 @@
 // 封装所有和用户相关的接口函数
 import request from '@/utils/request'
 
-// 上传 Excel 文件
-export function uploadSNPFile(data) {
-    return request({
-        url: '/upload/excel',
-        method: 'post',
-        headers: { 'Content-Type': 'multipart/form-data' },
-        data
-    })
-}
-  
-// 获取当前用户上传记录
-export function getUploadRecords(email) {
-    return request({
-        url: '/upload/records',
-        method: 'get',
-        params: { email }
-    })
+// 上传 SNP 文件
+export function uploadSNPFile(formData) {
+return request({
+    url: '/upload/submit',
+    method: 'post',
+    data: formData,
+    headers: {
+    'Content-Type': 'multipart/form-data'
+    }
+});
 }
 
-// 下载结果文件（你可以用 window.open 调用这个）
-export function getDownloadUrl(path) {
-return `${import.meta.env.VITE_APP_BASE_API}${path}`; // 自动拼接完整地址
+// 获取用户上传记录
+export function getUploadRecords(email) {
+return request({
+    url: '/upload/records',
+    method: 'get',
+    params: { email }
+});
 }
+
+// 获取下载文件的 URL
+export function getDownloadUrl(path) {
+return `/upload/download?path=${encodeURIComponent(path)}`;
+}
+
 
 // 启动插补任务
 export function startImputation(file, taskName, panel) {

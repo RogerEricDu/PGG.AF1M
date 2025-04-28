@@ -1,3 +1,214 @@
+<template>
+  <div class="gene-container">
+    <!-- 高级表单区域 -->
+    <h2 class="page-title">Search Bar</h2>
+
+    <!-- 新增查询类型选择 -->
+    <div class="query-type-container">
+        <div class="query-type-selector">
+          <el-radio-group v-model="searchParams.queryType">
+            <el-radio-button 
+              label="single"
+              class="custom-radio-button"
+            >
+              <span class="radio-label">Database-wide SNP Search</span>
+              <span class="radio-description">Retrieve comprehensive SNP data across all datasets</span>
+            </el-radio-button>
+            
+            <el-radio-button 
+              label="compare"
+              class="custom-radio-button"
+            >
+              <span class="radio-label">Single SNP Comparison</span>
+              <span class="radio-description">Compare SNP characteristics across populations</span>
+            </el-radio-button>
+          </el-radio-group>
+        </div>
+      </div>
+
+
+    <div class="search-bar">
+      <!-- 选择 Reference Panel -->
+      <div class="form-item">
+        <label for="referencePanel">Reference Panel:</label>
+        <el-select
+          v-model="searchParams.referencePanel"
+          placeholder="Select Reference Panel"
+          clearable
+          @change="handleReferencePanelChange"
+          id="referencePanel"
+        >
+          <el-option label="GRCh37" value="GRCh37"></el-option>
+          <el-option label="GRCh38" value="GRCh38"></el-option>
+          <el-option label="T2T" value="T2T"></el-option>
+        </el-select>
+      </div>
+
+      <!-- 数据类型 -->
+      <div class="form-item">
+        <label for="dataType">Data Type:</label>
+        <el-select
+          v-model="searchParams.dataType"
+          placeholder="Select Data Type"
+          clearable
+          id="dataType"
+        >
+          <el-option
+            v-for="type in availableDataTypes"
+            :key="type"
+            :label="type"
+            :value="type"
+          />
+        </el-select>
+      </div>
+
+      <!-- 民族 -->
+<!--       <div class="form-item">
+        <label for="population">Population:</label>
+        <el-input
+          v-model="searchParams.population"
+          placeholder="Population"
+          clearable
+          id="Population"
+        />
+      </div> -->
+
+      <!-- 选择染色体 -->
+      <div class="form-item">
+        <label for="chromosome">Chromosome:</label>
+        <el-select
+          v-model="searchParams.chromosome"
+          placeholder="Select Chromosome"
+          clearable
+          id="chromosome"
+        >
+          <el-option v-for="chr in 22" :key="chr" :label="chr" :value="chr" />
+          <el-option label="X" value="X"></el-option>
+          <el-option label="Y" value="Y"></el-option>
+        </el-select>
+      </div>
+
+      <!-- 位置输入 -->
+      <div class="form-item">
+        <label for="position">Position:</label>
+        <el-input
+          v-model="searchParams.position"
+          placeholder="Position"
+          clearable
+          id="position"
+        />
+      </div>
+
+      <!-- RSID 输入 -->
+      <div class="form-item">
+        <label for="rsid">RSID:</label>
+        <el-input
+          v-model="searchParams.rsid"
+          placeholder="RSID"
+          clearable
+          id="rsid"
+        />
+      </div>
+
+      <!-- Variant 输入 -->
+      <div class="form-item">
+        <label for="variant">Variant:</label>
+        <el-input
+          v-model="searchParams.variant"
+          placeholder="Variant (1:13372-G-C)"
+          clearable
+          id="variant"
+        />
+      </div>
+
+      <!-- province输入 -->
+      <div class="form-item">
+        <label for="province">Province:</label>
+        <el-select
+          v-model="searchParams.province"
+          placeholder="Select Province"
+          clearable
+          id="province"
+        >
+          <el-option
+            v-for="province in provinces"
+            :key="province"
+            :label="province"
+            :value="province"
+          />
+        </el-select>
+      </div>
+
+      <!-- 占位符 -->
+      <div class="form-item">
+      </div>
+      <div class="form-item">
+      </div>
+      <div class="form-item">
+      </div>
+      <div class="form-item">
+      </div>
+
+      <!-- 按钮组 -->
+      <div class="form-item button-group">
+        <el-button type="primary" @click="handleSearch">Search</el-button>
+        <el-button type="warning" @click="handleReset">Reset</el-button>
+      </div>
+    </div>
+
+    <!-- 标题区域 -->
+    <div class="header-container">
+      <h2 class="page-title">By Province</h2>
+      <!-- 导出按钮 -->
+      <el-button 
+        type="success" 
+        size="small" 
+        @click="exportToExcel"
+      >
+        Download
+      </el-button>
+    </div>
+
+    <!-- 表格区域 -->
+    <el-table :data="tableData" border style="margin: auto; text-align: center;" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center"></el-table-column> 
+      <el-table-column
+        :prop="index"
+        :label="item"
+        v-for="(item, index) in tableHeader"
+        :key="index"
+        :width="getColumnWidth(index)"
+        align="center"
+        header-align="center"
+      >
+      </el-table-column>
+      <el-table-column label="Further Info" width="120">
+        <template #default="{ row }">
+          <div class="centered-link">
+            <el-button type="primary" size="small" @click="navigateToFurtherInfo(row)">
+              INFO
+            </el-button>
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <!-- 分页 -->
+    <div class="pagination-container">
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[10, 20, 30, 40]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
+  </div>
+</template>
+
+
 <script lang="ts" setup>
 import { ref,onMounted, provide } from 'vue'; // 从 Vue 中导入 ref
 import * as XLSX from 'xlsx'; // 导入 XLSX
@@ -8,7 +219,7 @@ const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
   position: 'Position',
-  population:'Population',
+/*   population:'Population', */
   province:'Province',
   ref: 'Ref',
   alt: 'Alt',
@@ -32,7 +243,7 @@ const searchParams = ref({
   referencePanel: '',
   dataType: '',
   dataLayer: 'Province',
-  population: 'han',
+/*   population: 'han', */
   chromosome: '1',
   position: '',
   rsid: '',
@@ -80,13 +291,25 @@ const fetchData = async () => {
     const responseData = response.data;
 
     // 更新 total 和 tableData
-    total.value = 12251537; // 总记录数
+    const responseTotal = response.total; // 后端返回的总数（确保后端接口返回了这个字段）
+
+    // 检查 rsid、position、variant 是否都为空
+    const { rsid, position, variant } = searchParams.value;
+    const isAllEmpty = (!rsid || rsid.trim() === '') && (!position || position.trim() === '') && (!variant || variant.trim() === '');
+
+    if (isAllEmpty) {
+      total.value = 12251537; // 写死
+    } else {
+      total.value = responseTotal || 0; // 用后端返回的
+    }
+
+    
     tableData.value = responseData.map((item: any) => ({
       ...item, // 保留所有字段
       variant: item.variant,
       chr: item.variant.split(':')[0],
       position: item.position,
-      population: item.population,
+/*       population: item.population, */
       province:searchParams.value.province, //province直接调用搜索栏的结果即可
       ref: item.refAllele,
       alt: item.altAllele,
@@ -128,7 +351,7 @@ const handleReset = () => {
     referencePanel: '',
     dataType: '',
     dataLayer: 'Province',
-    population: '',
+/*     population: '', */
     chromosome: '',
     position: '',
     rsid: '',
@@ -143,13 +366,13 @@ const columnWidths = {
   chr: 100,
   position: 120,
   province: 100,
-  population: 120,
+/*   population: 120, */
   ref: 80,
   alt: 80,
   refFrequency: 150,
   altFrequency: 150,
-  dataset:200,
-  sampleSize:105,
+  dataset:280,
+  sampleSize:145,
 };
 
 // 根据列名获取对应的宽度
@@ -217,214 +440,6 @@ const provinces = ref([
 
 </script>
 
-
-<template>
-  <div class="gene-container">
-    <!-- 高级表单区域 -->
-    <h2 class="page-title">Search Bar</h2>
-
-    <!-- 新增查询类型选择 -->
-    <div class="query-type-container">
-        <div class="query-type-selector">
-          <el-radio-group v-model="searchParams.queryType">
-            <el-radio-button 
-              label="single"
-              class="custom-radio-button"
-            >
-              <span class="radio-label">Database-wide SNP Search</span>
-              <span class="radio-description">Retrieve comprehensive SNP data across all datasets</span>
-            </el-radio-button>
-            
-            <el-radio-button 
-              label="compare"
-              class="custom-radio-button"
-            >
-              <span class="radio-label">Single SNP Comparison</span>
-              <span class="radio-description">Compare SNP characteristics across populations</span>
-            </el-radio-button>
-          </el-radio-group>
-        </div>
-      </div>
-
-
-    <div class="search-bar">
-      <!-- 选择 Reference Panel -->
-      <div class="form-item">
-        <label for="referencePanel">Reference Panel:</label>
-        <el-select
-          v-model="searchParams.referencePanel"
-          placeholder="Select Reference Panel"
-          clearable
-          @change="handleReferencePanelChange"
-          id="referencePanel"
-        >
-          <el-option label="GRCh37" value="GRCh37"></el-option>
-          <el-option label="GRCh38" value="GRCh38"></el-option>
-          <el-option label="T2T" value="T2T"></el-option>
-        </el-select>
-      </div>
-
-      <!-- 数据类型 -->
-      <div class="form-item">
-        <label for="dataType">Data Type:</label>
-        <el-select
-          v-model="searchParams.dataType"
-          placeholder="Select Data Type"
-          clearable
-          id="dataType"
-        >
-          <el-option
-            v-for="type in availableDataTypes"
-            :key="type"
-            :label="type"
-            :value="type"
-          />
-        </el-select>
-      </div>
-
-      <!-- 民族 -->
-      <div class="form-item">
-        <label for="population">Population:</label>
-        <el-input
-          v-model="searchParams.population"
-          placeholder="Population"
-          clearable
-          id="Population"
-        />
-      </div>
-
-      <!-- 选择染色体 -->
-      <div class="form-item">
-        <label for="chromosome">Chromosome:</label>
-        <el-select
-          v-model="searchParams.chromosome"
-          placeholder="Select Chromosome"
-          clearable
-          id="chromosome"
-        >
-          <el-option v-for="chr in 22" :key="chr" :label="chr" :value="chr" />
-          <el-option label="X" value="X"></el-option>
-          <el-option label="Y" value="Y"></el-option>
-        </el-select>
-      </div>
-
-      <!-- 位置输入 -->
-      <div class="form-item">
-        <label for="position">Position:</label>
-        <el-input
-          v-model="searchParams.position"
-          placeholder="Position"
-          clearable
-          id="position"
-        />
-      </div>
-
-      <!-- RSID 输入 -->
-      <div class="form-item">
-        <label for="rsid">RSID:</label>
-        <el-input
-          v-model="searchParams.rsid"
-          placeholder="RSID"
-          clearable
-          id="rsid"
-        />
-      </div>
-
-      <!-- Variant 输入 -->
-      <div class="form-item">
-        <label for="variant">Variant:</label>
-        <el-input
-          v-model="searchParams.variant"
-          placeholder="Variant"
-          clearable
-          id="variant"
-        />
-      </div>
-
-      <!-- province输入 -->
-      <div class="form-item">
-        <label for="province">Province:</label>
-        <el-select
-          v-model="searchParams.province"
-          placeholder="Select Province"
-          clearable
-          id="province"
-        >
-          <el-option
-            v-for="province in provinces"
-            :key="province"
-            :label="province"
-            :value="province"
-          />
-        </el-select>
-      </div>
-
-      <!-- 占位符 -->
-      <div class="form-item">
-      </div>
-      <div class="form-item">
-      </div>
-      <div class="form-item">
-      </div>
-
-      <!-- 按钮组 -->
-      <div class="form-item button-group">
-        <el-button type="primary" @click="handleSearch">Search</el-button>
-        <el-button type="warning" @click="handleReset">Reset</el-button>
-      </div>
-    </div>
-
-    <!-- 标题区域 -->
-    <div class="header-container">
-      <h2 class="page-title">By Province</h2>
-      <!-- 导出按钮 -->
-      <el-button 
-        type="success" 
-        size="small" 
-        @click="exportToExcel"
-      >
-        Download
-      </el-button>
-    </div>
-
-    <!-- 表格区域 -->
-    <el-table :data="tableData" border style="margin: auto; text-align: center;" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center"></el-table-column> 
-      <el-table-column
-        :prop="index"
-        :label="item"
-        v-for="(item, index) in tableHeader"
-        :key="index"
-        :width="getColumnWidth(index)"
-        align="center"
-        header-align="center"
-      >
-      </el-table-column>
-      <el-table-column label="Further Info" width="120">
-        <template #default="{ row }">
-          <div class="centered-link">
-            <el-button type="primary" size="small" @click="navigateToFurtherInfo(row)">
-              INFO
-            </el-button>
-          </div>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <!-- 分页 -->
-    <div class="pagination-container">
-      <el-pagination
-        v-model:current-page="currentPage"
-        v-model:page-size="pageSize"
-        :page-sizes="[10, 20, 30, 40]"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
-    </div>
-  </div>
-</template>
 
 
 

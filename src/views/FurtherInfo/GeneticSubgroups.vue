@@ -38,6 +38,14 @@ onMounted(async () => {
 
   const response = await getGeneticSubgroups(requestData);
   const rawData = response.data;
+/* const rawData = [
+  { region: 'Central', data: [{ genotype1: 'GG', genotype2: 'GC', genotype3: 'CC', genotypeFrequency1: 0.999848, genotypeFrequency2: 0.000152777, genotypeFrequency3: 0.00000001, alleleCount: 2456 }] },
+  { region: 'Northeast', data: [{ genotype1: 'GG', genotype2: 'GC', genotype3: 'CC', genotypeFrequency1: 0.4, genotypeFrequency2: 0.4, genotypeFrequency3: 0.2, alleleCount: 900 }] },
+  { region: 'Northwest', data: [{ genotype1: 'GG', genotype2: 'GC', genotype3: 'CC', genotypeFrequency1: 0.45, genotypeFrequency2: 0.35, genotypeFrequency3: 0.2, alleleCount: 1100 }] },
+  { region: 'Southcoast', data: [{ genotype1: 'GG', genotype2: 'GC', genotype3: 'CC', genotypeFrequency1: 0.6, genotypeFrequency2: 0.25, genotypeFrequency3: 0.15, alleleCount: 950 }] },
+  { region: 'Southwest', data: [{ genotype1: 'GG', genotype2: 'GC', genotype3: 'CC', genotypeFrequency1: 0.55, genotypeFrequency2: 0.3, genotypeFrequency3: 0.15, alleleCount: 300 }] },
+  { region: 'Southeast', data: [{ genotype1: 'GG', genotype2: 'GC', genotype3: 'CC', genotypeFrequency1: 0.52, genotypeFrequency2: 0.3, genotypeFrequency3: 0.18, alleleCount: 1600 }] },
+]; */
 
   // 打印地图数据和接口返回的数据进行调试
   console.log("Region GeoJSON:", regionJson);

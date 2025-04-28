@@ -2,8 +2,10 @@
   <div class="gene-container">
     <!-- 高级表单区域 -->
     <h2 class="page-title">Search Bar</h2>
-      <!-- 新增查询类型选择 -->
-      <div class="query-type-container">
+
+    
+    <!-- 新增查询类型选择 -->
+    <div class="query-type-container">
         <div class="query-type-selector">
           <el-radio-group v-model="searchParams.queryType">
             <el-radio-button 
@@ -24,7 +26,6 @@
           </el-radio-group>
         </div>
       </div>
-
 
     <div class="search-bar">
       <!-- 选择 Reference Panel -->
@@ -62,13 +63,25 @@
       </div>
 
       <!-- 民族 -->
-<!--       <div class="form-item">
+      <div class="form-item">
         <label for="population">Population:</label>
         <el-input
           v-model="searchParams.population"
           placeholder="Population"
           clearable
           id="Population"
+        />
+      </div>
+
+      <!-- 数据分层 -->
+<!--       <div class="form-item">
+        <label for="dataLayer">Data Layer:</label>
+        <el-input
+          v-model="searchParams.dataLayer"
+          placeholder="Data Layer"
+          readonly
+          id="dataLayer"
+          disabled
         />
       </div> -->
 
@@ -120,34 +133,20 @@
         />
       </div>
 
-      <!-- region输入 -->
+      <!-- 空着的TIPS预输入，后续可以在这里添加内容 -->
       <div class="form-item">
-        <label for="region">Region:</label>
-        <el-select
-          v-model="searchParams.region"
-          placeholder="Select Region"
-          clearable
-          id="region"
-        >
-          <el-option label="Central" value="central" />
-          <el-option label="Southeast" value="southeast" />
-          <el-option label="Southwest" value="southwest" />
-          <el-option label="Northeast" value="northeast" />
-          <el-option label="Northwest" value="northwest" />
-          <el-option label="Southcoast" value="southcoast" />
-        </el-select>
-      </div>
-
-      <!-- 占位符 -->
-      <div class="form-item">
+        <label for="TIPS"></label>
       </div>
       <div class="form-item">
+        <label for="TIPS"></label>
       </div>
       <div class="form-item">
+        <label for="TIPS"></label>
       </div>
       <div class="form-item">
+        <label for="TIPS"></label>
       </div>
-
+      
 
       <!-- 按钮组 -->
       <div class="form-item button-group">
@@ -158,7 +157,7 @@
 
     <!-- 标题区域 -->
     <div class="header-container">
-      <h2 class="page-title">By Region</h2>
+      <h2 class="page-title">All Individuals</h2>
       <!-- 导出按钮 -->
       <el-button 
         type="success" 
@@ -193,14 +192,12 @@
       </el-table-column>
     </el-table>
 
-
     <!-- 分页 -->
     <div class="pagination-container">
       <el-pagination
         v-model:current-page="currentPage"
         v-model:page-size="pageSize"
         :page-sizes="[10, 20, 30, 40]"
-        :small="small"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         @size-change="handleSizeChange"
@@ -212,23 +209,22 @@
 
 
 <script lang="ts" setup>
-import { ref,onMounted } from 'vue'; // 从 Vue 中导入 ref
+import { ref ,onMounted} from 'vue'; // 从 Vue 中导入 ref
 import * as XLSX from 'xlsx'; // 导入 XLSX
-import { getByRegionData,getByRegionDataMerge } from '@/api/table';
-import { watch } from 'vue';
+import { getByPopulationData,getByPopulationDataMerge } from '@/api/table';
+import{ watch } from 'vue';
 
 const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
   position: 'Position',
-/*   population:'Population', */
-  region:'Region',
+  population:'Population',
   ref: 'Ref',
   alt: 'Alt',
-  refFrequency:'Ref Frequency',
-  altFrequency:'Alt Frequency',
-  dataset:'Dataset',
-  sampleSize:'SampleSize',
+  refFrequency: 'Ref Frequency',
+  altFrequency: 'Alt Frequency',
+  dataset: 'Dataset',
+  sampleSize: 'SampleSize',
 });
 
 const SnpData = ref([]);  // 用来保存完整的响应数据
@@ -245,14 +241,12 @@ const searchParams = ref({
   referencePanel: '',
   dataType: '',
   dataLayer: 'Individuals',
-/*   population: 'han', */
+  population:'',
   chromosome: '1',
   position: '',
   rsid: '',
   variant: '',
-  region: 'central',
 });
-
 // 添加queryType的watch监听
 watch(
   () => searchParams.value.queryType,
@@ -262,6 +256,7 @@ watch(
     }
   }
 );
+
 
 const availableDataTypes = ref([]);
 const handleReferencePanelChange = () => {
@@ -283,8 +278,8 @@ const fetchData = async () => {
 
     // 根据 queryType 选择 API 方法
     const apiMethod = searchParams.value.queryType === 'single' 
-      ? getByRegionDataMerge 
-      : getByRegionData;
+      ? getByPopulationDataMerge 
+      : getByPopulationData;
 
     const response = await apiMethod(params); // 动态调用 API
 
@@ -295,25 +290,24 @@ const fetchData = async () => {
         //const totalCount = response.total;
 
     // 更新 total 和 tableData
-    const responseTotal = response.total;
-    
-    //检查rsid、position和variant是否都为空
-    const { rsid,position,variant } = searchParams.value;
-    const isAllEmpty = (!rsid || rsid.trim() === '')&&(!position || position.trim() === '')&&(!variant || variant.trim() === '');
+    const responseTotal = response.total; // 后端返回的总数（确保后端接口返回了这个字段）
 
-    if (isAllEmpty){
-      total.value = 12251537; //写死
-    }else{
-      total.value = responseTotal || 0 ; // 调用后端接口
+    // 检查 rsid、position、variant 是否都为空
+    const { rsid, position, variant } = searchParams.value;
+    const isAllEmpty = (!rsid || rsid.trim() === '') && (!position || position.trim() === '') && (!variant || variant.trim() === '');
+
+    if (isAllEmpty) {
+      total.value = 12251537; // 写死
+    } else {
+      total.value = responseTotal || 0; // 用后端返回的
     }
-
+    
     tableData.value = responseData.map((item: any) => ({
       ...item, // 保留所有字段
       variant: item.variant,
       chr: item.variant.split(':')[0],
       position: item.position,
-/*       population: item.population, */
-      region: searchParams.value.region,
+      population: item.population,
       ref: item.refAllele,
       alt: item.altAllele,
       refFrequency: item.refAlleleFrequency,
@@ -325,10 +319,6 @@ const fetchData = async () => {
     console.error('Error fetching data:', error);
   }
 };
-
-
-console.log(tableData)
-console.log(SnpData)
 
 // 页面加载时默认查询
 onMounted(() => {
@@ -358,28 +348,26 @@ const handleReset = () => {
     referencePanel: '',
     dataType: '',
     dataLayer: 'Individuals',
-/*     population:'', */
-    chromosome: '',
+    population:'',
+    chromosome: '1',
     position: '',
     rsid: '',
     variant: '',
-    region: '',
   };
 };
-
 // 定义每一列的宽度，这里只是示例，你可以根据需求自定义
 const columnWidths = {
   variant: 200,
   chr: 100,
-  position: 120,
-  region:100,
-/*   population: 120, */
+  position: 150,
+  province: 120,
+  population: 120,
   ref: 80,
   alt: 80,
   refFrequency: 150,
   altFrequency: 150,
-  dataset:280,
-  sampleSize:145,
+  dataset: 210,
+  sampleSize: 160,
 };
 
 // 根据列名获取对应的宽度
@@ -404,8 +392,7 @@ const exportToExcel = () => {
     Variant: row.variant,
     Chromosome: row.chr,
     Position: row.position,
-    Population:row.population,
-    region:row.region,
+/*     Population:row.population, */
     Ref: row.ref,
     Alt: row.alt,
     RefFreq:row.refFrequency,
@@ -428,15 +415,14 @@ const small = ref(false);
 const background = ref(false);
 const disabled = ref(false);
 
-
 // 生成对应的URL
 const navigateToFurtherInfo = (row) => {
   // 直接使用 JSON 序列化所有字段，并通过 URL 的查询参数传递
   const url = `/further_info?data=${encodeURIComponent(JSON.stringify(row))}`;
   window.location.href = url; // 跳转到目标页面
 };
-
 </script>
+
 
 <style scoped>
 /* 优化后的查询类型选择器样式 */
@@ -456,11 +442,9 @@ const navigateToFurtherInfo = (row) => {
 }
 
 :deep(.el-radio-group) {
-  background-color: transparent !important;
   width: 100%;
   display: contents;
 }
-
 
 .custom-radio-button {
   height: auto;
@@ -492,7 +476,6 @@ const navigateToFurtherInfo = (row) => {
   background-color: transparent !important;
   border-color: transparent !important;
 }
-
 
 :deep(.el-radio-button__inner) {
   width: 100%;

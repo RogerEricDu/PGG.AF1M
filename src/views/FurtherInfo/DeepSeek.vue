@@ -91,11 +91,7 @@ const submitQuestion = async () => {
     const question = userQuestion.value
     const gene = geneInfo.value.symbol || 'This gene'
     const mockAnswers = [
-      `This SNP is located in ${gene},which is associated with brain development.`,
-      `${gene} may influence cardiovascular health.`,
-      `According to DeepSeek data, this SNP has a higher frequency in Asian populations.`,
-      `${gene} is a key metabolic gene.`,
-      `This variant may affect protein structure and function.`
+      `The APOE gene encodes apolipoprotein E, a protein involved in lipid metabolism that plays a key role in transporting cholesterol and other fats through the bloodstream. It has three common variants (ε2, ε3, and ε4), with APOE4 being a major genetic risk factor for late-onset Alzheimer’s disease, while APOE2 may have a protective effect. APOE also influences inflammation, neuronal repair, and amyloid-beta clearance in the brain.`,
     ]
     const randomAnswer = mockAnswers[Math.floor(Math.random() * mockAnswers.length)]
     chatAnswer.value = randomAnswer

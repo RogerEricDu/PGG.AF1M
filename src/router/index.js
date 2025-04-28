@@ -7,6 +7,7 @@ import AlleleFreqHome from '@/views/AlleleFreq/index.vue'
 import AllIndividuals from '@/views/AlleleFreq/components/AllIndividuals.vue'
 import ByProvince from '@/views/AlleleFreq/components/ByProvince.vue'
 import ByRegion from '@/views/AlleleFreq/components/ByRegion.vue'
+import Population from '@/views/AlleleFreq/components/Population.vue'
 import FurtherInfo from '@/views/FurtherInfo/index.vue'
 import Tools from '@/views/Tools/index.vue'
 import Summary from '@/views/Summary/index.vue'
@@ -66,6 +67,7 @@ const router = createRouter({
           { path: 'all_ind', component: AllIndividuals },
           { path: 'by_province', component: ByProvince },
           { path: 'by_region', component: ByRegion },
+          { path: 'population', component: Population },
         ]
       },
       {

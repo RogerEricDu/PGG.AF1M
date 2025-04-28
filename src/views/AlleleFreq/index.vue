@@ -2,6 +2,7 @@
 import AllIndividuals from './components/AllIndividuals.vue'
 import ByProvince from './components/ByProvince.vue'
 import ByRegion from './components/ByRegion.vue'
+import Population from './components/Population.vue'
 export default {
   mounted(){
     if (this.$route.path === '/allelefreq'){
@@ -12,6 +13,7 @@ export default {
     AllIndividuals, // 注册GeneTable组件
     ByProvince,
     ByRegion,
+    Population
   }
 } 
 
@@ -31,6 +33,7 @@ export default {
         <router-link to="/allelefreq/all_ind" class="AlleleFreq-navigation-item">Individuals</router-link>
         <router-link to="/allelefreq/by_province" class="AlleleFreq-navigation-item">Province</router-link>
         <router-link to="/allelefreq/by_region" class="AlleleFreq-navigation-item">Region</router-link>
+        <router-link to="/allelefreq/population" class="AlleleFreq-navigation-item">Population</router-link>
       </div>
 
       <!-- 其他内容 -->

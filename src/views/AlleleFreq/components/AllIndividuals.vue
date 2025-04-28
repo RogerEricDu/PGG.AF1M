@@ -1,209 +1,3 @@
-<script lang="ts" setup>
-import { ref ,onMounted} from 'vue'; // 从 Vue 中导入 ref
-import * as XLSX from 'xlsx'; // 导入 XLSX
-import { getAllIndividualData,getAllIndividualDataMerge } from '@/api/table';
-import{ watch } from 'vue';
-
-const tableHeader = ref({
-  variant: 'Variant',
-  chr: 'Chr',
-  position: 'Position',
-  population:'Population',
-  ref: 'Ref',
-  alt: 'Alt',
-  refFrequency: 'Ref Frequency',
-  altFrequency: 'Alt Frequency',
-  dataset: 'Dataset',
-  sampleSize: 'SampleSize',
-});
-
-const SnpData = ref([]);  // 用来保存完整的响应数据
-const tableData = ref([]); // 表格数据
-const total = ref(0); // 数据总数
-
-// 分页参数
-const currentPage = ref(1);
-const pageSize = ref(10);
-
-// 高级表单的绑定值
-const searchParams = ref({
-  queryType: 'single', // 新增查询类型，默认'single'或'compare'
-  referencePanel: '',
-  dataType: '',
-  dataLayer: 'Individuals',
-  population:'',
-  chromosome: '1',
-  position: '',
-  rsid: '',
-  variant: '',
-});
-// 添加queryType的watch监听
-watch(
-  () => searchParams.value.queryType,
-  (newVal, oldVal) => {
-    if (newVal !== oldVal) {
-      fetchData();
-    }
-  }
-);
-
-
-const availableDataTypes = ref([]);
-const handleReferencePanelChange = () => {
-  searchParams.value.dataType = ''
-  if (searchParams.value.referencePanel === 'T2T') {
-    availableDataTypes.value = ['TGS'];
-  } else {
-    availableDataTypes.value = ['Microarray', 'NGS'];
-  }
-};
-
-const fetchData = async () => {
-  try {
-    const params = {
-      ...searchParams.value,
-      page: currentPage.value,
-      size: pageSize.value,
-    };
-
-    // 根据 queryType 选择 API 方法
-    const apiMethod = searchParams.value.queryType === 'single' 
-      ? getAllIndividualDataMerge 
-      : getAllIndividualData;
-
-    const response = await apiMethod(params); // 动态调用 API
-
-    console.log('Raw Response:', response); // 添加调试日志
-
-    // 解析响应数据
-    const responseData = response.data;
-        //const totalCount = response.total;
-
-    // 更新 total 和 tableData
-    total.value = 12251537; // 总记录数
-    tableData.value = responseData.map((item: any) => ({
-      ...item, // 保留所有字段
-      variant: item.variant,
-      chr: item.variant.split(':')[0],
-      position: item.position,
-      population: item.population,
-      ref: item.refAllele,
-      alt: item.altAllele,
-      refFrequency: item.refAlleleFrequency,
-      altFrequency: item.altAlleleFrequency,
-      dataset: item.dataset,
-      sampleSize: item.sampleSize,
-    }));
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-};
-
-// 页面加载时默认查询
-onMounted(() => {
-  fetchData();
-});
-
-// 处理分页大小变化
-const handleSizeChange = (val: number) => {
-  pageSize.value = val;
-  fetchData();
-};
-
-// 处理当前页变化
-const handleCurrentChange = (val: number) => {
-  currentPage.value = val;
-  fetchData();
-};
-
-const handleSearch = async () => {
-  currentPage.value = 1; // 搜索时重置为第一页
-  await fetchData();
-};
-
-const handleReset = () => {
-  searchParams.value = {
-    queryType: 'single', // 重置时保持默认值
-    referencePanel: '',
-    dataType: '',
-    dataLayer: 'Individuals',
-    population:'',
-    chromosome: '1',
-    position: '',
-    rsid: '',
-    variant: '',
-  };
-};
-// 定义每一列的宽度，这里只是示例，你可以根据需求自定义
-const columnWidths = {
-  variant: 200,
-  chr: 100,
-  position: 150,
-  province: 120,
-  population: 120,
-  ref: 80,
-  alt: 80,
-  refFrequency: 150,
-  altFrequency: 150,
-  dataset: 250,
-  sampleSize: 120,
-};
-
-// 根据列名获取对应的宽度
-const getColumnWidth = (columnName) => {
-  return `${columnWidths[columnName]}px`;
-};
-
-const selectedRows = ref([]); // 存储选中的行
-
-const handleSelectionChange = (selection: any[]) => {
-  selectedRows.value = selection; // 更新选中的数据
-};
-
-// 导出选中行到 Excel
-const exportToExcel = () => {
-  if (!selectedRows.value.length) {
-    alert('Please select at least one row to export.');
-    return;
-  }
-
-  const sheetData = selectedRows.value.map(row => ({
-    Variant: row.variant,
-    Chromosome: row.chr,
-    Position: row.position,
-    Population:row.population,
-    Ref: row.ref,
-    Alt: row.alt,
-    RefFreq:row.refFrequency,
-    AltFreq:row.altFrequency,
-    dataset:row.dataset,
-    sampleSize:row.sampleSize
-  }));
-
-  // 创建工作簿和工作表
-  const worksheet = XLSX.utils.json_to_sheet(sheetData);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Selected Data');
-
-  // 导出文件
-  XLSX.writeFile(workbook, 'SelectedData.xlsx');
-};
-
-
-const small = ref(false);
-const background = ref(false);
-const disabled = ref(false);
-
-// 生成对应的URL
-const navigateToFurtherInfo = (row) => {
-  // 直接使用 JSON 序列化所有字段，并通过 URL 的查询参数传递
-  const url = `/further_info?data=${encodeURIComponent(JSON.stringify(row))}`;
-  window.location.href = url; // 跳转到目标页面
-};
-</script>
-
-
-
 <template>
   <div class="gene-container">
     <!-- 高级表单区域 -->
@@ -269,7 +63,7 @@ const navigateToFurtherInfo = (row) => {
       </div>
 
       <!-- 民族 -->
-      <div class="form-item">
+<!--       <div class="form-item">
         <label for="population">Population:</label>
         <el-input
           v-model="searchParams.population"
@@ -277,7 +71,7 @@ const navigateToFurtherInfo = (row) => {
           clearable
           id="Population"
         />
-      </div>
+      </div> -->
 
       <!-- 数据分层 -->
 <!--       <div class="form-item">
@@ -333,7 +127,7 @@ const navigateToFurtherInfo = (row) => {
         <label for="variant">Variant:</label>
         <el-input
           v-model="searchParams.variant"
-          placeholder="Variant"
+          placeholder="Variant (1:13372-G-C)"
           clearable
           id="variant"
         />
@@ -351,6 +145,8 @@ const navigateToFurtherInfo = (row) => {
       </div>
       <div class="form-item">
         <label for="TIPS"></label>
+      </div>
+      <div class="form-item">
       </div>
       
 
@@ -412,6 +208,225 @@ const navigateToFurtherInfo = (row) => {
     </div>
   </div>
 </template>
+
+
+<script lang="ts" setup>
+import { ref ,onMounted} from 'vue'; // 从 Vue 中导入 ref
+import * as XLSX from 'xlsx'; // 导入 XLSX
+import { getAllIndividualData,getAllIndividualDataMerge } from '@/api/table';
+import{ watch } from 'vue';
+
+const tableHeader = ref({
+  variant: 'Variant',
+  chr: 'Chr',
+  position: 'Position',
+/*   population:'Population', */
+  ref: 'Ref',
+  alt: 'Alt',
+  refFrequency: 'Ref Frequency',
+  altFrequency: 'Alt Frequency',
+  dataset: 'Dataset',
+  sampleSize: 'SampleSize',
+});
+
+const SnpData = ref([]);  // 用来保存完整的响应数据
+const tableData = ref([]); // 表格数据
+const total = ref(0); // 数据总数
+
+// 分页参数
+const currentPage = ref(1);
+const pageSize = ref(10);
+
+// 高级表单的绑定值
+const searchParams = ref({
+  queryType: 'single', // 新增查询类型，默认'single'或'compare'
+  referencePanel: '',
+  dataType: '',
+  dataLayer: 'Individuals',
+/*   population:'', */
+  chromosome: '1',
+  position: '',
+  rsid: '',
+  variant: '',
+});
+// 添加queryType的watch监听
+watch(
+  () => searchParams.value.queryType,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      fetchData();
+    }
+  }
+);
+
+
+const availableDataTypes = ref([]);
+const handleReferencePanelChange = () => {
+  searchParams.value.dataType = ''
+  if (searchParams.value.referencePanel === 'T2T') {
+    availableDataTypes.value = ['TGS'];
+  } else {
+    availableDataTypes.value = ['Microarray', 'NGS'];
+  }
+};
+
+const fetchData = async () => {
+  try {
+    const params = {
+      ...searchParams.value,
+      page: currentPage.value,
+      size: pageSize.value,
+    };
+
+    // 根据 queryType 选择 API 方法
+    const apiMethod = searchParams.value.queryType === 'single' 
+      ? getAllIndividualDataMerge 
+      : getAllIndividualData;
+
+    const response = await apiMethod(params); // 动态调用 API
+
+    console.log('Raw Response:', response); // 添加调试日志
+
+    // 解析响应数据
+    const responseData = response.data;
+        //const totalCount = response.total;
+
+    // 更新 total 和 tableData
+    const responseTotal = response.total; // 后端返回的总数（确保后端接口返回了这个字段）
+
+    // 检查 rsid、position、variant 是否都为空
+    const { rsid, position, variant } = searchParams.value;
+    const isAllEmpty = (!rsid || rsid.trim() === '') && (!position || position.trim() === '') && (!variant || variant.trim() === '');
+
+    if (isAllEmpty) {
+      total.value = 12251537; // 写死
+    } else {
+      total.value = responseTotal || 0; // 用后端返回的
+    }
+
+    tableData.value = responseData.map((item: any) => ({
+      ...item, // 保留所有字段
+      variant: item.variant,
+      chr: item.variant.split(':')[0],
+      position: item.position,
+/*       population: item.population, */
+      ref: item.refAllele,
+      alt: item.altAllele,
+      refFrequency: item.refAlleleFrequency,
+      altFrequency: item.altAlleleFrequency,
+      dataset: item.dataset,
+      sampleSize: item.sampleSize,
+    }));
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+
+// 页面加载时默认查询
+onMounted(() => {
+  fetchData();
+});
+
+// 处理分页大小变化
+const handleSizeChange = (val: number) => {
+  pageSize.value = val;
+  fetchData();
+};
+
+// 处理当前页变化
+const handleCurrentChange = (val: number) => {
+  currentPage.value = val;
+  fetchData();
+};
+
+const handleSearch = async () => {
+  currentPage.value = 1; // 搜索时重置为第一页
+  await fetchData();
+};
+
+const handleReset = () => {
+  searchParams.value = {
+    queryType: 'single', // 重置时保持默认值
+    referencePanel: '',
+    dataType: '',
+    dataLayer: 'Individuals',
+/*     population:'', */
+    chromosome: '1',
+    position: '',
+    rsid: '',
+    variant: '',
+  };
+};
+// 定义每一列的宽度，这里只是示例，你可以根据需求自定义
+const columnWidths = {
+  variant: 200,
+  chr: 100,
+  position: 150,
+  province: 120,
+/*   population: 120, */
+  ref: 80,
+  alt: 80,
+  refFrequency: 150,
+  altFrequency: 150,
+  dataset: 290,
+  sampleSize: 200,
+};
+
+// 根据列名获取对应的宽度
+const getColumnWidth = (columnName) => {
+  return `${columnWidths[columnName]}px`;
+};
+
+const selectedRows = ref([]); // 存储选中的行
+
+const handleSelectionChange = (selection: any[]) => {
+  selectedRows.value = selection; // 更新选中的数据
+};
+
+// 导出选中行到 Excel
+const exportToExcel = () => {
+  if (!selectedRows.value.length) {
+    alert('Please select at least one row to export.');
+    return;
+  }
+
+  const sheetData = selectedRows.value.map(row => ({
+    Variant: row.variant,
+    Chromosome: row.chr,
+    Position: row.position,
+/*     Population:row.population, */
+    Ref: row.ref,
+    Alt: row.alt,
+    RefFreq:row.refFrequency,
+    AltFreq:row.altFrequency,
+    dataset:row.dataset,
+    sampleSize:row.sampleSize
+  }));
+
+  // 创建工作簿和工作表
+  const worksheet = XLSX.utils.json_to_sheet(sheetData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Selected Data');
+
+  // 导出文件
+  XLSX.writeFile(workbook, 'SelectedData.xlsx');
+};
+
+
+const small = ref(false);
+const background = ref(false);
+const disabled = ref(false);
+
+// 生成对应的URL
+const navigateToFurtherInfo = (row) => {
+  // 直接使用 JSON 序列化所有字段，并通过 URL 的查询参数传递
+  const url = `/further_info?data=${encodeURIComponent(JSON.stringify(row))}`;
+  window.location.href = url; // 跳转到目标页面
+};
+</script>
+
+
+
 
 <style scoped>
 /* 优化后的查询类型选择器样式 */
