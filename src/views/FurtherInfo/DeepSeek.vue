@@ -1,145 +1,182 @@
 <template>
-<div class="deepseek-container">
-      <div v-if="deepseekResult" class="result-box">
-            <el-card class="box-card" shadow="hover">
-            <template #header>
-                  <span>SNP Annotation Results From DeepSeek</span>
-            </template>
-            <el-descriptions :column="2" border>
-                  <el-descriptions-item label="SNP ID">{{ deepseekResult.snp_id || '-' }}</el-descriptions-item>
-                  <el-descriptions-item label="Functional Annotation">{{ deepseekResult.snp_function || '-' }}</el-descriptions-item>
-                  <el-descriptions-item label="Correlation">{{ deepseekResult.association || '-' }}</el-descriptions-item>
-                  <el-descriptions-item label="Affected Genes">{{ deepseekResult.gene_symbol || '-' }}</el-descriptions-item>
-            </el-descriptions>
-            </el-card>
+  <div class="deepseek-container">
+    <!-- 骨架屏 -->
+    <el-skeleton v-if="loading" rows="6" animated />
 
-            <el-card class="box-card" shadow="hover" style="margin-top: 20px;">
-            <template #header>
-                  <span>Gene Annotation Results From DeepSeek</span>
-            </template>
-            <el-descriptions :column="1" border>
-                  <el-descriptions-item label="Gene Symbol">{{ geneInfo.symbol || '-' }}</el-descriptions-item>
-                  <el-descriptions-item label="Description">{{ geneInfo.description || '-' }}</el-descriptions-item>
-                  <el-descriptions-item label="Function">{{ geneInfo.function || '-' }}</el-descriptions-item>
-            </el-descriptions>
-            </el-card>
-            </div>
-
-            <div v-else class="loading-box">
-            <el-empty description="暂无 DeepSeek 注释结果" />
-      </div>
-
-      <!-- 对话式提问 -->
-      <el-card class="box-card" shadow="hover" style="margin-top: 30px;">
-            <template #header>
-            <span>Q&A Assistant (Within 20 words)</span>
-            </template>
-            <el-form :inline="true" @submit.prevent>
-            <el-form-item>
-                  <el-input
-                  v-model="userQuestion"
-                  maxlength="20"
-                  show-word-limit
-                  placeholder="What would you like to ask about this SNP or Gene"
-                  style="width: 300px;"
-                  />
-            </el-form-item>
-            <el-form-item>
-                  <el-button type="primary" :disabled="!userQuestion || chatCount >= MAX_CHAT" @click="submitQuestion">
-                  Submit
-                  </el-button>
-            </el-form-item>
-            <el-form-item v-if="chatCount > 0">
-                  <span style="color: #999;">Already Used {{ chatCount }}/{{ MAX_CHAT }} Times</span>
-            </el-form-item>
-            </el-form>
-
-            <div v-if="chatAnswer" style="margin-top: 20px; white-space: pre-wrap;">
-            <el-alert type="success" :closable="false" :title="'Answer：' + chatAnswer" />
-            </div>
+    <div v-else-if="deepseekResult" :style="{ opacity: loading ? 0.5 : 1, transition: 'opacity 0.3s' }">
+      <!-- SNP 注释 -->
+      <el-card class="box-card" shadow="hover">
+        <template #header>
+          <span>SNP Annotation Results From DeepSeek</span>
+        </template>
+        <el-descriptions :column="2" border>
+          <el-descriptions-item label="SNP ID">{{ deepseekResult.snp_id || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="Functional Annotation">{{ deepseekResult.snp_function || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="Correlation">{{ deepseekResult.association || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="Affected Genes">{{ deepseekResult.gene_symbol || '-' }}</el-descriptions-item>
+        </el-descriptions>
       </el-card>
 
-</div>
+      <!-- 基因注释 -->
+      <el-card class="box-card" shadow="hover" style="margin-top: 20px;">
+        <template #header>
+          <span>Gene Annotation Results From DeepSeek</span>
+        </template>
+        <el-descriptions :column="1" border>
+          <el-descriptions-item label="Gene Symbol">{{ geneInfo.symbol || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="Description">{{ geneInfo.description || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="Function">{{ geneInfo.function || '-' }}</el-descriptions-item>
+        </el-descriptions>
+      </el-card>
+    </div>
+
+    <!-- 无数据 -->
+    <div v-else class="loading-box">
+      <el-empty description="Waiting for DeepSeek Results" />
+    </div>
+
+    <!-- 问答区域 -->
+    <el-card class="box-card" shadow="hover" style="margin-top: 30px;">
+      <template #header>
+        <span>Q&A Assistant (Within 20 words)</span>
+      </template>
+      <el-form :inline="true" @submit.prevent>
+        <el-form-item>
+          <el-input
+            v-model="userQuestion"
+            maxlength="20"
+            show-word-limit
+            placeholder="What would you like to ask about this SNP or Gene"
+            style="width: 300px;"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" :disabled="!userQuestion || chatCount >= MAX_CHAT" @click="submitQuestion">
+            Submit
+          </el-button>
+        </el-form-item>
+        <el-form-item v-if="chatCount > 0">
+          <span style="color: #999;">Already Used {{ chatCount }}/{{ MAX_CHAT }} Times</span>
+        </el-form-item>
+      </el-form>
+
+      <div v-if="chatAnswer" style="margin-top: 20px; white-space: pre-wrap;">
+        <el-alert type="success" :closable="false" :title="'Answer：' + chatAnswer" />
+      </div>
+    </el-card>
+  </div>
 </template>
+
 
 <script setup>
 import { ref, defineProps, watch } from 'vue'
+import { annotateSnp, annotateGene, askDeepSeek } from '@/api/deepseek'
 
-// 接收父组件传递的 chr 和 pos
 const props = defineProps({
-chromosome: String,
-position: String
+  chromosome: String,
+  position: String
 })
 
+// 响应式数据
 const deepseekResult = ref(null)
-const geneInfo = ref({})
-const queryCount = ref(0)
-const MAX_QUERY = 3
-
+const geneInfo = ref({
+  symbol: 'NA',
+  description: 'NA',
+  function: 'NA'
+})
+const loading = ref(false)
 const userQuestion = ref('')
-const chatAnswer = ref('')
-const chatCount = ref(0)
-const MAX_CHAT = 3
+const chatAnswer = ref(null)
+const errorMessage = ref('')
 
-// 提交用户问题（模拟回答逻辑）
+// 提交问题
 const submitQuestion = async () => {
-  if (!userQuestion.value || chatCount.value >= MAX_CHAT) return
-  chatCount.value++
-
+  if (!userQuestion.value.trim()) return
+  
   try {
-    // 模拟回答生成，可替换成实际 AI 调用
-    const question = userQuestion.value
-    const gene = geneInfo.value.symbol || 'This gene'
-    const mockAnswers = [
-      `The APOE gene encodes apolipoprotein E, a protein involved in lipid metabolism that plays a key role in transporting cholesterol and other fats through the bloodstream. It has three common variants (ε2, ε3, and ε4), with APOE4 being a major genetic risk factor for late-onset Alzheimer’s disease, while APOE2 may have a protective effect. APOE also influences inflammation, neuronal repair, and amyloid-beta clearance in the brain.`,
-    ]
-    const randomAnswer = mockAnswers[Math.floor(Math.random() * mockAnswers.length)]
-    chatAnswer.value = randomAnswer
+    loading.value = true
+    const response = await askDeepSeek({
+      question: userQuestion.value
+    })
+    
+    // 处理问答接口返回的JSON数据
+    if (typeof response.data === 'string') {
+      try {
+        chatAnswer.value = JSON.parse(response.data)
+      } catch {
+        chatAnswer.value = { answer: response.data }
+      }
+    } else {
+      chatAnswer.value = response.data
+    }
+    
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message || error.message
+    console.error("Query failed: ", error)
+  } finally {
+    loading.value = false
     userQuestion.value = ''
-  } catch (err) {
-    console.error("Query failed. ", err)
-    chatAnswer.value = 'Sorry, the model currently is unable to answer your question.'
   }
 }
 
-
-// 模拟请求 DeepSeek API 注释（可以改成你实际的 API）
-const fetchDeepseekData = async () => {
-if (!props.chromosome || !props.position || queryCount.value >= MAX_QUERY) return
-
-queryCount.value++
-try {
-      // 模拟 DeepSeek 返回结果
-      const snpResult = {
-      snp_id: `${props.chromosome}:${props.position}`,
-      snp_function: 'Missense variant in protein-coding gene',
-      association: 'Associated with lipid metabolism',
-      gene_symbol: 'APOE'
-      }
-      deepseekResult.value = snpResult
-
-      // 模拟 gene 相关注释结果
+// 获取SNP数据并决定是否获取基因数据
+const fetchData = async () => {
+  if (!props.chromosome || !props.position) return
+  
+  loading.value = true
+  errorMessage.value = ''
+  
+  try {
+    // 1. 先获取SNP注释
+    const snpResponse = await annotateSnp({
+      chromosome: props.chromosome,
+      position: props.position
+    })
+    
+    // 处理SNP响应
+    deepseekResult.value = typeof snpResponse.data === 'string' ? 
+      JSON.parse(snpResponse.data) : 
+      snpResponse.data
+    
+    // 2. 检查gene_symbol是否有有效值
+    if (deepseekResult.value.gene_symbol && 
+        deepseekResult.value.gene_symbol !== 'NA') {
+      
+      // 调用基因注释接口
+      const geneResponse = await annotateGene({
+        geneSymbol: deepseekResult.value.gene_symbol
+      })
+      
+      // 处理基因响应
+      geneInfo.value = typeof geneResponse.data === 'string' ? 
+        JSON.parse(geneResponse.data) : 
+        geneResponse.data
+    } else {
+      // 如果没有有效基因符号，重置基因信息为NA
       geneInfo.value = {
-      symbol: 'APOE',
-      description: 'Apolipoprotein E, involved in lipid transport and metabolism.',
-      function: 'Plays a role in lipid metabolism and is associated with Alzheimer\'s disease.'
+        symbol: 'NA',
+        description: 'NA',
+        function: 'NA'
       }
-} catch (error) {
-      console.error('DeepSeek 查询失败:', error)
-}
+    }
+    
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message || error.message
+    console.error('DeepSeek query failed:', error)
+  } finally {
+    loading.value = false
+  }
 }
 
-// 自动触发查询
+// 监听props变化
 watch(
-[() => props.chromosome, () => props.position],
-() => {
-      if (props.chromosome && props.position) {
-      fetchDeepseekData()
-      }
-},
-{ immediate: true }
+  [() => props.chromosome, () => props.position],
+  fetchData,
+  { immediate: true }
 )
 </script>
+
+
 
 <style scoped>
 .deepseek-container {

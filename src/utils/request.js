@@ -7,24 +7,9 @@ import { ElMessage } from 'element-plus'
 // 创建一个 Axios 实例
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API, // 使用 import.meta.env 代替 process.env
-  timeout: 5000
+  timeout: 20000
 })
 
-/* // request interceptor
-service.interceptors.request.use(
-  config => {
-
-    if (store.getters.token) {
-      config.headers['X-Token'] = getToken()
-    }
-    return config
-  },
-  error => {
-    console.log(error) // for debug
-    return Promise.reject(error)
-  }
-)
- */
 // 请求拦截器
 service.interceptors.request.use(
   config => {
@@ -58,5 +43,19 @@ service.interceptors.response.use(
   }
 )
 
+/* // request interceptor
+service.interceptors.request.use(
+  config => {
 
+    if (store.getters.token) {
+      config.headers['X-Token'] = getToken()
+    }
+    return config
+  },
+  error => {
+    console.log(error) // for debug
+    return Promise.reject(error)
+  }
+)
+ */
 export default service
