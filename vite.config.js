@@ -16,6 +16,7 @@ export default defineConfig({
     alias: {
       'stream': 'stream-browserify',
       'process': 'process/browser',
+      '@': fileURLToPath(new URL('./src', import.meta.url)) //实际的路径转化
     }
   },
   define: {
@@ -33,11 +34,11 @@ export default defineConfig({
     ],
     }),
   ],
-  resolve: {
+/*   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)) //实际的路径转化
     }
-  },
+  }, */
   css:{
     preprocessorOptions:{
       scss:{

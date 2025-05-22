@@ -7,7 +7,7 @@ import { ElMessage } from 'element-plus'
 // 创建一个 Axios 实例
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API, // 使用 import.meta.env 代替 process.env
-  timeout: 20000
+  timeout: 10000
 })
 
 // 请求拦截器
@@ -28,6 +28,12 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   response => {
+    // 添加白名单路径判断
+    if (response.config.url.includes('/DeepSeek/annotateSnp') || 
+        response.config.url.includes('/DeepSeek/annotateGene')) {
+      return response.data // 直接返回原始数据
+    }
+
     const res = response.data
     if (res.code !== 200) {
       ElMessage.error(res.message || 'Error')

@@ -287,6 +287,13 @@ const fetchData = async () => {
 
     console.log('Raw Response:', response); // 添加调试日志
 
+    // 检查响应数据是否存在
+    if (!response || !response.data || response.data.length === 0) {
+      tableData.value = []; // 清空表格数据
+      total.value = 0; // 重置总数
+      return; // 直接返回，不执行后续代码
+    }
+
     // 解析响应数据
     const responseData = response.data;
         //const totalCount = response.total;
@@ -319,6 +326,8 @@ const fetchData = async () => {
     }));
   } catch (error) {
     console.error('Error fetching data:', error);
+    tableData.value = []; // 出错时也清空表格
+    total.value = 0; // 重置总数
   }
 };
 

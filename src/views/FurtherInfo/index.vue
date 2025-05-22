@@ -123,14 +123,14 @@
           <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Nature Selection -</h3>
           <NatureSelection />
         </el-tab-pane>
-
+<!-- 
         <el-tab-pane name="tab6">
           <template #label>
             <span>DeepSeek</span> 
           </template>
           <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Deep Seek -</h3>
           <DeepSeek :chromosome="chr" :position="position" />
-        </el-tab-pane>
+        </el-tab-pane> -->
 
 <!--         <el-tab-pane name="tab6">
           <template #label>
@@ -171,7 +171,7 @@ import NatureSelection from './NatureSelection.vue';
 import GenomeDiversity from './GenomeDiversity.vue';
 import LinkageDisequilibrium from './LinkageDisequilibrium.vue';
 import HaplotypeStructure from './HaplotypeStructure.vue';
-import DeepSeek from './DeepSeek.vue';
+/* import DeepSeek from '../Tools/DeepSeek.vue'; */
 
 const route = useRoute();
 const router = useRouter(); // 获取路由实例
@@ -363,7 +363,7 @@ const goBack = () => {
 让开发者可以在scoped模式下仍然为嵌套的子组件
 或第三方组件内部的元素添加样式。 */
 .custom-tabs ::v-deep .el-tabs__item {
-  width: 170px;
+  width: 210px;
   height: 50px;
   font-size: 14px;
   font-weight: bold;

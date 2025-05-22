@@ -7,6 +7,7 @@ export function annotateSnp(data) {
     url: '/DeepSeek/annotateSnp',
     method: 'post',
     data,
+    timeout:50000,
     headers: {
       'Content-Type': 'application/json'
     }
@@ -19,6 +20,7 @@ export function annotateGene(data) {
     url: '/DeepSeek/annotateGene',
     method: 'post',
     data,
+    timeout:50000,
     headers: {
       'Content-Type': 'application/json'
     }
@@ -31,6 +33,7 @@ export function askDeepSeek(data) {
     url: '/DeepSeek/ask',
     method: 'post',
     data,
+    timeout:60000,
     headers: {
       'Content-Type': 'application/json'
     }
