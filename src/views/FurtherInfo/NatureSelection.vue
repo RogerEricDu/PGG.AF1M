@@ -57,12 +57,26 @@
 import { ref, computed, onMounted, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import * as echarts from 'echarts';
+import { defineProps } from 'vue';
 
 export default {
   setup() {
     const route = useRoute();
     const chr = ref('');
-    const position = ref(0);
+    const position = ref();
+
+    // 明确声明props
+    const props = defineProps({
+      chromosome: {
+        type: String,
+        default: ''
+      },
+      position: {
+        type: Number,
+        default: 0
+      }
+    });
+    
     const region = computed(() => {
       const start = Math.max(0, position.value - 20000);
       const end = position.value + 20000;
@@ -76,12 +90,6 @@ export default {
     const tableData = ref([]);
     const chartInstanceFst = ref(null); // ECharts instance for FST
     const chartInstanceIhs = ref(null); // ECharts instance for iHS
-
-    onMounted(() => {
-      chr.value = route.query.chr || '';
-      position.value = parseInt(route.query.position) || 0;
-      initFstChart(); // Initialize the FST chart on mount
-    });
 
     const handleMethodChange = (value) => {
       showPopulationSelect.value = value !== 'ihs' && value !== 'tajimasD';

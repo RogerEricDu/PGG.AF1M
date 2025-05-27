@@ -121,7 +121,7 @@
             <span>Nature<br/>Selection</span> 
           </template>
           <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Nature Selection -</h3>
-          <NatureSelection />
+          <NatureSelection :chromosome="chr" :position="position || '0'" />
         </el-tab-pane>
 <!-- 
         <el-tab-pane name="tab6">

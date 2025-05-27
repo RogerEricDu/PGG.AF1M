@@ -15,6 +15,7 @@
     "@stomp/stompjs": "^7.0.0",
     "@vueuse/core": "^10.8.0",
     "axios": "^1.6.7",
+    "crypto-js": "^4.2.0",
     "echarts": "^5.5.1",
     "echarts-stat": "^1.2.0",
     "element-plus": "^2.5.6",

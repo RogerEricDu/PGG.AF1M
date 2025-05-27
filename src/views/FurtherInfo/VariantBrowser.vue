@@ -24,6 +24,7 @@
             name: "Example Track",
             type: "variant",
             url: "/FST_filtered_variants.vcf",  // 使用 public 文件夹中的 VCF 文件
+            /* indexURL: "/data/variants.vcf.gz.tbi" ,  */// 索引文件
             format: "vcf",
             displayMode: "EXPANDED"
           }
