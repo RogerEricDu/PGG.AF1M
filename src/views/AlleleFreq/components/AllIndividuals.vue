@@ -63,7 +63,7 @@
       </div>
 
       <!-- 民族 -->
-<!--       <div class="form-item">
+      <div class="form-item">
         <label for="population">Population:</label>
         <el-input
           v-model="searchParams.population"
@@ -71,7 +71,7 @@
           clearable
           id="Population"
         />
-      </div> -->
+      </div>
 
       <!-- 数据分层 -->
 <!--       <div class="form-item">
@@ -134,9 +134,6 @@
       </div>
 
       <!-- 空着的TIPS预输入，后续可以在这里添加内容 -->
-      <div class="form-item">
-        <label for="TIPS"></label>
-      </div>
       <div class="form-item">
         <label for="TIPS"></label>
       </div>
@@ -220,7 +217,7 @@ const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
   position: 'Position',
-/*   population:'Population', */
+  population:'Population',
   ref: 'Ref',
   alt: 'Alt',
   refFrequency: 'Ref Frequency',
@@ -243,7 +240,7 @@ const searchParams = ref({
   referencePanel: '',
   dataType: '',
   dataLayer: 'Individuals',
-/*   population:'', */
+  population:'',
   chromosome: '1',
   position: '',
   rsid: '',
@@ -316,7 +313,7 @@ const fetchData = async () => {
       variant: item.variant,
       chr: item.variant.split(':')[0],
       position: item.position,
-/*       population: item.population, */
+      population: item.population,
       ref: item.refAllele,
       alt: item.altAllele,
       refFrequency: item.refAlleleFrequency,
@@ -359,7 +356,7 @@ const handleReset = () => {
     referencePanel: '',
     dataType: '',
     dataLayer: 'Individuals',
-/*     population:'', */
+    population:'',
     chromosome: '1',
     position: '',
     rsid: '',
@@ -372,7 +369,7 @@ const columnWidths = {
   chr: 100,
   position: 150,
   province: 120,
-/*   population: 120, */
+  population: 120,
   ref: 80,
   alt: 80,
   refFrequency: 150,

@@ -33,7 +33,7 @@ export default {
         <router-link to="/allelefreq/all_ind" class="AlleleFreq-navigation-item">Individuals</router-link>
         <router-link to="/allelefreq/by_province" class="AlleleFreq-navigation-item">Province</router-link>
         <router-link to="/allelefreq/by_region" class="AlleleFreq-navigation-item">Region</router-link>
-        <router-link to="/allelefreq/population" class="AlleleFreq-navigation-item">Population</router-link>
+<!--         <router-link to="/allelefreq/population" class="AlleleFreq-navigation-item">Population</router-link> -->
       </div>
 
       <!-- 其他内容 -->

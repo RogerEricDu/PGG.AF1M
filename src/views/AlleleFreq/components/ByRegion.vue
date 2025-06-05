@@ -62,7 +62,7 @@
       </div>
 
       <!-- 民族 -->
-<!--       <div class="form-item">
+      <div class="form-item">
         <label for="population">Population:</label>
         <el-input
           v-model="searchParams.population"
@@ -70,7 +70,7 @@
           clearable
           id="Population"
         />
-      </div> -->
+      </div>
 
       <!-- 选择染色体 -->
       <div class="form-item">
@@ -221,7 +221,7 @@ const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
   position: 'Position',
-/*   population:'Population', */
+  population:'Population',
   region:'Region',
   ref: 'Ref',
   alt: 'Alt',
@@ -245,7 +245,7 @@ const searchParams = ref({
   referencePanel: '',
   dataType: '',
   dataLayer: 'Individuals',
-/*   population: 'han', */
+  population: 'han',
   chromosome: '1',
   position: '',
   rsid: '',
@@ -312,7 +312,7 @@ const fetchData = async () => {
       variant: item.variant,
       chr: item.variant.split(':')[0],
       position: item.position,
-/*       population: item.population, */
+      population: item.population,
       region: searchParams.value.region,
       ref: item.refAllele,
       alt: item.altAllele,
@@ -358,7 +358,7 @@ const handleReset = () => {
     referencePanel: '',
     dataType: '',
     dataLayer: 'Individuals',
-/*     population:'', */
+    population:'',
     chromosome: '',
     position: '',
     rsid: '',
@@ -373,7 +373,7 @@ const columnWidths = {
   chr: 100,
   position: 120,
   region:100,
-/*   population: 120, */
+  population: 120,
   ref: 80,
   alt: 80,
   refFrequency: 150,

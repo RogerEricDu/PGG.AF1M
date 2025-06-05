@@ -63,7 +63,7 @@
       </div>
 
       <!-- 民族 -->
-<!--       <div class="form-item">
+      <div class="form-item">
         <label for="population">Population:</label>
         <el-input
           v-model="searchParams.population"
@@ -71,7 +71,7 @@
           clearable
           id="Population"
         />
-      </div> -->
+      </div>
 
       <!-- 选择染色体 -->
       <div class="form-item">
@@ -140,8 +140,6 @@
       </div>
 
       <!-- 占位符 -->
-      <div class="form-item">
-      </div>
       <div class="form-item">
       </div>
       <div class="form-item">
@@ -219,7 +217,7 @@ const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
   position: 'Position',
-/*   population:'Population', */
+  population:'Population',
   province:'Province',
   ref: 'Ref',
   alt: 'Alt',
@@ -243,7 +241,7 @@ const searchParams = ref({
   referencePanel: '',
   dataType: '',
   dataLayer: 'Province',
-/*   population: 'han', */
+  population: 'han',
   chromosome: '1',
   position: '',
   rsid: '',
@@ -309,7 +307,7 @@ const fetchData = async () => {
       variant: item.variant,
       chr: item.variant.split(':')[0],
       position: item.position,
-/*       population: item.population, */
+      population: item.population,
       province:searchParams.value.province, //province直接调用搜索栏的结果即可
       ref: item.refAllele,
       alt: item.altAllele,
@@ -351,7 +349,7 @@ const handleReset = () => {
     referencePanel: '',
     dataType: '',
     dataLayer: 'Province',
-/*     population: '', */
+    population: '',
     chromosome: '',
     position: '',
     rsid: '',
@@ -366,7 +364,7 @@ const columnWidths = {
   chr: 100,
   position: 120,
   province: 100,
-/*   population: 120, */
+  population: 120,
   ref: 80,
   alt: 80,
   refFrequency: 150,
