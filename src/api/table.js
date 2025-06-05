@@ -1,9 +1,10 @@
 // 封装所有和用户相关的接口函数
 import request from '@/utils/request'
 
+//NGS数据使用的接口
 export function getAllIndividualData(data) {
   return request({
-    url: '/select/individualSNP',
+    url: '/select/NGS/individualSNP',
     method: 'post',
     data
   })
@@ -11,7 +12,7 @@ export function getAllIndividualData(data) {
 
 export function getAllIndividualDataMerge(data) {
   return request({
-    url: '/select/individualMergeSNP',
+    url: '/select/NGS/individualMergeSNP',
     method: 'post',
     data
   })
@@ -19,7 +20,7 @@ export function getAllIndividualDataMerge(data) {
 
 export function getByProvinceData(data) {
   return request({
-    url: '/select/provinceSNP',
+    url: '/select/NGS/provinceSNP',
     method: 'post',
     data
   })
@@ -27,7 +28,7 @@ export function getByProvinceData(data) {
 
 export function getByProvinceDataMerge(data) {
   return request({
-    url: '/select/provinceMergeSNP',
+    url: '/select/NGS/provinceMergeSNP',
     method: 'post',
     data
   })
@@ -35,7 +36,7 @@ export function getByProvinceDataMerge(data) {
 
 export function getByRegionData(data) {
   return request({
-    url: '/select/regionSNP',
+    url: '/select/NGS/regionSNP',
     method: 'post',
     data,
   })
@@ -43,7 +44,7 @@ export function getByRegionData(data) {
 
 export function getByRegionDataMerge(data) {
   return request({
-    url: '/select/regionMergeSNP',
+    url: '/select/NGS/regionMergeSNP',
     method: 'post',
     data
   })
@@ -51,7 +52,7 @@ export function getByRegionDataMerge(data) {
 
 export function getByPopulationData(data) {
   return request({
-    url: '/select/populationSNP',
+    url: '/select/NGS/populationSNP',
     method: 'post',
     data,
   })
@@ -59,7 +60,73 @@ export function getByPopulationData(data) {
 
 export function getByPopulationDataMerge(data) {
   return request({
-    url: '/select/populationMergeSNP',
+    url: '/select/NGS/populationMergeSNP',
+    method: 'post',
+    data
+  })
+}
+
+//下面的都是芯片数据的接口，和NGS的进行区分
+
+export function getAllIndividualDataMicroarray(data) {
+  return request({
+    url: '/select/Microarray/individualSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getAllIndividualDataMergeMicroarray(data) {
+  return request({
+    url: '/select/Microarray/individualMergeSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getByProvinceDataMicroarray(data) {
+  return request({
+    url: '/select/Microarray/provinceSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getByProvinceDataMergeMicroarray(data) {
+  return request({
+    url: '/select/Microarray/provinceMergeSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getByRegionDataMicroarray(data) {
+  return request({
+    url: '/select/Microarray/regionSNP',
+    method: 'post',
+    data,
+  })
+}
+
+export function getByRegionDataMergeMicroarray(data) {
+  return request({
+    url: '/select/Microarray/regionMergeSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getByPopulationDataMicroarray(data) {
+  return request({
+    url: '/select/Microarray/populationSNP',
+    method: 'post',
+    data,
+  })
+}
+
+export function getByPopulationDataMergeMicroarray(data) {
+  return request({
+    url: '/select/Microarray/populationMergeSNP',
     method: 'post',
     data
   })

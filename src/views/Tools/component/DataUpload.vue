@@ -15,6 +15,7 @@
     <el-card class="step-card" :body-style="{ padding: '20px' }" style="margin-top: 20px">
       <div class="step">
         <h3>STEP 2: Select the file to upload</h3>
+        <p><strong>Notice:</strong> Please prepare an Excel file with the first column containing chromosome numbers (1...22, X, Y) and the second column containing positions. </p>
         <!-- Name and Data Type Selection -->
         <div class="job-selection">
           Name for this job (optional):
@@ -25,8 +26,7 @@
             style="margin-right: 20px; width: 35%;"
           />
           <el-select v-model="dataType" placeholder="Select Data Type" style="width: 35%;">
-            <el-option label="100,000 Microarrays Data" value="Microarray"></el-option>
-            <el-option label="NGS Data" value="NGS"></el-option>
+            <el-option label="SNP" value="SNP"></el-option>
           </el-select>
         </div>
       </div>
@@ -89,17 +89,22 @@
           prop="taskName"
           label="Task Name"
         />
-        <el-table-column
+<!--         <el-table-column
           prop="fileInfo"
           label="File Info"
-        />
+        /> -->
+        <el-table-column
+          prop="created_at"
+          label="Upload Time"
+        >
+            <template #default="{ row }">
+            {{ formatDate(row.createdAt) }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="dataType"
           label="Data Type"
         >
-          <template #default="{ row }">
-            <el-tag>{{ row.dataType }}</el-tag>
-          </template>
         </el-table-column>
         <el-table-column
           prop="status"
@@ -116,7 +121,7 @@
         <el-table-column
           label="Functions"
           fixed="right"
-          width="300" 
+          width="200" 
         >
           <template #default="{ row }">
             <el-button
@@ -126,127 +131,119 @@
             >
               Download
             </el-button>
-<!--             <el-button
-              type="primary"
-              @click="showResults"
-              class="view-results-button"
-            >
-              Show Results
-            </el-button> -->
           </template>
         </el-table-column>
       </el-table>
-    </el-card>
-    <!-- Results Section -->
-    <el-card v-if="showResultSection" class="results-card" :body-style="{ padding: '20px' }" style="margin-top: 20px">
-      <h3>Results for {{ currentTaskName  }}</h3>
-      <div class="results-content">
-        <!-- Pie Chart -->
-        <div ref="biotypeChart" class="chart"></div>
-        <!-- Sample Summary -->
-        <div class="summary">
-          <h4>Sample Summary</h4>
-          <p>Total Samples: 500</p>
-          <p>Novel SNPs: 100</p>
-          <p>Average Frequency: 0.1145</p>
-        </div>
-        <!-- High-Frequency Variants -->
-        <div class="high-frequency-variants">
-          <h4>High-Frequency Variants</h4>
-          <ul>
-            <li>1:13284-G-A: 0.8445</li>
-            <li>13:434754-G-C: 0.8223</li>
-            <li>5:1472228-C-A: 0.8111</li>
-            <li>4:84747756-C-A: 0.7862</li>
-            <li>X:112272228-C-A: 0.7566</li>
-          </ul>
-        </div>
-      </div>
     </el-card>
 
   </div>
 </template>
 
-<script>
-/* import * as echarts from "echarts"; */
+<script setup>
+import dayjs from 'dayjs';
+import { ref, computed, onMounted } from 'vue';
+import { useAuthStore } from '@/store/authStore.js';
+import { uploadSNPFile, getUploadRecords, getDownloadUrl } from '@/api/tools';
+import { UploadFilled } from '@element-plus/icons-vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
-import { UploadFilled } from "@element-plus/icons-vue";
-import { uploadSNPFile,getUploadRecords,getDownloadUrl } from "@/api/tools";
+const fileLists = ref([]);
+const taskName = ref('');
+const dataType = ref('SNP');
+const uploadRecords = ref([]);
 
-export default {
-  name: 'dataUpload',
-  components: {
-    UploadFilled,
-  },
-  data() {
-    return {
-      taskName: '', // 当前输入框中的任务名称
-      currentTaskName: '', // 用于显示结果区域的任务名称
-      dataType: '', //  (chip or ngs)
-      fileLists: [],
-      uploadRecords: [],
-      showResultSection: false,
-      userEmail: 'your@email.com', //邮箱后续要修改
-    };
-  },
+const uploadRef = ref(null);
 
-  mounted(){
-    this.loadUploadRecords();
-  },
+const authStore = useAuthStore();
+const username = computed(() => authStore.user?.username || '');
+const email = computed(() => authStore.user?.email || '');
 
-  methods: {
-    handleChange(file) {
-      this.fileLists = [file]; // Only keep the latest file
-    },
-    async submitUpload() {
-      if (!this.fileLists.length) return;
-
-      const file = this.fileLists[0].raw;
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("taskName", this.taskName);
-      formData.append("dataType", this.dataType);
-      formData.append("username", "current_user"); // 视情况传当前登录用户名
-      formData.append("email", this.userEmail);
-
-      try {
-        await uploadSNPFile(formData); // 用封装好的函数
-        this.$message.success("Upload started!");
-        this.loadUploadRecords(); // 刷新记录
-      } catch (err) {
-        this.$message.error("Upload failed: " + err.message);
-      }
-    },
-    async loadUploadRecords() {
-      try {
-        const res = await getUploadRecords(this.userEmail); // 用封装方法
-        this.uploadRecords = res.data;
-      } catch (err) {
-        this.$message.error("Failed to load records.");
-      }
-    },
-    downloadFile(id) {
-      const record = this.uploadRecords.find(r => r.id === id);
-      if (!record || !record.resultPath) {
-        this.$message.warning("Result not ready yet.");
-        return;
-      }
-      const url = getDownloadUrl(record.resultPath); // 用封装方法
-      window.open(url, '_blank');
-    },
-    handleRemove(file, fileList) {
-      console.log('Remove', file, fileList);
-      this.fileLists = [];
-    },
-    handlePreview(file) {
-      console.log(file);
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`Sure to Remove ${file.name}？`);
-    },
-  },
+const handleChange = (file) => {
+  fileLists.value = [file];
 };
+
+const handleRemove = (file, fileList) => {
+  fileLists.value = [];
+};
+
+const beforeRemove = (file, fileList) => {
+  return ElMessageBox.confirm(`Sure to remove ${file.name}?`);
+};
+
+const handlePreview = (file) => {
+  console.log(file);
+};
+
+const submitUpload = async () => {
+  if (!fileLists.value.length) return;
+
+  const file = fileLists.value[0].raw;
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("username", username.value);
+  formData.append("email", email.value);
+  formData.append("taskName", taskName.value);
+
+  try {
+    await uploadSNPFile(formData);
+    ElMessage.success("Upload successful!");
+    taskName.value = '';
+    dataType.value = '';
+    fileLists.value = [];
+    await loadUploadRecords();
+  } catch (err) {
+    ElMessage.error("Upload failed: " + err.message);
+  }
+};
+
+const toCamelCase = (str) =>
+  str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+
+const convertKeysToCamelCase = (obj) => {
+  const newObj = {};
+  for (const key in obj) {
+    newObj[toCamelCase(key)] = obj[key];
+  }
+  return newObj;
+};
+
+const loadUploadRecords = async () => {
+  try {
+    const response = await getUploadRecords(username.value);
+    uploadRecords.value = response.data.map(convertKeysToCamelCase);
+  } catch (err) {
+    ElMessage.error("Failed to load records: " + err.message);
+  }
+};
+
+const downloadFile = async (id) => {
+  try {
+    const response = await getDownloadUrl(id, { responseType: 'blob' }); // 这里必须告诉 axios 返回 blob 类型
+    const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `task_result_${id}.xlsx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    ElMessage.error("Download failed: " + err.message);
+  }
+};
+
+const formatDate = (dateStr) => {
+  return dayjs(dateStr).format('YYYY-MM-DD HH:mm:ss');
+};
+
+onMounted(() => {
+  loadUploadRecords();
+});
 </script>
+
+
 
 
 <style scoped>

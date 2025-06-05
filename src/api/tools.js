@@ -3,28 +3,33 @@ import request from '@/utils/request'
 
 // 上传 SNP 文件
 export function uploadSNPFile(formData) {
-return request({
-    url: '/upload/submit',
-    method: 'post',
-    data: formData,
-    headers: {
-    'Content-Type': 'multipart/form-data'
-    }
-});
+    return request({
+        url: '/upload/excel',
+        method: 'post',
+        data: formData,
+        headers: {
+        'Content-Type': 'multipart/form-data'
+        }
+    });
 }
 
 // 获取用户上传记录
-export function getUploadRecords(email) {
+export function getUploadRecords(username) {
 return request({
-    url: '/upload/records',
-    method: 'get',
-    params: { email }
+    url: `/upload/tasks`,
+    method: 'post',
+    data: { username } 
 });
 }
 
 // 获取下载文件的 URL
-export function getDownloadUrl(path) {
-return `/upload/download?path=${encodeURIComponent(path)}`;
+export function getDownloadUrl(id) {
+  return request({
+    url: `/upload/download`,
+    method: 'post',
+    data: { id } ,
+    ...config
+});
 }
 
 

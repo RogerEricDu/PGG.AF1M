@@ -35,14 +35,18 @@
             class="custom-table"
           >
 <!--             <el-table-column prop="id" label="ID" :min-width="80"></el-table-column> -->
-            <el-table-column prop="updateTime" label="Update Time" :min-width="250"></el-table-column>
+            <el-table-column prop="updateTime" label="Update Time" :min-width="250">
+              <template #default="{ row }">
+                {{ formatDate(row.updateTime) }}
+              </template>
+            </el-table-column>
             <el-table-column prop="taskName" label="Task Name" :min-width="200"></el-table-column>
-            <el-table-column prop="taskType" label="Task Type" :min-width="150">
+            <el-table-column prop="taskType" label="Task Type" :min-width="200">
               <template #default="scope">
                 {{ scope.row.taskType || "N/A" }}
               </template>
             </el-table-column>
-            <el-table-column prop="status" label="Status" :min-width="150">
+            <el-table-column prop="status" label="Status" :min-width="200">
               <template #default="scope">
                 <el-tag
                   :type="statusType(scope.row.status)"
@@ -54,7 +58,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="fileName" label="File Name" :min-width="200"></el-table-column>
+            <!-- <el-table-column prop="fileName" label="File Name" :min-width="200"></el-table-column> -->
             <el-table-column label="Functions" :min-width="150" fixed="right">
               <template #default="scope">
                 <el-button
@@ -75,70 +79,83 @@
   </div>
 </template>
 
-<script>
-import { checkUserTasks } from "@/api/user";
+<script setup>
+import { ref, reactive, computed, onMounted, defineProps } from 'vue';
+import dayjs from 'dayjs';
+import { ElMessage } from 'element-plus';
+import { checkUserTasks } from '@/api/user';
 
-export default {
-  props: {
-    username: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
+const props = defineProps({
+  username: {
+  type: String,
+  required: true,
   },
-  data() {
-    return {
-      query: {
-        updateTime: "",
-        taskName: "",
-      },
-      tableData: [],
-      selectedResult: null,
-    };
+  email: {
+    type: String,
+    required: true,
   },
-  methods: {
-    statusType(status) {
-      switch (status?.toLowerCase()) {
-        case "running":
-          return "primary";  // 蓝
-        case "pending":
-          return "warning";  // 黄
-        case "done":
-          return "success";  // 绿
-        case "error":
-          return "danger";   // 红
-        default:
-          return "info";     // 灰蓝
-      }
-    },
-    fetchTableData() {
-      const payload = {
-        username: this.username,
-        email: this.email
-      };
-      checkUserTasks(payload).then((res) => {
-        if (res.code === 200 && Array.isArray(res.data)) {
-          this.tableData = res.data.filter(item => {
-            return (!this.query.taskName || item.taskName?.includes(this.query.taskName)) &&
-                  (!this.query.taskType || item.taskType?.toLowerCase().includes(this.query.taskType.toLowerCase())) &&
-                  (!this.query.updateTime || item.updateTime?.startsWith(this.query.updateTime));
-          });
-        } else {
-          this.$message.error("Unexpected response format.");
-        }
-      });
-    },
-    downloadFile(row) {
-      alert(`Download started for ${row.fileName}`);
-    },
-  },
-  mounted(){
-    this.fetchTableData();
-  },
+})
+
+const query = reactive({
+  updateTime: '',
+  taskName: '',
+})
+
+const tableData = ref ([]);
+const selectedResult = ref(null);
+
+const statusType = (status) => {
+  switch (status?.toLowerCase()) {
+    case "running":
+      return "primary";  // 蓝
+    case "pending":
+      return "warning";  // 黄
+    case "done":
+      return "success";  // 绿
+    case "error":
+      return "danger";   // 红
+    default:
+      return "info";     // 灰蓝
+  }
 };
+
+const fetchTableData = async () => {
+  const payload = {
+    username : props.username,
+    email : props.email,
+  };
+  try {
+    const res = await checkUserTasks(payload);
+    if (res.code === 200 && Array.isArray(res.data)) {
+      tableData.value = res.data.filter((item) => {
+        return (
+          (!query.taskName || item.taskName?.includes(query.taskName)) &&
+          (!query.taskType || item.taskType?.toLowerCase().includes(query.taskType.toLowerCase())) &&
+          (!query.updateTime || item.updateTime?.startsWith(query.updateTime))
+        );
+      });
+    } else {
+      ElMessage.error('Unexpected response format.');
+    }
+  } catch (err) {
+    ElMessage.error('Failed to load tasks: ' + err.message);
+  }
+};
+
+// 下载
+const downloadFile = (row) => {
+  alert(`Download started for ${row.fileName}`);
+};
+
+// 初始化
+onMounted(() => {
+  fetchTableData();
+});
+
+const formatDate = (dateStr) => {
+  return dayjs(dateStr).format('YYYY-MM-DD HH:mm:ss');
+};
+
 </script>
 
 <style scoped>

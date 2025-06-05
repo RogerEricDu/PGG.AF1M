@@ -1,4 +1,4 @@
-import CryptoJS from 'crypto-js'
+/* import CryptoJS from 'crypto-js'
 
 const SECRET_KEY = import.meta.env.VITE_ENCRYPT_KEY
 
@@ -13,3 +13,4 @@ export const decryptData = (encrypted) => {
   const bytes = CryptoJS.AES.decrypt(encrypted, SECRET_KEY)
   return JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
 }
+ */
