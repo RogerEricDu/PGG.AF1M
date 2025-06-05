@@ -86,7 +86,7 @@ const handleSubmit = () => {
 .home-page {
   display: flex;
   flex-direction: column;
-  width: 1500px;
+  width: 80%;
   margin: 0 auto;
   background: linear-gradient(to bottom, #f9fbfd, #e3e8ee);
   border-radius: 15px;

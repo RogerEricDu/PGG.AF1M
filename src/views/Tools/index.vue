@@ -17,7 +17,8 @@
         <router-link to="/tools/DataUpload" class="tools-navigation-item">DataUpload</router-link>
         <router-link to="/tools/Imputation" class="tools-navigation-item">Imputation</router-link>
         <router-link to="/tools/GWAS" class="tools-navigation-item">GWAS</router-link>
-        <router-link to="/tools/BLAST" class="tools-navigation-item">BLAST</router-link>
+        <router-link to="/tools/IBD" class="tools-navigation-item">IBD</router-link>
+<!--         <router-link to="/tools/BLAST" class="tools-navigation-item">BLAST</router-link> -->
       </div>
 
       <!-- 其他内容 -->
@@ -32,7 +33,7 @@
 .tools-page-container {
   display: flex;
   flex-direction: column;
-  width: 1500px;
+  width: 90%;
   margin: 0 auto;
   background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 高级感背景 */
   border-radius: 15px;
