@@ -366,7 +366,7 @@ const handleReset = () => {
 // 定义每一列的宽度，这里只是示例，你可以根据需求自定义
 const columnWidths = {
   variant: 200,
-  chr: 100,
+  chr: 60,
   position: 150,
   province: 120,
   population: 120,
@@ -375,7 +375,7 @@ const columnWidths = {
   refFrequency: 150,
   altFrequency: 150,
   dataset: 290,
-  sampleSize: 200,
+  sampleSize: 120,
 };
 
 // 根据列名获取对应的宽度
