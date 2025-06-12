@@ -27,7 +27,7 @@
           The Database for Large Cohort Allele Frequency (PGG.AF1M) is a resource developed by Human Population Omics Group, with the goal of using computational approaches and developing new methods to dissect genetic architecture of human populations, quantitatively characterize genetic & phenotypic diversity, and reveal their demographic history and adaptive divergence.
         </p>
         <p>
-          The data set provided on this website spans 257,519,942 SNPs (follow-up tp 2 billion) and 20,000+ whole-genome sequences(follow-up to 100K+) from 11 different modern Han population datasets, sequenced as part of various disease-specific and population genetic studies. The PGG.AF1M Principal Investigators and team can be found <a href="/about"><strong>HERE</strong></a>, and the groups that have contributed data to the current release are listed <a href="/about"><strong>HERE</strong></a>.
+          The data set provided on this website spans <strong>257,519,942</strong> SNPs (follow-up tp 2 billion) and <strong>50,000+</strong> whole-genome sequences (follow-up to 100K+) from 11 different modern Han population datasets, sequenced as part of various disease-specific and population genetic studies. The PGG.AF1M Principal Investigators and team can be found <a href="/about"><strong>HERE</strong></a>, and the groups that have contributed data to the current release are listed <a href="/about"><strong>HERE</strong></a>.
         </p>
         <p>
           All data here are released for the benefit of the wider biomedical community, without restriction on use - see the terms of use. Sign up for our mailing list for future release announcements.

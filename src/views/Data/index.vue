@@ -104,7 +104,7 @@ const sampleCount = ref(0);
 
 const targetPopulation = 11; // 最终显示的Population数量
 const targetDataset = 3; // 最终显示的Dataset数量
-const targetSample = 120000; // 最终显示的Sample数量
+const targetSample = 150000; // 最终显示的Sample数量
 // 初始化 ECharts 地图
 const chartContainer = ref(null);
 

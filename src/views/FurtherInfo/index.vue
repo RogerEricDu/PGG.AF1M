@@ -77,7 +77,7 @@
       <el-tabs v-model="activeTab" @tab-click="handleTabClick" class="custom-tabs">
         <el-tab-pane name="tab1">
           <template #label>
-            <span>Provincial<br/>Population</span> <!-- 使用 <br/> 标签换行 -->
+            <span>Provincial Subgroups<br/>HeatMap</span> <!-- 使用 <br/> 标签换行 -->
           </template>
           <div class="provincial-population-title">
             <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Provincial Population -</h3>
@@ -88,7 +88,18 @@
 
         <el-tab-pane name="tab2">
           <template #label>
-            <span>Genetic<br/>Subgroups</span> 
+            <span>Provincial Subgroups<br/>Genotype Map</span> <!-- 使用 <br/> 标签换行 -->
+          </template>
+          <div class="provincial-population-title">
+            <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Provincial Population -</h3>
+            <p style="flex: 1; text-align: right;">Click on the map to display population structure of the area.</p>
+          </div>
+          <ProvincialMap2 :chromosome="chr" :position="position" />
+        </el-tab-pane>
+
+        <el-tab-pane name="tab3">
+          <template #label>
+            <span>Region Subgroups<br/>HeatMap</span> 
           </template>
           <div class="genetic-subgroups-title">
             <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Genetic Subgroups -</h3>
@@ -97,7 +108,18 @@
           <GeneticSubgroups :chromosome="chr" :position="position" />
         </el-tab-pane>
 
-        <el-tab-pane name="tab3">
+        <el-tab-pane name="tab4">
+          <template #label>
+            <span>Region Subgroups<br/>Genotype Map</span> 
+          </template>
+          <div class="genetic-subgroups-title">
+            <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Genetic Subgroups -</h3>
+            <p style="flex: 1; text-align: right;">Click on the map to display population structure of the area.</p>
+          </div>
+          <GeneticSubMap :chromosome="chr" :position="position" />
+        </el-tab-pane>
+
+        <el-tab-pane name="tab5">
           <template #label>
             <span>Variant<br/>Browser</span> 
           </template>
@@ -108,7 +130,7 @@
           <VariantBrowser />
         </el-tab-pane>
 
-        <el-tab-pane name="tab4">
+        <el-tab-pane name="tab6">
           <template #label>
             <span>Variant<br/>Effect</span> 
           </template>
@@ -116,13 +138,13 @@
           <VariantEffect :chromosome="chr" :position="position || '0'" />
         </el-tab-pane>
 
-        <el-tab-pane name="tab5">
+<!--         <el-tab-pane name="tab5">
           <template #label>
             <span>Nature<br/>Selection</span> 
           </template>
           <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Nature Selection -</h3>
           <NatureSelection :chromosome="chr" :position="position || '0'" />
-        </el-tab-pane>
+        </el-tab-pane> -->
 <!-- 
         <el-tab-pane name="tab6">
           <template #label>
@@ -164,13 +186,15 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ProvincialPopulation from './ProvincialPopulation.vue';
+import ProvincialMap2 from './ProvincialMap2.vue';
 import GeneticSubgroups from './GeneticSubgroups.vue';
+import GeneticSubMap from './GeneticSubMap.vue';
 import VariantBrowser from './VariantBrowser.vue';
 import VariantEffect from './VariantEffect.vue';
 import NatureSelection from './NatureSelection.vue';
-import GenomeDiversity from './GenomeDiversity.vue';
+/* import GenomeDiversity from './GenomeDiversity.vue';
 import LinkageDisequilibrium from './LinkageDisequilibrium.vue';
-import HaplotypeStructure from './HaplotypeStructure.vue';
+import HaplotypeStructure from './HaplotypeStructure.vue'; */
 /* import DeepSeek from '../Tools/DeepSeek.vue'; */
 
 const route = useRoute();
@@ -327,7 +351,7 @@ const goBack = () => {
 
 <style scoped>
 .further-info-container {
-  width: 1200px;
+  width: 80%;
   margin: 0 auto;
   user-select: text;
 }
@@ -343,11 +367,14 @@ const goBack = () => {
 
 .chart-tabs {
   display: flex;
+  flex-wrap: wrap; /* ✅ 自动换行 */
+  justify-content: space-between;
   width: 100%;
   background-color: white;
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* ✅ 可选：防止宽度溢出 */
 }
 .info-header {
   display: flex;
@@ -363,19 +390,20 @@ const goBack = () => {
 让开发者可以在scoped模式下仍然为嵌套的子组件
 或第三方组件内部的元素添加样式。 */
 .custom-tabs ::v-deep .el-tabs__item {
-  width: 210px;
+  /* width: 270px;  🚫 删除这行 */
   height: 50px;
   font-size: 14px;
   font-weight: bold;
   color: #2c3e50;
   text-align: center;
-  padding: 15px 0; /* 减少左右 padding 保持一致 */
-  margin: 0 10px; /* 设置左右间距，以实现20px的总间距 */
+  padding: 15px 0;
+  margin: 0 10px;
   border-radius: 5px;
   cursor: pointer;
-  flex: 1; /* 确保每个标签项均分宽度 */
+  flex: 1; /* ✅ 保留，自动平均分配宽度 */
   background-color: #ecf0f1;
   transition: background-color 0.3s, color 0.3s;
+  min-width: 220px; /* ✅ 可选：给个最小宽度，避免太窄 */
 }
 
 .custom-tabs ::v-deep .el-tabs__item:hover {
