@@ -119,16 +119,16 @@
           <GeneticSubMap :chromosome="chr" :position="position" />
         </el-tab-pane>
 
-        <el-tab-pane name="tab5">
+<!--         <el-tab-pane name="tab5">
           <template #label>
             <span>Variant<br/>Browser</span> 
           </template>
           <div class="Variant-Browser-title">
             <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Variant Browser -</h3>
-            <!-- <p style="flex: 1; text-align: right;">Click on the map to display population structure of the area.</p> -->
+            
           </div>
           <VariantBrowser />
-        </el-tab-pane>
+        </el-tab-pane> -->
 
         <el-tab-pane name="tab6">
           <template #label>
@@ -189,7 +189,7 @@ import ProvincialPopulation from './ProvincialPopulation.vue';
 import ProvincialMap2 from './ProvincialMap2.vue';
 import GeneticSubgroups from './GeneticSubgroups.vue';
 import GeneticSubMap from './GeneticSubMap.vue';
-import VariantBrowser from './VariantBrowser.vue';
+/* import VariantBrowser from './VariantBrowser.vue'; */
 import VariantEffect from './VariantEffect.vue';
 import NatureSelection from './NatureSelection.vue';
 /* import GenomeDiversity from './GenomeDiversity.vue';
@@ -403,7 +403,7 @@ const goBack = () => {
   flex: 1; /* ✅ 保留，自动平均分配宽度 */
   background-color: #ecf0f1;
   transition: background-color 0.3s, color 0.3s;
-  min-width: 220px; /* ✅ 可选：给个最小宽度，避免太窄 */
+  min-width: 270px; /* ✅ 可选：给个最小宽度，避免太窄 */
 }
 
 .custom-tabs ::v-deep .el-tabs__item:hover {

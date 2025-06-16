@@ -16,7 +16,7 @@
         <router-link to="/tools/DeepSeek" class="tools-navigation-item">DeepSeek</router-link>
         <router-link to="/tools/DataUpload" class="tools-navigation-item">DataUpload</router-link>
         <router-link to="/tools/Imputation" class="tools-navigation-item">Imputation</router-link>
-        <router-link to="/tools/GWAS" class="tools-navigation-item">GWAS</router-link>
+        <!-- <router-link to="/tools/GWAS" class="tools-navigation-item">GWAS</router-link> -->
         <router-link to="/tools/IBD" class="tools-navigation-item">IBD</router-link>
 <!--         <router-link to="/tools/BLAST" class="tools-navigation-item">BLAST</router-link> -->
       </div>
