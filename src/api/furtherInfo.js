@@ -19,24 +19,24 @@ export function getGeneticSubgroups(data) {
 }
 
 //igvtools,传递一个染色体、染色体位置
-export function getVariantBrowser(data) {
+/* export function getVariantBrowser(data) {
     return request({
         url: '/furtherInfo/variantBrowser',
         method: 'post',
         data
     })
-}
+} */
 
-export function getVariantEffect(data) {
+export function getVEPAnnotation(data) {
     return request({
-        url: '/vep/annotate',
+        url: '/furtherInfo/vep',
         method: 'post',
         data
     })
 }
 
 //功能注释 nature selection
-export function getFstData(data) {
+/* export function getFstData(data) {
     return request({
         url: '/furtherInfo/fstData',
         method: 'post',
@@ -56,4 +56,4 @@ export function getTajimaData(data) {
         method: 'post',
         data
     })
-}
+} */

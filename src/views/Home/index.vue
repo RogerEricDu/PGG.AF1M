@@ -1,5 +1,17 @@
 <template>
   <div class="home-page">
+    <div style="
+      text-align: center;
+      padding-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #000;
+      font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;">
+        <!--          Pangenome.Highland-->
+        Database for Large Cohort Allele Frequency & Genotype Frequency
+    </div>
     <!-- Banner Section -->
     <div class="banner-section">
       <h2>Welcome to PGG.AF1M!</h2>
@@ -32,6 +44,91 @@
         <p>
           All data here are released for the benefit of the wider biomedical community, without restriction on use - see the terms of use. Sign up for our mailing list for future release announcements.
         </p>
+      </div>
+    </div>
+
+    <div class="cover-color2">
+      <div class="container">
+      <div style="max-width: 1300px; margin: 0 auto">
+        <div style="
+          text-align: center;
+          padding-top: 10px;
+          text-transform: uppercase;
+          letter-spacing: .2em;
+          font-weight: 700;
+          margin-top: 10px;
+          color: #006bf8;
+          font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;">
+            Data, Methods and Resources We provide in PGG.AF1M
+        </div>
+        <div style="display:flex;justify-content:space-between;flex-wrap: wrap;width: 100%;padding-top: 30px">
+          <!-- 搜索 Novel Sequences-->
+          <div class="card-grid">
+            <div data-aos="fade-up" class="digit-card2">
+              <div style="font-size:28px;font-weight:650;text-align:left;color:#44484d">
+                <el-icon :size="28"><InfoFilled /></el-icon>
+                Multiple Sequences
+              </div>
+              <div style="font-size:16px;font-weight:440;text-align:left ;color:#61718d;">
+                We provide Microarray data samples and NGS data samples, allowing users to query different types of genetic spectrum data by selecting different tags.
+              </div>
+            </div>
+
+          <!-- 搜索  Potential HAA Genes-->
+            <div data-aos="fade-up" class="digit-card2">
+              <div style="font-size:28px;font-weight:650;text-align:left;color:#44484d">
+                <el-icon :size="28"><Histogram /></el-icon>
+                Large Cohort
+              </div>
+              <div style="font-size:16px;font-weight:400;text-align:left ;color:#61718d;">
+                We provide a large-scale population data foundation with continuous growth, offering a robust basis for genetic spectrum analysis and visualization.
+              </div>
+            </div>
+
+          <!-- 搜索  Plateau-specific SVs-->
+            <div data-aos="fade-up" class="digit-card2">
+              <div style="font-size:28px;font-weight:650;text-align:left;color:#44484d">
+                <el-icon :size="28"><Search /></el-icon>
+                Searching Diversity
+              </div>
+              <div style="font-size:16px;font-weight:400;text-align:left ;color:#61718d;">
+                We provide diverse query options for exploring variant allele frequency spectra, with flexible filtering conditions. It supports aggregate population queries as well as cross-group comparative analyses (e.g., by ethnicity or other cohorts).
+              </div>
+            </div>
+
+            <div data-aos="fade-up" class="digit-card2">
+              <div style="font-size:28px;font-weight:650;text-align:left;color:#44484d">
+                <el-icon :size="28"><PieChart /></el-icon>
+                AF Spectrum
+              </div>
+              <div style="font-size:16px;font-weight:400;text-align:left ;color:#61718d;">
+                We provide diverse spectrum data, including ref/alt alleles, sample size, and genotype frequencies, with external links to cross-reference major databases (e.g., gnomAD).
+              </div>
+            </div>
+
+            <div data-aos="fade-up" class="digit-card2">
+              <div style="font-size:28px;font-weight:650;text-align:left;color:#44484d">
+                <el-icon :size="28"><MapLocation /></el-icon>
+                Functional Map
+              </div>
+              <div style="font-size:16px;font-weight:400;text-align:left ;color:#61718d;">
+                We provide Advanced Geographic Visualization Modules, including heatmaps and geomaps to display the geographical distribution of allele frequencies for specific variants.
+              </div>
+            </div>
+
+            <div data-aos="fade-up" class="digit-card2">
+              <div style="font-size:28px;font-weight:650;text-align:left;color:#44484d">
+                <el-icon :size="28"><Tools /></el-icon>
+                Related Tools
+              </div>
+              <div style="font-size:16px;font-weight:400;text-align:left ;color:#61718d;">
+                We offer a diverse suite of tools that enable users to upload files for batch queries of genetic spectrum data, with support for imputation, IBD analysis, and the DeepSeek-V3-powered Q&A model for advanced genomic insights.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
       </div>
     </div>
 
@@ -97,7 +194,7 @@ const handleSubmit = () => {
 .banner-section {
   text-align: center;
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -123,7 +220,7 @@ const handleSubmit = () => {
 }
 
 .quick-start-section {
-  margin: 40px 0;
+  margin: 20px 0;
   padding: 30px;
   background: white;
   border-radius: 15px;
@@ -218,7 +315,7 @@ const handleSubmit = () => {
   display: flex;
   flex-direction: column;
   gap: 30px;
-  margin-top: 50px;
+  margin-top: 20px;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -270,4 +367,77 @@ const handleSubmit = () => {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
   margin: 0;
 }
+.cover-color2 {
+  background-color: #f7fafd;
+  padding-bottom: 30px;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  padding-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: #006bf8;
+  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding-top: 0px;
+}
+
+.digit-card2 {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+.digit-card2:hover {
+  transform: translateY(-5px);
+}
+
+.digit-card2 i {
+  color: #1a73e8;
+  font-size: 35px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.digit-card2-title {
+  font-size: 28px;
+  font-weight: 650;
+  color: #44484d;
+  margin-bottom: 10px;
+}
+
+.digit-card2-desc {
+  font-size: 16px;
+  font-weight: 400;
+  color: #61718d;
+  line-height: 1.5;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
