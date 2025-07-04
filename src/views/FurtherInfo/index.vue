@@ -138,6 +138,14 @@
           <VariantEffect :chromosome="chr" :position="position || '0'" />
         </el-tab-pane>
 
+        <el-tab-pane name="tab7">
+          <template #label>
+            <span>Globalization<br/>Frequency Map</span> 
+          </template>
+          <h3 style="font-size: 18px; margin-bottom: 20px; color: #6e9197; flex: 1;">- Variant Effect -</h3>
+          <GlobalMap :chromosome="chr" :position="position || '0'" />
+        </el-tab-pane>
+
 <!--         <el-tab-pane name="tab5">
           <template #label>
             <span>Nature<br/>Selection</span> 
@@ -191,7 +199,8 @@ import GeneticSubgroups from './GeneticSubgroups.vue';
 import GeneticSubMap from './GeneticSubMap.vue';
 /* import VariantBrowser from './VariantBrowser.vue'; */
 import VariantEffect from './VariantEffect.vue';
-import NatureSelection from './NatureSelection.vue';
+import GlobalMap from './GlobalMap.vue';
+/* import NatureSelection from './NatureSelection.vue'; */
 /* import GenomeDiversity from './GenomeDiversity.vue';
 import LinkageDisequilibrium from './LinkageDisequilibrium.vue';
 import HaplotypeStructure from './HaplotypeStructure.vue'; */
@@ -403,7 +412,7 @@ const goBack = () => {
   flex: 1; /* ✅ 保留，自动平均分配宽度 */
   background-color: #ecf0f1;
   transition: background-color 0.3s, color 0.3s;
-  min-width: 270px; /* ✅ 可选：给个最小宽度，避免太窄 */
+  min-width: 220px; /* ✅ 可选：给个最小宽度，避免太窄 */
 }
 
 .custom-tabs ::v-deep .el-tabs__item:hover {

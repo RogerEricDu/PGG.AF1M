@@ -134,7 +134,7 @@ const provinceGeoCoordMap: Record<string, [number, number]> = {
   Hainan: [110.0, 19.0],
   Taiwan: [121.2, 23.5],
   HongKong: [114.2, 22.3],
-  Macau: [112.5, 22.1],
+  Macau: [113.6, 22.2],
   Sichuan: [102.5, 30.1],
   Singapore: [103.8198, 1.3521]
 };

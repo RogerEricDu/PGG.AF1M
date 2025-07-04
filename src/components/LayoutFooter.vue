@@ -45,10 +45,10 @@
             <br>
             <span style="color: #ededed;font-size: 22px;" target="_blank">PGG.Han2.0</span>
             </a>
-            <a href="https://gnomad.broadinstitute.org/" target="_blank">
-            <img src="../assets/images/gnomAD-Logo.png" width="152" height="80">
+            <a href="https://pog.fudan.edu.cn/pggsnv/index.html" target="_blank">
+            <img src="../assets/images/pggsnv-logo.png" width="152" height="80">
             <br>
-            <span style="color: #ededed;font-size: 22px;">gnomAD</span>
+            <span style="color: #ededed;font-size: 22px;">PGG.SNV</span>
             </a>
           </div>
 

@@ -16,9 +16,9 @@ export const useAuthStore = defineStore('auth',{
                 const token = loginResponse.data;
                 this.token = token;
                 localStorage.setItem('token',token);
-                axios.defaults.headers.common['Authorization'] = `Bearer${token}`;
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 //登录成功后获取用户信息
-                const userResponse = await axios.get(`/user/${credentials.username}`);
+                const userResponse = await axios.get(`/user/me`);
                 this.user = {
                     username: userResponse.data.username,
                     email: userResponse.data.email,
