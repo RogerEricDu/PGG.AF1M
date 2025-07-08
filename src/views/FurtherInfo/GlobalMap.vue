@@ -1,5 +1,50 @@
 <template>
   <div>
+    <!-- 频率类型切换按钮组 -->
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: #f9f9f9;
+          padding: 15px 25px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          display: flex;
+          gap: 15px;
+          align-items: center;
+        "
+      >
+        <span style="font-weight: bold; margin-right: 10px;">View Type:</span>
+        <el-button
+          :type="frequencyType === 'genotype' ? 'primary' : 'default'"
+          @click="changeFrequencyType('genotype')"
+          style="
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+          "
+        >
+          Genotype Frequency
+        </el-button>
+        <el-button
+          :type="frequencyType === 'allele' ? 'primary' : 'default'"
+          @click="changeFrequencyType('allele')"
+          style="
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+          "
+        >
+          Allele Frequency
+        </el-button>
+      </div>
+    </div>
     <!-- 控制区：每个图对应一组 population 下拉和搜索按钮 -->
     <div v-for="(chart, index) in charts" :key="chart.id" style="display: flex; align-items: center; margin-bottom: 10px;">
       Chart{{ index + 1 }}: 
@@ -44,7 +89,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, nextTick, watch } from 'vue';
 import * as echarts from 'echarts';
-import { getGeneticSubgroups } from '@/api/furtherInfo.js'; // 导入API
+/* import { getGeneticSubgroups } from '@/api/furtherInfo.js';  */
 /* import html2pdf from 'html2pdf.js'; */
 import 'element-plus/es/components/select/style/css';
 import 'element-plus/es/components/button/style/css';
@@ -61,6 +106,14 @@ const props = defineProps<{
 const populationOptions = ['Han', 'Balti', 'Deng'];
 const charts = ref([{ id: 'main', population: 'Han' }]);
 const chartRefs = ref<(HTMLElement | null)[]>([])
+
+const frequencyType = ref<'genotype' | 'allele'>('genotype'); //根据tab选项确定使用allele数据还是genotype数据
+const changeFrequencyType = (type: 'genotype' | 'allele') => {
+  if (frequencyType.value !== type) {
+    frequencyType.value = type;
+    fetchMapData(0);  // 重新渲染第一个图表，或根据需求更新所有图表
+  }
+};
 
 onMounted(async () => {
   const worldMap  = await fetch('/map/world.json').then(res => res.json());
@@ -137,10 +190,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.373,
-        "genotypeFrequency2": 0.329,
-        "genotypeFrequency3": 0.299,
-        "alleleCount": 100
+        "genotypeFrequency1": 0.139,
+        "genotypeFrequency2": 0.405,
+        "genotypeFrequency3": 0.456,
+        "refAlleleFrequency": 0.412,
+        "altAlleleFrequency": 0.588,
+        "alleleCount": 500
       }
     ]
   },
@@ -151,10 +206,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.15,
-        "genotypeFrequency2": 0.265,
-        "genotypeFrequency3": 0.585,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.166,
+        "genotypeFrequency2": 0.462,
+        "genotypeFrequency3": 0.372,
+        "refAlleleFrequency": 0.792,
+        "altAlleleFrequency": 0.208,
+        "alleleCount": 500
       }
     ]
   },
@@ -165,10 +222,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.314,
-        "genotypeFrequency2": 0.088,
-        "genotypeFrequency3": 0.598,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.279,
+        "genotypeFrequency2": 0.435,
+        "genotypeFrequency3": 0.286,
+        "refAlleleFrequency": 0.738,
+        "altAlleleFrequency": 0.262,
+        "alleleCount": 1000
       }
     ]
   },
@@ -179,10 +238,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.31,
-        "genotypeFrequency2": 0.34,
-        "genotypeFrequency3": 0.35,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.366,
+        "genotypeFrequency2": 0.266,
+        "genotypeFrequency3": 0.368,
+        "refAlleleFrequency": 0.904,
+        "altAlleleFrequency": 0.096,
+        "alleleCount": 1000
       }
     ]
   },
@@ -193,10 +254,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.454,
-        "genotypeFrequency2": 0.31,
-        "genotypeFrequency3": 0.236,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.277,
+        "genotypeFrequency2": 0.212,
+        "genotypeFrequency3": 0.51,
+        "refAlleleFrequency": 0.477,
+        "altAlleleFrequency": 0.523,
+        "alleleCount": 1000
       }
     ]
   },
@@ -207,10 +270,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.265,
-        "genotypeFrequency2": 0.107,
-        "genotypeFrequency3": 0.628,
-        "alleleCount": 100
+        "genotypeFrequency1": 0.152,
+        "genotypeFrequency2": 0.334,
+        "genotypeFrequency3": 0.513,
+        "refAlleleFrequency": 0.168,
+        "altAlleleFrequency": 0.832,
+        "alleleCount": 300
       }
     ]
   },
@@ -221,10 +286,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.179,
-        "genotypeFrequency2": 0.428,
-        "genotypeFrequency3": 0.393,
-        "alleleCount": 100
+        "genotypeFrequency1": 0.388,
+        "genotypeFrequency2": 0.509,
+        "genotypeFrequency3": 0.103,
+        "refAlleleFrequency": 0.907,
+        "altAlleleFrequency": 0.093,
+        "alleleCount": 300
       }
     ]
   },
@@ -235,10 +302,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.675,
-        "genotypeFrequency2": 0.128,
-        "genotypeFrequency3": 0.197,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.448,
+        "genotypeFrequency2": 0.261,
+        "genotypeFrequency3": 0.291,
+        "refAlleleFrequency": 0.432,
+        "altAlleleFrequency": 0.568,
+        "alleleCount": 500
       }
     ]
   },
@@ -249,9 +318,11 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.096,
-        "genotypeFrequency2": 0.635,
-        "genotypeFrequency3": 0.269,
+        "genotypeFrequency1": 0.394,
+        "genotypeFrequency2": 0.191,
+        "genotypeFrequency3": 0.415,
+        "refAlleleFrequency": 0.646,
+        "altAlleleFrequency": 0.354,
         "alleleCount": 200
       }
     ]
@@ -263,9 +334,11 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.309,
-        "genotypeFrequency2": 0.288,
-        "genotypeFrequency3": 0.403,
+        "genotypeFrequency1": 0.353,
+        "genotypeFrequency2": 0.415,
+        "genotypeFrequency3": 0.231,
+        "refAlleleFrequency": 0.8,
+        "altAlleleFrequency": 0.2,
         "alleleCount": 300
       }
     ]
@@ -277,10 +350,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.357,
-        "genotypeFrequency2": 0.219,
-        "genotypeFrequency3": 0.424,
-        "alleleCount": 100
+        "genotypeFrequency1": 0.307,
+        "genotypeFrequency2": 0.525,
+        "genotypeFrequency3": 0.168,
+        "refAlleleFrequency": 0.314,
+        "altAlleleFrequency": 0.686,
+        "alleleCount": 500
       }
     ]
   },
@@ -291,10 +366,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.446,
-        "genotypeFrequency2": 0.137,
-        "genotypeFrequency3": 0.417,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.251,
+        "genotypeFrequency2": 0.329,
+        "genotypeFrequency3": 0.42,
+        "refAlleleFrequency": 0.854,
+        "altAlleleFrequency": 0.146,
+        "alleleCount": 1000
       }
     ]
   },
@@ -305,10 +382,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.342,
-        "genotypeFrequency2": 0.365,
-        "genotypeFrequency3": 0.293,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.333,
+        "genotypeFrequency2": 0.229,
+        "genotypeFrequency3": 0.438,
+        "refAlleleFrequency": 0.699,
+        "altAlleleFrequency": 0.301,
+        "alleleCount": 500
       }
     ]
   },
@@ -319,10 +398,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.284,
-        "genotypeFrequency2": 0.494,
-        "genotypeFrequency3": 0.222,
-        "alleleCount": 500
+        "genotypeFrequency1": 0.424,
+        "genotypeFrequency2": 0.305,
+        "genotypeFrequency3": 0.271,
+        "refAlleleFrequency": 0.624,
+        "altAlleleFrequency": 0.376,
+        "alleleCount": 1000
       }
     ]
   },
@@ -333,10 +414,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.616,
-        "genotypeFrequency2": 0.092,
-        "genotypeFrequency3": 0.292,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.115,
+        "genotypeFrequency2": 0.476,
+        "genotypeFrequency3": 0.41,
+        "refAlleleFrequency": 0.494,
+        "altAlleleFrequency": 0.506,
+        "alleleCount": 500
       }
     ]
   },
@@ -347,10 +430,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.394,
-        "genotypeFrequency2": 0.318,
-        "genotypeFrequency3": 0.287,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.266,
+        "genotypeFrequency2": 0.371,
+        "genotypeFrequency3": 0.363,
+        "refAlleleFrequency": 0.951,
+        "altAlleleFrequency": 0.049,
+        "alleleCount": 1000
       }
     ]
   },
@@ -361,10 +446,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.172,
-        "genotypeFrequency2": 0.547,
-        "genotypeFrequency3": 0.281,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.258,
+        "genotypeFrequency2": 0.399,
+        "genotypeFrequency3": 0.343,
+        "refAlleleFrequency": 0.448,
+        "altAlleleFrequency": 0.552,
+        "alleleCount": 100
       }
     ]
   },
@@ -375,10 +462,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.129,
-        "genotypeFrequency2": 0.168,
-        "genotypeFrequency3": 0.703,
-        "alleleCount": 300
+        "genotypeFrequency1": 0.352,
+        "genotypeFrequency2": 0.533,
+        "genotypeFrequency3": 0.115,
+        "refAlleleFrequency": 0.287,
+        "altAlleleFrequency": 0.713,
+        "alleleCount": 1000
       }
     ]
   },
@@ -389,10 +478,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.439,
-        "genotypeFrequency2": 0.343,
-        "genotypeFrequency3": 0.218,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.368,
+        "genotypeFrequency2": 0.37,
+        "genotypeFrequency3": 0.262,
+        "refAlleleFrequency": 0.621,
+        "altAlleleFrequency": 0.379,
+        "alleleCount": 200
       }
     ]
   },
@@ -403,10 +494,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.205,
-        "genotypeFrequency2": 0.605,
-        "genotypeFrequency3": 0.189,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.095,
+        "genotypeFrequency2": 0.748,
+        "genotypeFrequency3": 0.157,
+        "refAlleleFrequency": 0.205,
+        "altAlleleFrequency": 0.795,
+        "alleleCount": 300
       }
     ]
   },
@@ -417,9 +510,11 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.357,
-        "genotypeFrequency2": 0.212,
-        "genotypeFrequency3": 0.43,
+        "genotypeFrequency1": 0.303,
+        "genotypeFrequency2": 0.333,
+        "genotypeFrequency3": 0.364,
+        "refAlleleFrequency": 0.721,
+        "altAlleleFrequency": 0.279,
         "alleleCount": 100
       }
     ]
@@ -431,10 +526,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.432,
-        "genotypeFrequency2": 0.282,
-        "genotypeFrequency3": 0.286,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.073,
+        "genotypeFrequency2": 0.405,
+        "genotypeFrequency3": 0.522,
+        "refAlleleFrequency": 0.499,
+        "altAlleleFrequency": 0.501,
+        "alleleCount": 1000
       }
     ]
   },
@@ -445,9 +542,11 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.22,
-        "genotypeFrequency2": 0.481,
-        "genotypeFrequency3": 0.298,
+        "genotypeFrequency1": 0.125,
+        "genotypeFrequency2": 0.656,
+        "genotypeFrequency3": 0.219,
+        "refAlleleFrequency": 0.888,
+        "altAlleleFrequency": 0.112,
         "alleleCount": 500
       }
     ]
@@ -459,10 +558,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.542,
-        "genotypeFrequency2": 0.34,
-        "genotypeFrequency3": 0.118,
-        "alleleCount": 300
+        "genotypeFrequency1": 0.236,
+        "genotypeFrequency2": 0.417,
+        "genotypeFrequency3": 0.347,
+        "refAlleleFrequency": 0.142,
+        "altAlleleFrequency": 0.858,
+        "alleleCount": 100
       }
     ]
   },
@@ -473,10 +574,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.288,
-        "genotypeFrequency2": 0.246,
-        "genotypeFrequency3": 0.467,
-        "alleleCount": 500
+        "genotypeFrequency1": 0.266,
+        "genotypeFrequency2": 0.222,
+        "genotypeFrequency3": 0.512,
+        "refAlleleFrequency": 0.394,
+        "altAlleleFrequency": 0.606,
+        "alleleCount": 200
       }
     ]
   },
@@ -487,10 +590,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.144,
-        "genotypeFrequency2": 0.21,
-        "genotypeFrequency3": 0.646,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.183,
+        "genotypeFrequency2": 0.442,
+        "genotypeFrequency3": 0.375,
+        "refAlleleFrequency": 0.31,
+        "altAlleleFrequency": 0.69,
+        "alleleCount": 100
       }
     ]
   },
@@ -501,10 +606,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.462,
-        "genotypeFrequency2": 0.298,
-        "genotypeFrequency3": 0.24,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.404,
+        "genotypeFrequency2": 0.272,
+        "genotypeFrequency3": 0.324,
+        "refAlleleFrequency": 0.211,
+        "altAlleleFrequency": 0.789,
+        "alleleCount": 100
       }
     ]
   },
@@ -515,10 +622,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.55,
-        "genotypeFrequency2": 0.159,
-        "genotypeFrequency3": 0.291,
-        "alleleCount": 300
+        "genotypeFrequency1": 0.201,
+        "genotypeFrequency2": 0.54,
+        "genotypeFrequency3": 0.259,
+        "refAlleleFrequency": 0.852,
+        "altAlleleFrequency": 0.148,
+        "alleleCount": 200
       }
     ]
   },
@@ -529,9 +638,11 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.559,
-        "genotypeFrequency2": 0.26,
-        "genotypeFrequency3": 0.181,
+        "genotypeFrequency1": 0.479,
+        "genotypeFrequency2": 0.158,
+        "genotypeFrequency3": 0.363,
+        "refAlleleFrequency": 0.413,
+        "altAlleleFrequency": 0.587,
         "alleleCount": 100
       }
     ]
@@ -543,10 +654,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.289,
-        "genotypeFrequency2": 0.464,
-        "genotypeFrequency3": 0.247,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.349,
+        "genotypeFrequency2": 0.227,
+        "genotypeFrequency3": 0.424,
+        "refAlleleFrequency": 0.796,
+        "altAlleleFrequency": 0.204,
+        "alleleCount": 300
       }
     ]
   },
@@ -557,10 +670,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.187,
-        "genotypeFrequency2": 0.237,
-        "genotypeFrequency3": 0.576,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.083,
+        "genotypeFrequency2": 0.321,
+        "genotypeFrequency3": 0.596,
+        "refAlleleFrequency": 0.058,
+        "altAlleleFrequency": 0.942,
+        "alleleCount": 100
       }
     ]
   },
@@ -571,10 +686,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.352,
-        "genotypeFrequency2": 0.3,
-        "genotypeFrequency3": 0.348,
-        "alleleCount": 500
+        "genotypeFrequency1": 0.222,
+        "genotypeFrequency2": 0.397,
+        "genotypeFrequency3": 0.381,
+        "refAlleleFrequency": 0.763,
+        "altAlleleFrequency": 0.237,
+        "alleleCount": 100
       }
     ]
   },
@@ -585,10 +702,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.2,
-        "genotypeFrequency2": 0.137,
-        "genotypeFrequency3": 0.664,
-        "alleleCount": 100
+        "genotypeFrequency1": 0.461,
+        "genotypeFrequency2": 0.333,
+        "genotypeFrequency3": 0.206,
+        "refAlleleFrequency": 0.172,
+        "altAlleleFrequency": 0.828,
+        "alleleCount": 1000
       }
     ]
   },
@@ -599,10 +718,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.232,
-        "genotypeFrequency2": 0.376,
-        "genotypeFrequency3": 0.392,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.316,
+        "genotypeFrequency2": 0.371,
+        "genotypeFrequency3": 0.312,
+        "refAlleleFrequency": 0.301,
+        "altAlleleFrequency": 0.699,
+        "alleleCount": 1000
       }
     ]
   },
@@ -613,10 +734,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.358,
-        "genotypeFrequency2": 0.324,
-        "genotypeFrequency3": 0.318,
-        "alleleCount": 100
+        "genotypeFrequency1": 0.484,
+        "genotypeFrequency2": 0.187,
+        "genotypeFrequency3": 0.329,
+        "refAlleleFrequency": 0.211,
+        "altAlleleFrequency": 0.789,
+        "alleleCount": 200
       }
     ]
   },
@@ -627,10 +750,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.201,
-        "genotypeFrequency2": 0.561,
-        "genotypeFrequency3": 0.238,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.249,
+        "genotypeFrequency2": 0.588,
+        "genotypeFrequency3": 0.162,
+        "refAlleleFrequency": 0.349,
+        "altAlleleFrequency": 0.651,
+        "alleleCount": 100
       }
     ]
   },
@@ -641,10 +766,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.372,
-        "genotypeFrequency2": 0.168,
-        "genotypeFrequency3": 0.46,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.252,
+        "genotypeFrequency2": 0.311,
+        "genotypeFrequency3": 0.437,
+        "refAlleleFrequency": 0.583,
+        "altAlleleFrequency": 0.417,
+        "alleleCount": 1000
       }
     ]
   },
@@ -655,10 +782,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.376,
-        "genotypeFrequency2": 0.335,
-        "genotypeFrequency3": 0.288,
-        "alleleCount": 500
+        "genotypeFrequency1": 0.459,
+        "genotypeFrequency2": 0.417,
+        "genotypeFrequency3": 0.124,
+        "refAlleleFrequency": 0.399,
+        "altAlleleFrequency": 0.601,
+        "alleleCount": 300
       }
     ]
   },
@@ -669,10 +798,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.394,
-        "genotypeFrequency2": 0.385,
-        "genotypeFrequency3": 0.221,
-        "alleleCount": 500
+        "genotypeFrequency1": 0.346,
+        "genotypeFrequency2": 0.271,
+        "genotypeFrequency3": 0.382,
+        "refAlleleFrequency": 0.014,
+        "altAlleleFrequency": 0.986,
+        "alleleCount": 100
       }
     ]
   },
@@ -683,10 +814,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.312,
-        "genotypeFrequency2": 0.596,
-        "genotypeFrequency3": 0.093,
-        "alleleCount": 300
+        "genotypeFrequency1": 0.084,
+        "genotypeFrequency2": 0.505,
+        "genotypeFrequency3": 0.411,
+        "refAlleleFrequency": 0.387,
+        "altAlleleFrequency": 0.613,
+        "alleleCount": 200
       }
     ]
   },
@@ -697,10 +830,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.391,
-        "genotypeFrequency2": 0.113,
-        "genotypeFrequency3": 0.497,
-        "alleleCount": 100
+        "genotypeFrequency1": 0.408,
+        "genotypeFrequency2": 0.361,
+        "genotypeFrequency3": 0.232,
+        "refAlleleFrequency": 0.168,
+        "altAlleleFrequency": 0.832,
+        "alleleCount": 500
       }
     ]
   },
@@ -711,10 +846,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.213,
-        "genotypeFrequency2": 0.498,
-        "genotypeFrequency3": 0.289,
-        "alleleCount": 300
+        "genotypeFrequency1": 0.524,
+        "genotypeFrequency2": 0.314,
+        "genotypeFrequency3": 0.162,
+        "refAlleleFrequency": 0.126,
+        "altAlleleFrequency": 0.874,
+        "alleleCount": 200
       }
     ]
   },
@@ -725,10 +862,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.248,
-        "genotypeFrequency2": 0.157,
-        "genotypeFrequency3": 0.595,
-        "alleleCount": 300
+        "genotypeFrequency1": 0.326,
+        "genotypeFrequency2": 0.352,
+        "genotypeFrequency3": 0.323,
+        "refAlleleFrequency": 0.138,
+        "altAlleleFrequency": 0.862,
+        "alleleCount": 100
       }
     ]
   },
@@ -739,10 +878,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.194,
-        "genotypeFrequency2": 0.56,
-        "genotypeFrequency3": 0.246,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.274,
+        "genotypeFrequency2": 0.511,
+        "genotypeFrequency3": 0.215,
+        "refAlleleFrequency": 0.031,
+        "altAlleleFrequency": 0.969,
+        "alleleCount": 300
       }
     ]
   },
@@ -753,10 +894,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.38,
-        "genotypeFrequency2": 0.133,
-        "genotypeFrequency3": 0.487,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.539,
+        "genotypeFrequency2": 0.343,
+        "genotypeFrequency3": 0.118,
+        "refAlleleFrequency": 0.231,
+        "altAlleleFrequency": 0.769,
+        "alleleCount": 500
       }
     ]
   },
@@ -767,9 +910,11 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.395,
-        "genotypeFrequency2": 0.267,
-        "genotypeFrequency3": 0.337,
+        "genotypeFrequency1": 0.329,
+        "genotypeFrequency2": 0.23,
+        "genotypeFrequency3": 0.442,
+        "refAlleleFrequency": 0.086,
+        "altAlleleFrequency": 0.914,
         "alleleCount": 300
       }
     ]
@@ -781,10 +926,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.218,
-        "genotypeFrequency2": 0.608,
-        "genotypeFrequency3": 0.174,
-        "alleleCount": 500
+        "genotypeFrequency1": 0.371,
+        "genotypeFrequency2": 0.089,
+        "genotypeFrequency3": 0.54,
+        "refAlleleFrequency": 0.492,
+        "altAlleleFrequency": 0.508,
+        "alleleCount": 200
       }
     ]
   },
@@ -795,9 +942,11 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.511,
-        "genotypeFrequency2": 0.41,
-        "genotypeFrequency3": 0.079,
+        "genotypeFrequency1": 0.546,
+        "genotypeFrequency2": 0.35,
+        "genotypeFrequency3": 0.104,
+        "refAlleleFrequency": 0.336,
+        "altAlleleFrequency": 0.664,
         "alleleCount": 500
       }
     ]
@@ -809,10 +958,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.081,
-        "genotypeFrequency2": 0.579,
-        "genotypeFrequency3": 0.34,
-        "alleleCount": 500
+        "genotypeFrequency1": 0.4,
+        "genotypeFrequency2": 0.459,
+        "genotypeFrequency3": 0.141,
+        "refAlleleFrequency": 0.812,
+        "altAlleleFrequency": 0.188,
+        "alleleCount": 1000
       }
     ]
   },
@@ -823,10 +974,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.553,
-        "genotypeFrequency2": 0.238,
-        "genotypeFrequency3": 0.209,
-        "alleleCount": 500
+        "genotypeFrequency1": 0.08,
+        "genotypeFrequency2": 0.636,
+        "genotypeFrequency3": 0.284,
+        "refAlleleFrequency": 0.18,
+        "altAlleleFrequency": 0.82,
+        "alleleCount": 100
       }
     ]
   },
@@ -837,10 +990,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.47,
-        "genotypeFrequency2": 0.373,
-        "genotypeFrequency3": 0.158,
-        "alleleCount": 500
+        "genotypeFrequency1": 0.447,
+        "genotypeFrequency2": 0.172,
+        "genotypeFrequency3": 0.381,
+        "refAlleleFrequency": 0.868,
+        "altAlleleFrequency": 0.132,
+        "alleleCount": 1000
       }
     ]
   },
@@ -851,10 +1006,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.331,
-        "genotypeFrequency2": 0.231,
-        "genotypeFrequency3": 0.437,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.407,
+        "genotypeFrequency2": 0.481,
+        "genotypeFrequency3": 0.112,
+        "refAlleleFrequency": 0.927,
+        "altAlleleFrequency": 0.073,
+        "alleleCount": 100
       }
     ]
   },
@@ -865,10 +1022,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.404,
-        "genotypeFrequency2": 0.257,
-        "genotypeFrequency3": 0.34,
-        "alleleCount": 500
+        "genotypeFrequency1": 0.211,
+        "genotypeFrequency2": 0.349,
+        "genotypeFrequency3": 0.439,
+        "refAlleleFrequency": 0.484,
+        "altAlleleFrequency": 0.516,
+        "alleleCount": 100
       }
     ]
   },
@@ -879,10 +1038,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.16,
-        "genotypeFrequency2": 0.414,
-        "genotypeFrequency3": 0.426,
-        "alleleCount": 1000
+        "genotypeFrequency1": 0.64,
+        "genotypeFrequency2": 0.133,
+        "genotypeFrequency3": 0.227,
+        "refAlleleFrequency": 0.594,
+        "altAlleleFrequency": 0.406,
+        "alleleCount": 100
       }
     ]
   },
@@ -893,10 +1054,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.15,
-        "genotypeFrequency2": 0.443,
-        "genotypeFrequency3": 0.407,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.453,
+        "genotypeFrequency2": 0.374,
+        "genotypeFrequency3": 0.173,
+        "refAlleleFrequency": 0.073,
+        "altAlleleFrequency": 0.927,
+        "alleleCount": 500
       }
     ]
   },
@@ -907,10 +1070,12 @@ const mockData = [
         "genotype1": "AA",
         "genotype2": "AG",
         "genotype3": "GG",
-        "genotypeFrequency1": 0.304,
-        "genotypeFrequency2": 0.548,
-        "genotypeFrequency3": 0.148,
-        "alleleCount": 200
+        "genotypeFrequency1": 0.393,
+        "genotypeFrequency2": 0.52,
+        "genotypeFrequency3": 0.086,
+        "refAlleleFrequency": 0.912,
+        "altAlleleFrequency": 0.088,
+        "alleleCount": 100
       }
     ]
   }
@@ -951,11 +1116,38 @@ const fetchMapData = async (index: number) => {
       legendGenotype3 = snp.genotype3;
     }
 
-    const pieData = snp ? [
-      { value: snp.genotypeFrequency3 * 100, name: snp.genotype3, itemStyle: { color: genotypeColorMap.genotype3 } },
-      { value: snp.genotypeFrequency2 * 100, name: snp.genotype2, itemStyle: { color: genotypeColorMap.genotype2 } },
-      { value: snp.genotypeFrequency1 * 100, name: snp.genotype1, itemStyle: { color: genotypeColorMap.genotype1 } }
-    ] : [];
+    const pieData = snp
+      ? frequencyType.value === 'genotype'
+        ? [
+            {
+              value: snp.genotypeFrequency3 * 100,
+              name: snp.genotype3,
+              itemStyle: { color: genotypeColorMap.genotype3 }
+            },
+            {
+              value: snp.genotypeFrequency2 * 100,
+              name: snp.genotype2,
+              itemStyle: { color: genotypeColorMap.genotype2 }
+            },
+            {
+              value: snp.genotypeFrequency1 * 100,
+              name: snp.genotype1,
+              itemStyle: { color: genotypeColorMap.genotype1 }
+            }
+          ]
+        : [
+            {
+              value: snp.refAlleleFrequency * 100,
+              name: 'Ref',
+              itemStyle: { color: '#5470c6' }
+            },
+            {
+              value: snp.altAlleleFrequency * 100,
+              name: 'Alt',
+              itemStyle: { color: '#91CC75' }
+            }
+          ]
+      : [];
 
     return {
       name: countryName,
@@ -994,16 +1186,22 @@ const fetchMapData = async (index: number) => {
     animationDuration: 0
   }));
 
+    let legendLabels: string[] = [];
+    if (frequencyType.value === 'genotype') {
+      legendLabels = [legendGenotype3, legendGenotype2, legendGenotype1];
+    } else {
+      legendLabels = ['Ref', 'Alt'];
+    }
+
   const option = {
     tooltip: { trigger: 'item' },
     legend: {
       top: 10,
       left: 'center',
-      data: [
-        { name: legendGenotype3, icon: 'circle' },
-        { name: legendGenotype2, icon: 'circle' },
-        { name: legendGenotype1, icon: 'circle' }
-      ]
+      data: legendLabels.map(name => ({ name, icon: 'circle' })),
+      textStyle: {
+        fontSize: 14
+      }
     },
     geo: {
       map: 'world',

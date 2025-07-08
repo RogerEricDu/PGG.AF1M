@@ -303,7 +303,7 @@ const fetchData = async () => {
     const isAllEmpty = (!rsid || rsid.trim() === '') && (!position || position.trim() === '') && (!variant || variant.trim() === '');
 
     if (isAllEmpty) {
-      total.value = 12251537; // 写死
+      total.value = 12251537; // 固定
     } else {
       total.value = responseTotal || 0; // 用后端返回的
     }

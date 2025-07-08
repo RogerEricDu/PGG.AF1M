@@ -1,5 +1,50 @@
 <template>
   <div>
+    <!-- 频率类型切换按钮组 -->
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: #f9f9f9;
+          padding: 15px 25px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          display: flex;
+          gap: 15px;
+          align-items: center;
+        "
+      >
+        <span style="font-weight: bold; margin-right: 10px;">View Type:</span>
+        <el-button
+          :type="frequencyType === 'genotype' ? 'primary' : 'default'"
+          @click="changeFrequencyType('genotype')"
+          style="
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+          "
+        >
+          Genotype Frequency
+        </el-button>
+        <el-button
+          :type="frequencyType === 'allele' ? 'primary' : 'default'"
+          @click="changeFrequencyType('allele')"
+          style="
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+          "
+        >
+          Allele Frequency
+        </el-button>
+      </div>
+    </div>
     <!-- 控制区：每个图对应一组 population 下拉和搜索按钮 -->
     <div v-for="(chart, index) in charts" :key="chart.id" style="display: flex; align-items: center; margin-bottom: 10px;">
       Chart{{ index + 1 }}: 
@@ -62,6 +107,14 @@ const props = defineProps<{
 const populationOptions = ['Han', 'Balti', 'Deng'];
 const charts = ref([{ id: 'main', population: 'Han' }]);
 const chartRefs = ref<(HTMLElement | null)[]>([])
+
+const frequencyType = ref<'genotype' | 'allele'>('genotype'); //根据tab选项确定使用allele数据还是genotype数据
+const changeFrequencyType = (type: 'genotype' | 'allele') => {
+  if (frequencyType.value !== type) {
+    frequencyType.value = type;
+    fetchMapData(0);  // 重新渲染第一个图表，或根据需求更新所有图表
+  }
+};
 
 const provinceNameMap = {
   Beijing: 'Beijing',
@@ -142,335 +195,566 @@ const provinceGeoCoordMap: Record<string, [number, number]> = {
 //测试用数据
 const mockData = [
   {
-    province: 'Beijing',
-    data: [
+    "province": "Beijing",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.281,
+        "genotypeFrequency2": 0.271,
+        "genotypeFrequency3": 0.447,
+        "refAlleleFrequency": 0.17,
+        "altAlleleFrequency": 0.83,
+        "alleleCount": 1000
       }
     ]
   },
   {
-    province: 'Sichuan',
-    data: [
+    "province": "Tianjin",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.51,
+        "genotypeFrequency2": 0.126,
+        "genotypeFrequency3": 0.364,
+        "refAlleleFrequency": 0.695,
+        "altAlleleFrequency": 0.305,
+        "alleleCount": 100
       }
     ]
   },
   {
-    province: 'Macau',
-    data: [
+    "province": "Shanghai",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.283,
+        "genotypeFrequency2": 0.264,
+        "genotypeFrequency3": 0.453,
+        "refAlleleFrequency": 0.827,
+        "altAlleleFrequency": 0.173,
+        "alleleCount": 100
       }
     ]
   },
   {
-    province: 'HongKong',
-    data: [
+    "province": "Chongqing",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.453,
+        "genotypeFrequency2": 0.133,
+        "genotypeFrequency3": 0.414,
+        "refAlleleFrequency": 0.362,
+        "altAlleleFrequency": 0.638,
+        "alleleCount": 100
       }
     ]
   },
   {
-    province: 'Taiwan',
-    data: [
+    "province": "Anhui",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.257,
+        "genotypeFrequency2": 0.242,
+        "genotypeFrequency3": 0.501,
+        "refAlleleFrequency": 0.814,
+        "altAlleleFrequency": 0.186,
+        "alleleCount": 500
       }
     ]
   },
   {
-    province: 'Ningxia',
-    data: [
+    "province": "Fujian",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.186,
+        "genotypeFrequency2": 0.616,
+        "genotypeFrequency3": 0.198,
+        "refAlleleFrequency": 0.707,
+        "altAlleleFrequency": 0.293,
+        "alleleCount": 200
       }
     ]
   },
   {
-    province: 'Hainan',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.43, genotypeFrequency2: 0.4, genotypeFrequency3: 0.17, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Xizang',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.42, genotypeFrequency2: 0.46, genotypeFrequency3: 0.12, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Qinghai',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.35, genotypeFrequency2: 0.35, genotypeFrequency3: 0.3, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Guangdong',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.24, genotypeFrequency2: 0.6, genotypeFrequency3: 0.16, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Guizhou',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.31, genotypeFrequency2: 0.41, genotypeFrequency3: 0.28, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Fujian',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.47, genotypeFrequency2: 0.33, genotypeFrequency3: 0.2, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Jilin',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.29, genotypeFrequency2: 0.47, genotypeFrequency3: 0.24, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Shaanxi',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.22, genotypeFrequency2: 0.54, genotypeFrequency3: 0.24, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'InnerMongolia',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.2, genotypeFrequency2: 0.6, genotypeFrequency3: 0.2, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Shanxi',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.39, genotypeFrequency2: 0.38, genotypeFrequency3: 0.23, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Gansu',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.26, genotypeFrequency2: 0.58, genotypeFrequency3: 0.16, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Guangxi',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.33, genotypeFrequency2: 0.44, genotypeFrequency3: 0.23, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Hubei',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.3, genotypeFrequency2: 0.6, genotypeFrequency3: 0.1, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Jiangxi',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.36, genotypeFrequency2: 0.38, genotypeFrequency3: 0.26, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Zhejiang',
-    data: [
+    "province": "Gansu",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.371,
+        "genotypeFrequency2": 0.521,
+        "genotypeFrequency3": 0.108,
+        "refAlleleFrequency": 0.63,
+        "altAlleleFrequency": 0.37,
+        "alleleCount": 200
       }
     ]
   },
   {
-    province: 'Jiangsu',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.26, genotypeFrequency2: 0.58, genotypeFrequency3: 0.16, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Xinjiang',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.29, genotypeFrequency2: 0.47, genotypeFrequency3: 0.24, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Shandong',
-    data: [
+    "province": "Guangdong",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.338,
+        "genotypeFrequency2": 0.09,
+        "genotypeFrequency3": 0.572,
+        "refAlleleFrequency": 0.585,
+        "altAlleleFrequency": 0.415,
+        "alleleCount": 100
       }
     ]
   },
   {
-    province: 'Anhui',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.35, genotypeFrequency2: 0.45, genotypeFrequency3: 0.2, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Hunan',
-    data: [
+    "province": "Guangxi",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.465,
+        "genotypeFrequency2": 0.184,
+        "genotypeFrequency3": 0.352,
+        "refAlleleFrequency": 0.543,
+        "altAlleleFrequency": 0.457,
+        "alleleCount": 300
       }
     ]
   },
   {
-    province: 'Heilongjiang',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.4, genotypeFrequency2: 0.5, genotypeFrequency3: 0.1, alleleCount: 300 },
-
-    ]
-  },
-  {
-    province: 'Liaoning',
-    data: [
+    "province": "Guizhou",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.441,
+        "genotypeFrequency2": 0.45,
+        "genotypeFrequency3": 0.109,
+        "refAlleleFrequency": 0.149,
+        "altAlleleFrequency": 0.851,
+        "alleleCount": 100
       }
     ]
   },
   {
-    province: 'Yunnan',
-    data: [
+    "province": "Hainan",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.6,
-        genotypeFrequency2: 0.25,
-        genotypeFrequency3: 0.15,
-        alleleCount: 150
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.241,
+        "genotypeFrequency2": 0.405,
+        "genotypeFrequency3": 0.354,
+        "refAlleleFrequency": 0.238,
+        "altAlleleFrequency": 0.762,
+        "alleleCount": 100
       }
     ]
   },
   {
-    province: 'Tianjin',
-    data: [
+    "province": "Hebei",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.6,
-        genotypeFrequency2: 0.25,
-        genotypeFrequency3: 0.15,
-        alleleCount: 150
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.305,
+        "genotypeFrequency2": 0.218,
+        "genotypeFrequency3": 0.477,
+        "refAlleleFrequency": 0.601,
+        "altAlleleFrequency": 0.399,
+        "alleleCount": 300
       }
     ]
   },
   {
-    province: 'Shanghai',
-    data: [
+    "province": "Heilongjiang",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.4,
-        genotypeFrequency2: 0.4,
-        genotypeFrequency3: 0.2,
-        alleleCount: 300
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.202,
+        "genotypeFrequency2": 0.422,
+        "genotypeFrequency3": 0.375,
+        "refAlleleFrequency": 0.354,
+        "altAlleleFrequency": 0.646,
+        "alleleCount": 200
       }
     ]
   },
-    {
-    province: 'Chongqing',
-    data: [
-    { genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.2, genotypeFrequency2: 0.5, genotypeFrequency3: 0.3, alleleCount: 300 },
-
+  {
+    "province": "Henan",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.403,
+        "genotypeFrequency2": 0.187,
+        "genotypeFrequency3": 0.409,
+        "refAlleleFrequency": 0.923,
+        "altAlleleFrequency": 0.077,
+        "alleleCount": 500
+      }
     ]
   },
-    {
-    province: 'Hebei',
-    data: [
-    { genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.36, genotypeFrequency2: 0.4, genotypeFrequency3: 0.24, alleleCount: 300 },
+  {
+    "province": "Hubei",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.389,
+        "genotypeFrequency2": 0.27,
+        "genotypeFrequency3": 0.341,
+        "refAlleleFrequency": 0.327,
+        "altAlleleFrequency": 0.673,
+        "alleleCount": 100
+      }
     ]
   },
-    {
-    province: 'Henan',
-    data: [
-{ genotype1: 'AA', genotype2: 'AG', genotype3: 'GG', genotypeFrequency1: 0.3, genotypeFrequency2: 0.4, genotypeFrequency3: 0.3, alleleCount: 300 },
-
+  {
+    "province": "Hunan",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.443,
+        "genotypeFrequency2": 0.196,
+        "genotypeFrequency3": 0.361,
+        "refAlleleFrequency": 0.11,
+        "altAlleleFrequency": 0.89,
+        "alleleCount": 300
+      }
     ]
   },
-];
-
+  {
+    "province": "Jiangsu",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.262,
+        "genotypeFrequency2": 0.388,
+        "genotypeFrequency3": 0.349,
+        "refAlleleFrequency": 0.876,
+        "altAlleleFrequency": 0.124,
+        "alleleCount": 200
+      }
+    ]
+  },
+  {
+    "province": "Jiangxi",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.628,
+        "genotypeFrequency2": 0.241,
+        "genotypeFrequency3": 0.131,
+        "refAlleleFrequency": 0.183,
+        "altAlleleFrequency": 0.817,
+        "alleleCount": 200
+      }
+    ]
+  },
+  {
+    "province": "Jilin",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.41,
+        "genotypeFrequency2": 0.416,
+        "genotypeFrequency3": 0.174,
+        "refAlleleFrequency": 0.288,
+        "altAlleleFrequency": 0.712,
+        "alleleCount": 500
+      }
+    ]
+  },
+  {
+    "province": "Liaoning",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.467,
+        "genotypeFrequency2": 0.103,
+        "genotypeFrequency3": 0.43,
+        "refAlleleFrequency": 0.517,
+        "altAlleleFrequency": 0.483,
+        "alleleCount": 500
+      }
+    ]
+  },
+  {
+    "province": "Ningxia",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.455,
+        "genotypeFrequency2": 0.09,
+        "genotypeFrequency3": 0.455,
+        "refAlleleFrequency": 0.312,
+        "altAlleleFrequency": 0.688,
+        "alleleCount": 200
+      }
+    ]
+  },
+  {
+    "province": "Qinghai",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.484,
+        "genotypeFrequency2": 0.154,
+        "genotypeFrequency3": 0.362,
+        "refAlleleFrequency": 0.856,
+        "altAlleleFrequency": 0.144,
+        "alleleCount": 500
+      }
+    ]
+  },
+  {
+    "province": "Shaanxi",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.455,
+        "genotypeFrequency2": 0.473,
+        "genotypeFrequency3": 0.072,
+        "refAlleleFrequency": 0.624,
+        "altAlleleFrequency": 0.376,
+        "alleleCount": 200
+      }
+    ]
+  },
+  {
+    "province": "Shandong",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.356,
+        "genotypeFrequency2": 0.474,
+        "genotypeFrequency3": 0.171,
+        "refAlleleFrequency": 0.89,
+        "altAlleleFrequency": 0.11,
+        "alleleCount": 200
+      }
+    ]
+  },
+  {
+    "province": "Shanxi",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.467,
+        "genotypeFrequency2": 0.421,
+        "genotypeFrequency3": 0.112,
+        "refAlleleFrequency": 0.33,
+        "altAlleleFrequency": 0.67,
+        "alleleCount": 1000
+      }
+    ]
+  },
+  {
+    "province": "Sichuan",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.295,
+        "genotypeFrequency2": 0.622,
+        "genotypeFrequency3": 0.084,
+        "refAlleleFrequency": 0.656,
+        "altAlleleFrequency": 0.344,
+        "alleleCount": 100
+      }
+    ]
+  },
+  {
+    "province": "Tibet",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.355,
+        "genotypeFrequency2": 0.305,
+        "genotypeFrequency3": 0.34,
+        "refAlleleFrequency": 0.803,
+        "altAlleleFrequency": 0.197,
+        "alleleCount": 300
+      }
+    ]
+  },
+  {
+    "province": "Xinjiang",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.243,
+        "genotypeFrequency2": 0.182,
+        "genotypeFrequency3": 0.574,
+        "refAlleleFrequency": 0.157,
+        "altAlleleFrequency": 0.843,
+        "alleleCount": 200
+      }
+    ]
+  },
+  {
+    "province": "Yunnan",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.551,
+        "genotypeFrequency2": 0.276,
+        "genotypeFrequency3": 0.173,
+        "refAlleleFrequency": 0.468,
+        "altAlleleFrequency": 0.532,
+        "alleleCount": 500
+      }
+    ]
+  },
+  {
+    "province": "Zhejiang",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.509,
+        "genotypeFrequency2": 0.413,
+        "genotypeFrequency3": 0.078,
+        "refAlleleFrequency": 0.527,
+        "altAlleleFrequency": 0.473,
+        "alleleCount": 500
+      }
+    ]
+  },
+  {
+    "province": "HongKong",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.459,
+        "genotypeFrequency2": 0.292,
+        "genotypeFrequency3": 0.249,
+        "refAlleleFrequency": 0.36,
+        "altAlleleFrequency": 0.64,
+        "alleleCount": 1000
+      }
+    ]
+  },
+  {
+    "province": "Macau",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.341,
+        "genotypeFrequency2": 0.327,
+        "genotypeFrequency3": 0.332,
+        "refAlleleFrequency": 0.117,
+        "altAlleleFrequency": 0.883,
+        "alleleCount": 1000
+      }
+    ]
+  },
+  {
+    "province": "Taiwan",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.607,
+        "genotypeFrequency2": 0.202,
+        "genotypeFrequency3": 0.191,
+        "refAlleleFrequency": 0.941,
+        "altAlleleFrequency": 0.059,
+        "alleleCount": 100
+      }
+    ]
+  },
+  {
+    "province": "InnerMongolia",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.089,
+        "genotypeFrequency2": 0.34,
+        "genotypeFrequency3": 0.57,
+        "refAlleleFrequency": 0.295,
+        "altAlleleFrequency": 0.705,
+        "alleleCount": 1000
+      }
+    ]
+  },
+  {
+    "province": "Singapore",
+    "data": [
+      {
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.317,
+        "genotypeFrequency2": 0.209,
+        "genotypeFrequency3": 0.475,
+        "refAlleleFrequency": 0.056,
+        "altAlleleFrequency": 0.944,
+        "alleleCount": 1000
+      }
+    ]
+  }
+]
 
 onMounted(async () => {
   // 注册中国地图
@@ -524,11 +808,38 @@ const fetchMapData = async (index: number) => {
       legendGenotype3 = snp.genotype3;
     }
 
-    const pieData = snp ? [
-      { value: snp.genotypeFrequency3 * 100, name: snp.genotype3,itemStyle: { color: genotypeColorMap.genotype3 } },
-      { value: snp.genotypeFrequency2 * 100, name: snp.genotype2,itemStyle: { color: genotypeColorMap.genotype2 } },
-      { value: snp.genotypeFrequency1 * 100, name: snp.genotype1,itemStyle: { color: genotypeColorMap.genotype1 } }
-    ] : [];
+    const pieData = snp
+      ? frequencyType.value === 'genotype'
+        ? [
+            {
+              value: snp.genotypeFrequency3 * 100,
+              name: snp.genotype3,
+              itemStyle: { color: genotypeColorMap.genotype3 }
+            },
+            {
+              value: snp.genotypeFrequency2 * 100,
+              name: snp.genotype2,
+              itemStyle: { color: genotypeColorMap.genotype2 }
+            },
+            {
+              value: snp.genotypeFrequency1 * 100,
+              name: snp.genotype1,
+              itemStyle: { color: genotypeColorMap.genotype1 }
+            }
+          ]
+        : [
+            {
+              value: snp.refAlleleFrequency * 100,
+              name: 'Ref',
+              itemStyle: { color: '#5470c6' }
+            },
+            {
+              value: snp.altAlleleFrequency * 100,
+              name: 'Alt',
+              itemStyle: { color: '#91CC75' }
+            }
+          ]
+      : [];
 
     return {
       name: provinceName,
@@ -563,16 +874,19 @@ const fetchMapData = async (index: number) => {
       animationDuration: 0
     }));
 
+  let legendLabels: string[] = [];
+    if (frequencyType.value === 'genotype') {
+      legendLabels = [legendGenotype3, legendGenotype2, legendGenotype1];
+    } else {
+      legendLabels = ['Ref', 'Alt'];
+    }
+
   const option = {
     tooltip: { trigger: 'item' },
     legend: {
       top: 10,
       left: 'center',
-      data: [
-        { name: legendGenotype3, icon: 'circle' },
-        { name: legendGenotype2, icon: 'circle' },
-        { name: legendGenotype1, icon: 'circle' }
-      ],
+      data: legendLabels.map(name => ({ name, icon: 'circle' })),
       textStyle: {
         fontSize: 14
       }
@@ -654,5 +968,18 @@ const downloadImages = async () => {
   font-weight: bold;
   margin-bottom: 10px;
   text-align: center;
+}
+.el-tabs__item {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 20px;
+}
+.el-tabs__nav-wrap {
+  justify-content: center !important;
+}
+.el-tabs__item.is-active {
+  background-color: #1f80ff;
+  color: white;
+  border-radius: 6px;
 }
 </style>

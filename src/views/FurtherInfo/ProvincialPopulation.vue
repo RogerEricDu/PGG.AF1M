@@ -1,5 +1,51 @@
 <template>
   <div>
+    <!-- 频率类型切换按钮组 -->
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: #f9f9f9;
+          padding: 15px 25px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          display: flex;
+          gap: 15px;
+          align-items: center;
+        "
+      >
+        <span style="font-weight: bold; margin-right: 10px;">View Type:</span>
+        <el-button
+          :type="frequencyType === 'genotype' ? 'primary' : 'default'"
+          @click="frequencyType = 'genotype'"
+          style="
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+          "
+        >
+          Genotype Frequency
+        </el-button>
+        <el-button
+          :type="frequencyType === 'allele' ? 'primary' : 'default'"
+          @click="frequencyType = 'allele'"
+          style="
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+          "
+        >
+          Allele Frequency
+        </el-button>
+      </div>
+    </div>
+
     <!-- 控制区：每个图对应一组 population 下拉和搜索按钮 -->
     <div v-for="(chart, index) in charts" :key="chart.id" style="display: flex; align-items: center; margin-bottom: 10px;">
       Chart{{ index + 1 }}: 
@@ -75,6 +121,7 @@ const charts = ref([{ id: 'main', population: 'Han' }]);
 const chartRefs = ref<(HTMLElement | null)[]>([]);
 const barRefs = ref<(HTMLElement | null)[]>([]);
 
+const frequencyType = ref<'genotype' | 'allele'>('genotype'); //根据tab选项确定使用allele数据还是genotype数据
 
 const provinceNameMap = {
   Beijing: 'Beijing',
@@ -220,11 +267,19 @@ const fetchMapData = async (index: number) => {
           return `<div style="padding:5px;">${params.name}: NULL</div>`;
         }
         const snp = provinceData.snpData[0];
-        const pieData = [
-          { value: snp.genotypeFrequency1 * 100, name: snp.genotype1 },
-          { value: snp.genotypeFrequency2 * 100, name: snp.genotype2 },
-          { value: snp.genotypeFrequency3 * 100, name: snp.genotype3 }
-        ];
+        let pieData;
+        if (frequencyType.value === 'genotype') {
+          pieData = [
+            { value: snp.genotypeFrequency1 * 100, name: snp.genotype1 },
+            { value: snp.genotypeFrequency2 * 100, name: snp.genotype2 },
+            { value: snp.genotypeFrequency3 * 100, name: snp.genotype3 }
+          ];
+        } else {
+          pieData = [
+            { value: snp.refAlleleFrequency * 100, name: snp.refAllele },
+            { value: snp.altAlleleFrequency * 100, name: snp.altAllele }
+          ];
+        }
 
         // 使用唯一id区分饼图
         const pieId = 'pieChart_' + index;
@@ -233,6 +288,7 @@ const fetchMapData = async (index: number) => {
           if (pieChartDom) {
             const pieChart = echarts.init(pieChartDom);
             pieChart.setOption({
+              color: ['#5470c6', '#91cc75', '#fac858'],
               series: [
                 {
                   type: 'pie',
@@ -353,5 +409,17 @@ const downloadImages = async () => {
   margin-bottom: 10px;
   text-align: center;
 }
-
+.el-tabs__item {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 20px;
+}
+.el-tabs__nav-wrap {
+  justify-content: center !important;
+}
+.el-tabs__item.is-active {
+  background-color: #1f80ff;
+  color: white;
+  border-radius: 6px;
+}
 </style>

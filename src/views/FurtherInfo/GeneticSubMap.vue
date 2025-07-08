@@ -1,5 +1,50 @@
 <template>
   <div>
+    <!-- 频率类型切换按钮组 -->
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: #f9f9f9;
+          padding: 15px 25px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          display: flex;
+          gap: 15px;
+          align-items: center;
+        "
+      >
+        <span style="font-weight: bold; margin-right: 10px;">View Type:</span>
+        <el-button
+          :type="frequencyType === 'genotype' ? 'primary' : 'default'"
+          @click="changeFrequencyType('genotype')"
+          style="
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+          "
+        >
+          Genotype Frequency
+        </el-button>
+        <el-button
+          :type="frequencyType === 'allele' ? 'primary' : 'default'"
+          @click="changeFrequencyType('allele')"
+          style="
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+          "
+        >
+          Allele Frequency
+        </el-button>
+      </div>
+    </div>
     <!-- 控制区：每个图对应一组 population 下拉和搜索按钮 -->
     <div v-for="(chart, index) in charts" :key="chart.id" style="display: flex; align-items: center; margin-bottom: 10px;">
       Chart{{ index + 1 }}: 
@@ -62,6 +107,13 @@ const populationOptions = ['Han', 'Balti', 'Deng'];
 const charts = ref([{ id: 'main', population: 'Han' }]);
 const chartRefs = ref<(HTMLElement | null)[]>([])
 
+const frequencyType = ref<'genotype' | 'allele'>('genotype'); //根据tab选项确定使用allele数据还是genotype数据
+const changeFrequencyType = (type: 'genotype' | 'allele') => {
+  if (frequencyType.value !== type) {
+    frequencyType.value = type;
+    fetchMapData(0);  // 重新渲染第一个图表，或根据需求更新所有图表
+  }
+};
 
 // 转换成小写，以便与regionMap.geojson文件中的区域名称匹配
 const regionNameMap = {
@@ -92,89 +144,101 @@ onMounted(async () => {
 //测试用数据
 const mockData = [
   {
-    region: 'central',
-    data: [
+    "region": "central",
+    "data": [
       {
-        genotype1: 'AA',
-        genotype2: 'AG',
-        genotype3: 'GG',
-        genotypeFrequency1: 0.5,
-        genotypeFrequency2: 0.3,
-        genotypeFrequency3: 0.2,
-        alleleCount: 200
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.393,
+        "genotypeFrequency2": 0.427,
+        "genotypeFrequency3": 0.18,
+        "refAlleleFrequency": 0.34,
+        "altAlleleFrequency": 0.66,
+        "alleleCount": 100
       }
     ]
   },
   {
-    region: 'northeast',
-    data: [
+    "region": "northeast",
+    "data": [
       {
-        genotype1: 'CC',
-        genotype2: 'CT',
-        genotype3: 'TT',
-        genotypeFrequency1: 0.6,
-        genotypeFrequency2: 0.25,
-        genotypeFrequency3: 0.15,
-        alleleCount: 150
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.228,
+        "genotypeFrequency2": 0.263,
+        "genotypeFrequency3": 0.509,
+        "refAlleleFrequency": 0.887,
+        "altAlleleFrequency": 0.113,
+        "alleleCount": 100
       }
     ]
   },
   {
-    region: 'northwest',
-    data: [
+    "region": "northwest",
+    "data": [
       {
-        genotype1: 'GG',
-        genotype2: 'GA',
-        genotype3: 'AA',
-        genotypeFrequency1: 0.4,
-        genotypeFrequency2: 0.4,
-        genotypeFrequency3: 0.2,
-        alleleCount: 300
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.474,
+        "genotypeFrequency2": 0.092,
+        "genotypeFrequency3": 0.434,
+        "refAlleleFrequency": 0.281,
+        "altAlleleFrequency": 0.719,
+        "alleleCount": 200
       }
     ]
   },
-    {
-    region: 'southcoast',
-    data: [
+  {
+    "region": "southcoast",
+    "data": [
       {
-        genotype1: 'GG',
-        genotype2: 'GA',
-        genotype3: 'AA',
-        genotypeFrequency1: 0.4,
-        genotypeFrequency2: 0.4,
-        genotypeFrequency3: 0.2,
-        alleleCount: 300
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.433,
+        "genotypeFrequency2": 0.394,
+        "genotypeFrequency3": 0.173,
+        "refAlleleFrequency": 0.666,
+        "altAlleleFrequency": 0.334,
+        "alleleCount": 300
       }
     ]
   },
-    {
-    region: 'southwest',
-    data: [
+  {
+    "region": "southwest",
+    "data": [
       {
-        genotype1: 'GG',
-        genotype2: 'GA',
-        genotype3: 'AA',
-        genotypeFrequency1: 0.4,
-        genotypeFrequency2: 0.4,
-        genotypeFrequency3: 0.2,
-        alleleCount: 300
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.438,
+        "genotypeFrequency2": 0.143,
+        "genotypeFrequency3": 0.419,
+        "refAlleleFrequency": 0.378,
+        "altAlleleFrequency": 0.622,
+        "alleleCount": 300
       }
     ]
   },
-    {
-    region: 'southeast',
-    data: [
+  {
+    "region": "southeast",
+    "data": [
       {
-        genotype1: 'GG',
-        genotype2: 'GA',
-        genotype3: 'AA',
-        genotypeFrequency1: 0.4,
-        genotypeFrequency2: 0.4,
-        genotypeFrequency3: 0.2,
-        alleleCount: 300
+        "genotype1": "AA",
+        "genotype2": "AG",
+        "genotype3": "GG",
+        "genotypeFrequency1": 0.35,
+        "genotypeFrequency2": 0.3,
+        "genotypeFrequency3": 0.35,
+        "refAlleleFrequency": 0.35,
+        "altAlleleFrequency": 0.65,
+        "alleleCount": 200
       }
     ]
-  },
+  }
 ];
 
 const fetchMapData = async (index: number) => {
@@ -218,11 +282,38 @@ const fetchMapData = async (index: number) => {
       legendGenotype2 = snp.genotype2;
       legendGenotype3 = snp.genotype3;
     }
-    const pieData = snp ? [
-      { value: snp.genotypeFrequency3 * 100, name: snp.genotype3, itemStyle: { color: genotypeColorMap.genotype3 } },
-      { value: snp.genotypeFrequency2 * 100, name: snp.genotype2, itemStyle: { color: genotypeColorMap.genotype2 } },
-      { value: snp.genotypeFrequency1 * 100, name: snp.genotype1, itemStyle: { color: genotypeColorMap.genotype1 } }
-    ] : [];
+    const pieData = snp
+      ? frequencyType.value === 'genotype'
+        ? [
+            {
+              value: snp.genotypeFrequency3 * 100,
+              name: snp.genotype3,
+              itemStyle: { color: genotypeColorMap.genotype3 }
+            },
+            {
+              value: snp.genotypeFrequency2 * 100,
+              name: snp.genotype2,
+              itemStyle: { color: genotypeColorMap.genotype2 }
+            },
+            {
+              value: snp.genotypeFrequency1 * 100,
+              name: snp.genotype1,
+              itemStyle: { color: genotypeColorMap.genotype1 }
+            }
+          ]
+        : [
+            {
+              value: snp.refAlleleFrequency * 100,
+              name: 'Ref',
+              itemStyle: { color: '#5470c6' }
+            },
+            {
+              value: snp.altAlleleFrequency * 100,
+              name: 'Alt',
+              itemStyle: { color: '#91CC75' }
+            }
+          ]
+      : [];
 
     return {
       name: regionName,
@@ -257,16 +348,19 @@ const fetchMapData = async (index: number) => {
       animationDuration: 0
     }));
 
+    let legendLabels: string[] = [];
+    if (frequencyType.value === 'genotype') {
+      legendLabels = [legendGenotype3, legendGenotype2, legendGenotype1];
+    } else {
+      legendLabels = ['Ref', 'Alt'];
+    }
+
   const option = {
     tooltip: { trigger: 'item' },
     legend: {
       top: 10,
       left: 'center',
-      data: [
-        { name: legendGenotype3, icon: 'circle' },
-        { name: legendGenotype2, icon: 'circle' },
-        { name: legendGenotype1, icon: 'circle' }
-      ],
+      data: legendLabels.map(name => ({ name, icon: 'circle' })),
       textStyle: {
         fontSize: 14
       }
