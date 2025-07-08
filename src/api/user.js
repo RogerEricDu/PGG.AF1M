@@ -10,8 +10,15 @@ export function register(data) {
   })
 }
 
+// 获取所有用户（管理员）
+export function getAllUsers() {
+  return request({
+    url: '/user',
+    method: 'get'
+  })
+}
 
-// 删除用户
+// 删除用户（管理员）
 export function deleteUser(userId) {
   return request({
     url: `/user/${userId}`,
@@ -19,7 +26,7 @@ export function deleteUser(userId) {
   })
 }
 
-//用户查看个人当前任务状态
+// 用户查看当前任务状态（非userController，按你原来保留）
 export function checkUserTasks(data) {
   return request({
     url: '/profile/tasks',
@@ -28,7 +35,7 @@ export function checkUserTasks(data) {
   })
 }
 
-//用户获取用户名和email
+// 用户获取（非userController，按你原来保留）
 export function searchUserInfo(data){
   return request({
     url: '/profile/userInfo',

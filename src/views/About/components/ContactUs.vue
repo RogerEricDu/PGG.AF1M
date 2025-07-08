@@ -28,7 +28,7 @@
                 <el-icon><Message /></el-icon>
                 <div class="description">
                     <p class="organization">Email:</p>
-                    <p class="info">pggadmin@fudan.edu.cn</p>
+                    <p class="info">humpog@fudan.edu.cn</p>
                 </div>
             </div>
         </div>

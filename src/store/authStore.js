@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+/* import axios from "axios"; */
+import request from '@/utils/request'
 
+//统一使用request.js进行封装，否则axios和request不统一会invalid
 
 export const useAuthStore = defineStore('auth',{
     state:()=>({
@@ -12,17 +14,14 @@ export const useAuthStore = defineStore('auth',{
         async login(credentials){
             try{
                 //首先发送登录请求
-                const loginResponse = await axios.post('/user/login',credentials);
+                const loginResponse = await request.post('/user/login',credentials);
                 const token = loginResponse.data;
                 this.token = token;
                 localStorage.setItem('token',token);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                request.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 //登录成功后获取用户信息
-                const userResponse = await axios.get(`/user/me`);
-                this.user = {
-                    username: userResponse.data.username,
-                    email: userResponse.data.email,
-                };
+                const userResponse = await request.get(`/user/me`);
+                this.user = userResponse.data;
                 this.isLoggedIn = true;
                 localStorage.setItem('user',JSON.stringify(this.user));
                 localStorage.setItem('isLoggedIn','true');
@@ -39,7 +38,7 @@ export const useAuthStore = defineStore('auth',{
             localStorage.removeItem('user');
             localStorage.removeItem('token');
             localStorage.removeItem('isLoggedIn');
-            delete axios.defaults.headers.common['Authorization'];
+            delete request.defaults.headers.common['Authorization'];
         }
     }
 });

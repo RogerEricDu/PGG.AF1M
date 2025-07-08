@@ -6,20 +6,20 @@ import image4 from '@/assets/images/xushua.jpg';
 import image5 from '@/assets/images/xushua.jpg';
 
 const images = [
-  { src: image1, description: "XuShua",extra_description:"Principal investigator1" },
-  { src: image2, description: "XuShua",extra_description:"Principal investigator2"},
-  { src: image3, description: "XuShua",extra_description:"Principal investigator3" },
-  { src: image4, description: "XuShua",extra_description:"Principal investigator4" },
-  { src: image5, description: "XuShua",extra_description:"Principal investigator5" },
+  { src: image1, description: "Shuhua Xu",extra_description:"Principal investigator1" },
+  { src: image2, description: "Shuhua Xu",extra_description:"Principal investigator2"},
+  { src: image3, description: "Shuhua Xu",extra_description:"Principal investigator3" },
+  { src: image4, description: "Shuhua Xu",extra_description:"Principal investigator4" },
+  { src: image5, description: "Shuhua Xu",extra_description:"Principal investigator5" },
   // 添加更多图片和描述...
 ];
 
 const teamMembers = [
-  { name: "John Doe", role: "Research Assistant" },
-  { name: "Jane Smith", role: "Data Analyst" },
-  { name: "Michael Johnson", role: "Software Engineer" },
-  { name: "Michael Johnson", role: "Software Engineer" },
-  { name: "Michael Johnson", role: "Software Engineer" },
+  { name: "Zhuoyang Shen", role: "Developer" },
+  { name: "Zhuoyang Shen", role: "Developer" },
+  { name: "Zhuoyang Shen", role: "Developer" },
+  { name: "Zhuoyang Shen", role: "Developer" },
+  { name: "Zhuoyang Shen", role: "Developer" },
 ]
 
 </script>
@@ -50,7 +50,7 @@ const teamMembers = [
 
       <!-- 其他内容布局 -->
       <div>
-        <p style="font-size: 17px; margin-bottom: 20px;">With great contribution of the IT team from Big Data Center let by Dr. Guoqing Zhang.</p>    
+        <p style="font-size: 17px; margin-bottom: 20px;">With great contribution of the IT team from Big Data Center let by Dr. Xu.</p>    
       </div>
 
       <div class="other-content-grid">

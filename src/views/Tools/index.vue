@@ -8,7 +8,7 @@
     <!-- 包裹内容的框 -->
     <div class="tools-content-box">
       <div class="tools-photo-container">
-            <img src="@/assets/images/AnalysisPipeline.png" alt="Centered Image">
+            <!-- <img src="@/assets/images/AnalysisPipeline.png" alt="Centered Image"> -->
       </div>
       <p style="font-size: 20px;font-weight: bold;text-align: center;">Choose the tool section you would like to use.</p>
       <!-- 导航栏 -->

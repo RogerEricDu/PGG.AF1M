@@ -1,8 +1,14 @@
 <template>
   <div class="profile-page">
-
     <!-- 右侧部分 -->
     <div class="profile-content">
+      <!-- 管理员界面 -->
+      <div v-if="isAdmin">
+        <UserManagement />
+      </div>
+
+      <!-- 普通用户界面 -->
+      <div v-else>
       <div class="profile-tab-content">
         <!-- 将 transition 内部的所有内容包裹在一个 div 中 -->
         <transition name="fade-slide">
@@ -41,8 +47,6 @@
                 </div>
               </el-button>
             </div>
-
-            
 
             <!-- 资料表单 -->
             <el-form
@@ -196,6 +200,7 @@
       <!-- 嵌入 ResultsPage 组件 -->
       <ResultsPage :username="authStore.user?.username" :email="authStore.user?.email"/>
     </div>
+    </div>
   </div>
 </template>
 
@@ -207,7 +212,9 @@ import { useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
 import ResultsPage from "./ResultsPage.vue"; // 引入 ResultsPage 组件
 import { View, Hide, EditPen, Link, UserFilled, Right, Edit, Refresh, CircleClose } from '@element-plus/icons-vue'
+import UserManagement from "./UserManagement.vue";
 
+const isAdmin = computed(() => authStore.user?.role === 2);
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const router = useRouter();

@@ -15,7 +15,7 @@ service.interceptors.request.use(
   config => {
     const token = getToken()
     if (token) {
-      config.headers['Authorization'] = 'Bearer ' + token // 添加 Bearer 前缀
+      config.headers['Authorization'] = `Bearer ${token}`
     }
     return config
   },
