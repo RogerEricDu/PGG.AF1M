@@ -1,49 +1,3 @@
-<script setup>
-import { computed, ref, watch } from "vue";
-import { useRouter } from "vue-router";
-import { useAuthStore } from "@/store/authStore";
-import { useUserStore } from "@/store/userStore";
-import LogIn from "./component/login.vue";
-import Admin from "./component/admin.vue";
-import Profile from "./component/profile.vue";
-
-const router = useRouter();
-const authStore = useAuthStore();
-const userStore = useUserStore();
-
-// 页面组件映射
-const componentsMap = {
-  Login: LogIn,
-  Profile: Profile,
-  Admin: Admin,
-};
-
-// 当前视图名称
-const currentView = computed(() => {
-  if (!authStore.isLoggedIn) {
-    return "Login";
-  }
-  if (authStore.user?.role === 1) {
-    return "Admin";
-  }
-  return "Profile";
-});
-
-// 监听用户登录状态并同步路由
-watch(
-  () => currentView.value,
-  (newView) => {
-    const routeMap = {
-      Login: "/user/login",
-      Profile: "/user/profile",
-      Admin: "/user/admin",
-    };
-    router.push(routeMap[newView]); // 更新路由路径
-  },
-  { immediate: true }
-);
-</script>
-
 <template>
   <div class="user-page-container">
     <div class="user-container">
@@ -57,6 +11,46 @@ watch(
     </div>
   </div>
 </template>
+
+<script setup>
+import { computed, ref, watch } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/store/authStore";
+import { useUserStore } from "@/store/userStore";
+import LogIn from "./component/login.vue";
+import Profile from "./component/profile.vue";
+
+const router = useRouter();
+const authStore = useAuthStore();
+const userStore = useUserStore();
+
+// 页面组件映射
+const componentsMap = {
+  Login: LogIn,
+  Profile: Profile,
+};
+
+// 当前视图名称
+const currentView = computed(() => {
+  if (!authStore.isLoggedIn) {
+    return "Login";
+  }
+  return "Profile";
+});
+
+// 监听用户登录状态并同步路由
+watch(
+  () => currentView.value,
+  (newView) => {
+    const routeMap = {
+      Login: "/user/login",
+      Profile: "/user/profile",
+    };
+    router.push(routeMap[newView]); // 更新路由路径
+  },
+  { immediate: true }
+);
+</script>
 
 <style>
 .user-page-container {

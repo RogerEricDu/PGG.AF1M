@@ -77,6 +77,5 @@ ElMessageBox.confirm("Are you sure you want to log out?", "Confirm Logout", {
     // 用户取消退出登录
     });
 };
-// 组件加载时获取用户列表
-onMounted(loadUsers)
+
 </script>

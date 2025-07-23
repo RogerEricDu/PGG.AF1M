@@ -3,7 +3,7 @@
     <!-- 左侧部分 -->
     <div class="login-sidebar">
     <div class="login-image-wrapper">
-        <img src="/HomeIcon.png" alt="Profile" class="profile-image" />
+        <img src="/Bar-Logo.png" alt="Profile" class="profile-image" />
     </div>
     </div>
 

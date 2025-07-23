@@ -26,13 +26,9 @@
         type="danger"
         @click="logout"
       >
-        <div class="icon-container">
-          <el-icon><UserFilled /></el-icon>
-          <el-icon><Right /></el-icon>
-        </div>
-        <div class="text-container">
-          <slot>Logout</slot>
-        </div>
+        <el-icon><UserFilled /></el-icon>
+        <el-icon><Right /></el-icon>
+        Logout
       </el-button>
     </div>
 
@@ -73,10 +69,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from "vue-router";
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getAllUsers, register,deleteUser } from '@/api/user' // 替换成你自己的接口路径
 import { useAuthStore } from "@/store/authStore";
-
+import { useUserStore } from "@/store/userStore";
+const router = useRouter()
 const users = ref([])
 const loading = ref(false)
 const showDialog = ref(false)
@@ -122,8 +120,9 @@ const createUser = async () => {
   }
 }
 
-//登出逻辑
+const userStore = useUserStore();
 const authStore = useAuthStore();
+
 const logout = () => {
   ElMessageBox.confirm("Are you sure you want to log out?", "Confirm Logout", {
     confirmButtonText: "Yes",
@@ -132,7 +131,6 @@ const logout = () => {
   })
     .then(() => {
       authStore.logout();
-      router.push("/user/login");
     })
     .catch(() => {});
 };
