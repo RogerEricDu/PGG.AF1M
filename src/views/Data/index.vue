@@ -65,7 +65,9 @@
             </div>
           </div>
           <div class="card-right">
-            <img :src="item.image" alt="Image" />
+              <div class="image-wrapper">
+                <img :src="item.image" alt="Image" />
+              </div>
           </div>
         </div>
       </div>
@@ -263,61 +265,61 @@ const populationData = ref([
     title: "Han",
     description: "The Han ethnic group is the largest in China, representing over 90% of the population. Han culture has a rich history, with roots in ancient Chinese civilization, including contributions to architecture, philosophy, and language. Han people are traditionally associated with agricultural and urban lifestyles. ",
     articleLink: "#",
-    image: new URL('@/assets/images/pgghan1.png', import.meta.url).href, // 动态导入
+    image: new URL('@/assets/images/population/han.jpg', import.meta.url).href, // 动态导入
   },
   {
     title: "Tibetan",
     description: "Tibetans primarily inhabit the Tibetan Plateau. They are known for their Buddhist culture, unique nomadic traditions, and vibrant festivals. Their traditional attire often includes brightly colored clothing and accessories. ",
     articleLink: "#",
-    image: new URL('@/assets/images/pgghan1.png', import.meta.url).href,
+    image: new URL('@/assets/images/population/tibetan.jpg', import.meta.url).href,
   },
   {
     title: "Balti",
     description: "The Balti people are an ethnic group in the mountainous regions of the western Himalayas, known for their unique language and culture blending Tibetan and Central Asian influences.",
     articleLink: "#",
-    image: new URL('@/assets/images/pgghan1.png', import.meta.url).href,
+    image: new URL('@/assets/images/population/balti.jpg', import.meta.url).href,
   },
   {
     title: "Deng",
     description: "The Deng people are a lesser-known ethnic group residing in the highlands of Tibet and neighboring regions. They maintain a subsistence lifestyle and follow animist traditions.",
     articleLink: "#",
-    image: new URL('@/assets/images/pgghan1.png', import.meta.url).href,
+    image: new URL('@/assets/images/population/deng.jpg', import.meta.url).href,
   },
   {
     title: "Gongbo",
     description: "The Gongbo people are a sub-group of Tibetans in the southeastern region of Tibet, known for their vibrant festivals like Gongbo New Year. ",
     articleLink: "#",
-    image: new URL('@/assets/images/pgghan1.png', import.meta.url).href,
+    image: new URL('@/assets/images/population/gongbo.jpg', import.meta.url).href,
   },
   {
-    title: "Luoba",
-    description: "The Luoba people live in the southeastern Himalayas. They are known for their animistic beliefs, unique woven textiles, and isolated lifestyle. ",
+    title: "Lhoba",
+    description: "The Lhoba people live in the southeastern Himalayas. They are known for their animistic beliefs, unique woven textiles, and isolated lifestyle. ",
     articleLink: "#",
-    image: new URL('@/assets/images/pgghan1.png', import.meta.url).href,
+    image: new URL('@/assets/images/population/lhoba.jpg', import.meta.url).href,
   },
   {
     title: "Wakhi",
     description: "The Wakhi people live in the high-altitude Pamir and Karakoram ranges. They are pastoralists known for their hospitality and vibrant folk traditions.",
     articleLink: "#",
-    image: new URL('@/assets/images/pgghan1.png', import.meta.url).href,
+    image: new URL('@/assets/images/population/wakhi.png', import.meta.url).href,
   },
   {
     title: "Sherpa",
     description: "Famous for their mountaineering skills, the Sherpa people reside in the Himalayas of Nepal and Tibet. They are deeply connected to Buddhism and have a unique mountain lifestyle.",
     articleLink: "#",
-    image: new URL('@/assets/images/pgghan1.png', import.meta.url).href,
+    image: new URL('@/assets/images/population/sherpa.jpg', import.meta.url).href,
   },
   {
     title: "Tajik",
     description: "The Tajik people in China are part of the larger Tajik ethnic group across Central Asia. They inhabit the Pamir Mountains and are known for their Persian cultural roots and vibrant textiles. ",
     articleLink: "#",
-    image: new URL('@/assets/images/pgghan1.png', import.meta.url).href,
+    image: new URL('@/assets/images/population/tajik.png', import.meta.url).href,
   },
   {
     title: "Kashmiri",
     description: "The Kashmiri people, primarily residing in the Kashmir Valley, are known for their rich artistic traditions, including handicrafts, music, and cuisine. ",
     articleLink: "#",
-    image: new URL('@/assets/images/pgghan1.png', import.meta.url).href,
+    image: new URL('@/assets/images/population/kashmiri.png', import.meta.url).href,
   },
   
 ]);
@@ -523,6 +525,19 @@ const datasetData = ref([
   height: auto;
   border-radius: 10px;
 }
+.image-wrapper {
+  width: 100%;
+  aspect-ratio: 14 / 16; /* 或用 1 / 1 设置为正方形 */
+  overflow: hidden;
+  border-radius: 8px; /* 可选：圆角 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 可选：美观阴影 */
+}
 
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 关键！实现裁剪效果 */
+  display: block;
+}
 </style>
 

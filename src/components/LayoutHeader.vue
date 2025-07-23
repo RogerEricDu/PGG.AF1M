@@ -54,7 +54,7 @@
       height: 100px;
       width: 100%;
       text-indent: -9999px;
-      background: url('/HomeIcon.png') no-repeat center center / contain;
+      background: url('/Bar-Logo.png') no-repeat center center / contain;
     }
   }
 

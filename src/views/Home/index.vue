@@ -14,9 +14,11 @@
     </div>
     <!-- Banner Section -->
     <div class="banner-section">
-      <h2>Welcome to PGG.AF1M!</h2>
-      <el-carousel height="600px">
-        <el-carousel-item v-for="item in imageUrl" :key="item">
+      <h2 v-if="showBannerTitle" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);">
+        Welcome to PGG.AF1M!
+      </h2>
+      <el-carousel height="780px" @change="handleCarouselChange">
+        <el-carousel-item v-for="(item, index) in imageUrl" :key="item.url">
           <img :src="item.url" alt="Banner Image" />
         </el-carousel-item>
       </el-carousel>
@@ -150,9 +152,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import image1 from '@/assets/images/Homepage_banner1.png';
-import image2 from '@/assets/images/sample2.jpg';
+import { ref, computed  } from "vue";
+import image1 from '@/assets/images/HomePage-Logo.png';
+import image2 from '@/assets/images/Database-Logo1.png';
+import image3 from '@/assets/images/Database-Logo2.png';
+import image4 from '@/assets/images/Database-Logo3.png';
+import image5 from '@/assets/images/Database-Logo4.png';
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -160,16 +165,24 @@ const router = useRouter();
 const imageUrl = [
   { url: image1 },
   { url: image2 },
+  { url: image3 },
+  { url: image4 },
+  { url: image5 },
 ];
 
-const currentTitleIndex = ref(-1);
+const currentCarouselIndex = ref(0);
+
+const handleCarouselChange = (index) => {
+  currentCarouselIndex.value = index;
+};
+
+const showBannerTitle = computed(() => currentCarouselIndex.value !== 0);
 
 const updates = [
+  { date: '2025/5/4', title: 'Variants Table Section', description: 'We provide Database-wide SNP search & Single SNP comparison' },
+  { date: '2025/2/2', title: 'GeoMap Section', description: 'The GeoMap and HeatMap download & comparison tools is already to be used.' },
   { date: '2024/5/17', title: 'Update the Allele Freq section', description: 'The Table and Further INFO of the Allele Frequency Dataset is ready to work' },
   { date: '2024/5/7', title: 'Update the Log In section', description: 'The Allele Freq Page has updated 3 tables ( All.ind / By.Province / By.region )' },
-  { date: '2024/4/1', title: 'Update the Data\Home section', description: 'The Quick Start section in the Home Page is ready to work' },
-  { date: '2024/3/4', title: 'Update the Summary\About\Guide section', description: 'The further information of this project is provided' },
-  { date: '2024/2/22', title: 'Update the basic Frame of the BiG.Data project', description: '' },
   { date: '2024/2/2', title: 'Start the project Framework.', description: '' },
 ];
 
@@ -214,7 +227,7 @@ const handleSubmit = () => {
 
 .banner-section img {
   width: 100%;
-  height: 600px;
+  height: 780px;
   object-fit: cover;
   filter: brightness(0.85);
 }
@@ -252,7 +265,7 @@ const handleSubmit = () => {
   padding: 12px 20px;
   font-size: 16px;
   font-weight: bold;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .el-button:hover {

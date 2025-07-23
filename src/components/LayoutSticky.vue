@@ -73,7 +73,7 @@ const { y } = useScroll(window)
   .logo {
     width: 200px;
     height: 80px; /* 使高度与父容器保持一致 */
-    background: url("/HomeIcon.png") no-repeat center center;
+    background: url("/Bar-Logo.png") no-repeat center center;
     background-size: contain; /* 保持图片比例，确保完整显示 */
   }
 
