@@ -210,6 +210,7 @@
 
 
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus';
 import { ref,onMounted } from 'vue'; // 从 Vue 中导入 ref
 import * as XLSX from 'xlsx'; // 导入 XLSX
 import { getByRegionData,getByRegionDataMerge } from '@/api/table';
@@ -345,9 +346,20 @@ const handleCurrentChange = (val: number) => {
   fetchData();
 };
 
-const handleSearch = async () => {
-  currentPage.value = 1; // 搜索时重置为第一页
-  await fetchData();
+const handleSearch = () => {
+  const { rsid, position, variant } = searchParams.value;
+  const isAllEmpty =
+    (!rsid || rsid.trim() === '') &&
+    (!position || position.trim() === '') &&
+    (!variant || variant.trim() === '');
+
+  if (isAllEmpty) {
+    ElMessage.error('Please enter RSID / Position / Variant INFO.');
+    return;
+  }
+
+  // 校验通过，执行查询
+  fetchData();
 };
 
 const handleReset = () => {

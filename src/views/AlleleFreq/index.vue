@@ -1,24 +1,3 @@
-<script>
-import AllIndividuals from './components/AllIndividuals.vue'
-import ByProvince from './components/ByProvince.vue'
-import ByRegion from './components/ByRegion.vue'
-import Population from './components/Population.vue'
-export default {
-  mounted(){
-    if (this.$route.path === '/allelefreq'){
-      this.$router.push('/allelefreq/all_ind');
-    }
-  },
-  components: {
-    AllIndividuals, // 注册GeneTable组件
-    ByProvince,
-    ByRegion,
-    Population
-  }
-} 
-
-</script>
-
 <template>
 <div class="AlleleFreq-page-container">
     <div class="header-container" style="height:100%">
@@ -44,6 +23,28 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+import AllIndividuals from './components/AllIndividuals.vue'
+import ByProvince from './components/ByProvince.vue'
+import ByRegion from './components/ByRegion.vue'
+import Population from './components/Population.vue'
+export default {
+  mounted(){
+    if (this.$route.path === '/allelefreq'){
+      this.$router.push('/allelefreq/all_ind');
+    }
+  },
+  components: {
+    AllIndividuals, // 注册GeneTable组件
+    ByProvince,
+    ByRegion,
+    Population
+  }
+} 
+
+</script>
+
 
 <style scoped>
 .AlleleFreq-page-container {

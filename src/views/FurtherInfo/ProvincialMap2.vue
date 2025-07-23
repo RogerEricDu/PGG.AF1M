@@ -611,7 +611,7 @@ const mockData = [
     ]
   },
   {
-    "province": "Tibet",
+    "province": "Xizang",
     "data": [
       {
         "genotype1": "AA",
@@ -738,7 +738,7 @@ const mockData = [
       }
     ]
   },
-  {
+/*   {
     "province": "Singapore",
     "data": [
       {
@@ -753,7 +753,7 @@ const mockData = [
         "alleleCount": 1000
       }
     ]
-  }
+  } */
 ]
 
 onMounted(async () => {
