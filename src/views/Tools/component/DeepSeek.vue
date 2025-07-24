@@ -4,44 +4,6 @@
     <el-skeleton v-if="loading" rows="6" animated />
 
     <div v-else :style="{ opacity: loading ? 0.5 : 1, transition: 'opacity 0.3s' }">
-      <!-- SNP 注释 -->
-<!--       <el-card class="box-card" shadow="hover">
-        <template #header>
-            <span>SNP Annotation From DeepSeek</span>
-        </template>
-            <el-form :inline="true" @submit.prevent>
-              <el-form-item>
-                <el-input
-                  v-model="snpInput.chromosome"
-                  placeholder="Chromosome"
-                  style="width: 120px;"
-                />
-              </el-form-item>
-              <el-form-item>
-                <el-input
-                  v-model="snpInput.position"
-                  placeholder="Position"
-                  style="width: 120px;"
-                />
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="fetchSnpData">
-                  Query
-                </el-button>
-              </el-form-item>
-            </el-form>
-
-        <el-descriptions v-if="deepseekResult" :column="2" border>
-          <el-descriptions-item label="SNP ID">{{ deepseekResult?.snp_id || 'N/A' }}</el-descriptions-item>
-          <el-descriptions-item label="Variant Type">{{ deepseekResult?.variant_type || 'N/A' }}</el-descriptions-item>
-          <el-descriptions-item label="Consequence">{{ deepseekResult?.consequence || 'N/A' }}</el-descriptions-item>
-          <el-descriptions-item label="Sift Prediction">{{ deepseekResult?.sift_prediction || 'N/A' }}</el-descriptions-item>
-          <el-descriptions-item label="Polyphen Prediction">{{ deepseekResult?.polyphen_prediction || 'N/A' }}</el-descriptions-item>
-          <el-descriptions-item label="Clinical Significance">{{ deepseekResult?.clinical_significance || 'N/A' }}</el-descriptions-item>
-          <el-descriptions-item label="Gene Symbol">{{ deepseekResult?.gene_symbol || 'N/A' }}</el-descriptions-item>
-        </el-descriptions>
-        <el-empty v-else description="Enter chromosome and position to query SNP" />
-      </el-card> -->
 
       <!-- 基因注释 -->
       <el-card class="box-card" shadow="hover" style="margin-top: 20px;">
@@ -92,6 +54,9 @@
             Submit
           </el-button>
         </el-form-item>
+        <el-form-item v-if="chatCount >= MAX_CHAT">
+          <el-button type="warning" @click="resetChat">Reset Session</el-button>
+        </el-form-item>
         <el-form-item v-if="chatCount > 0">
           <span style="color: #999;">Already Used {{ chatCount }}/{{ MAX_CHAT }} Times</span>
         </el-form-item>
@@ -110,6 +75,8 @@ import { annotateSnp, annotateGene, askDeepSeek } from '@/api/deepseek'
 
 // 常量
 const MAX_CHAT = 3
+const MAX_GLOBAL_CHAT = 9
+const TIME_WINDOW = 10 * 60 * 1000 // 10 分钟（毫秒）
 
 // 响应式数据
 const deepseekResult = ref(null)
@@ -123,19 +90,21 @@ const userQuestion = ref('')
 const chatAnswer = ref(null)
 const errorMessage = ref('')
 const chatCount = ref(0)
+const globalChatTimestamps = ref(JSON.parse(localStorage.getItem('chatTimestamps') || '[]'))
 
-// 输入数据
-const snpInput = ref({
-  chromosome: '',
-  position: ''
-})
 
 const geneInput = ref({
   symbol: ''
 })
 
+const cleanOldTimestamps = () => {
+  const now = Date.now()
+  globalChatTimestamps.value = globalChatTimestamps.value.filter(ts => now - ts < TIME_WINDOW)
+  localStorage.setItem('chatTimestamps', JSON.stringify(globalChatTimestamps.value))
+}
+
 // 获取SNP数据
-const fetchSnpData = async () => {
+/* const fetchSnpData = async () => {
   if (!snpInput.value.chromosome || !snpInput.value.position) return
   
   loading.value = true
@@ -183,7 +152,7 @@ const fetchSnpData = async () => {
   } finally {
     loading.value = false
   }
-}
+} */
 
 // 获取Gene数据
 const fetchGeneData = async () => {
@@ -216,25 +185,37 @@ const fetchGeneData = async () => {
 
 // 提交问题
 const submitQuestion = async () => {
-  if (!userQuestion.value.trim()) return;
-  
+  if (!userQuestion.value.trim() || chatCount.value >= MAX_CHAT) return
+
+  cleanOldTimestamps()
+
+  if (globalChatTimestamps.value.length >= MAX_GLOBAL_CHAT) {
+    errorMessage.value = 'You have reached the 10-minute global limit of 9 questions.'
+    return
+  }
+
   try {
-    loading.value = true;
-    const response = await askDeepSeek({
-      question: userQuestion.value
-    });
-    
-    chatAnswer.value = response.answer;
-    chatCount.value++;
-    
+    loading.value = true
+    const response = await askDeepSeek({ question: userQuestion.value })
+    chatAnswer.value = response.answer
+    chatCount.value++
+    globalChatTimestamps.value.push(Date.now())
+    localStorage.setItem('chatTimestamps', JSON.stringify(globalChatTimestamps.value))
   } catch (error) {
-    errorMessage.value = error.response?.answer?.message || error.message;
-    console.error("Query failed: ", error);
+    errorMessage.value = error.response?.answer?.message || error.message
+    console.error("Query failed: ", error)
   } finally {
-    loading.value = false;
-    userQuestion.value = '';
+    loading.value = false
+    userQuestion.value = ''
   }
 }
+
+//清空问答模型
+const resetChat = () => {
+  chatCount.value = 0
+  chatAnswer.value = null
+}
+
 </script>
 
 

@@ -61,7 +61,8 @@
             <h2>{{ item.title }}</h2>
             <p>{{ item.description }}</p>
             <div class="links">
-              <a :href="item.articleLink" target="_blank">Source →</a>
+              <a v-if="item.articleLink" :href="item.articleLink" target="_blank">Wikipedia.</a>
+              <a v-if="item.databaseLink" :href="item.databaseLink" target="_blank">Search in PGG.population.</a>
             </div>
           </div>
           <div class="card-right">
@@ -225,23 +226,6 @@ onMounted(() => {
         ]
       };
 
-/*       const barOption = {
-        xAxis: { type: 'value' },
-        yAxis: {
-          type: 'category',
-          axisLabel: { rotate: 30 },
-          data: data.map(item => item.name)
-        },
-        series: {
-          type: 'bar',
-          data: data.map(item => item.value),
-          label: {
-            show: true,
-            position: 'right',
-            formatter: '{c}'
-          }
-        }
-      }; */
 
       let currentOption = mapOption;
       myChart.setOption(mapOption);
@@ -263,62 +247,72 @@ onUnmounted(() => {
 const populationData = ref([
   {
     title: "Han",
-    description: "The Han ethnic group is the largest in China, representing over 90% of the population. Han culture has a rich history, with roots in ancient Chinese civilization, including contributions to architecture, philosophy, and language. Han people are traditionally associated with agricultural and urban lifestyles. ",
-    articleLink: "#",
+    description: "The Han Chinese, the world's largest ethnic group with over 1.4 billion people, are native to Greater China and constitute the majority population in both China (91.11%) and Taiwan (97%), as well as significant communities in Southeast Asia. Originating from the Huaxia people in the Yellow River region, the Han Chinese are the foundational contributors to Chinese civilization. Over centuries, they expanded southward through migrations during dynasties like the Qin and Han, assimilating other ethnic groups and establishing dominance in southern China's fertile regions by the Tang and Song periods. Today, their cultural and demographic influence remains central to China's identity.",
+    articleLink: "https://en.wikipedia.org/wiki/Han_Chinese",
+    databaseLink: "https://pog.fudan.edu.cn/population/population/Han?id=POP00076",
     image: new URL('@/assets/images/population/han.jpg', import.meta.url).href, // 动态导入
   },
   {
     title: "Tibetan",
-    description: "Tibetans primarily inhabit the Tibetan Plateau. They are known for their Buddhist culture, unique nomadic traditions, and vibrant festivals. Their traditional attire often includes brightly colored clothing and accessories. ",
-    articleLink: "#",
+    description: "Tibetans (Tibetan: བོད་པ་) are the indigenous people of the Qinghai-Tibet Plateau. In China, they are mainly distributed in the Tibet Autonomous Region, Qinghai Province, western Sichuan Province, Diqing, Yunnan, Gannan, Gansu and other regions. In addition, Tibetans are also distributed in India, Bhutan, the United States, Canada, Europe, Australia and other regions. Lhasa is a holy place in the hearts of Tibetans. Tibetans are one of the oldest ethnic groups in China and South Asia. Tibetans have their own language and writing. Tibetan language belongs to the Tibetan branch of the Tibeto-Burman language family of the Sino-Tibetan language family, and is divided into three dialects: Weizang, Kham and Amdo. Tibetans generally believe in Tibetan Buddhism. Buddhism was introduced to Tubo from Tianzhu in the seventh century AD and has a history of more than 1,400 years. The Tibetan people have created a splendid national culture and left extremely rich cultural heritage in literature, music, dance, painting, sculpture, architectural art and other aspects. Tibetan carving skills are superb. In addition, Tibetan opera is unique and Tibetan medicine is also an important heritage of mankind.",
+    articleLink: "https://en.wikipedia.org/wiki/Tibetans",
+    databaseLink: "https://pog.fudan.edu.cn/population/population/Tibetan?id=POP00001",
     image: new URL('@/assets/images/population/tibetan.jpg', import.meta.url).href,
   },
   {
     title: "Balti",
-    description: "The Balti people are an ethnic group in the mountainous regions of the western Himalayas, known for their unique language and culture blending Tibetan and Central Asian influences.",
-    articleLink: "#",
+    description: "The Baltis are a Tibetic ethnic group who are native to the Pakistani-administered territory of Gilgit−Baltistan and the Indian-administered territory of Ladakh, predominantly in the Kargil district with smaller concentrations present in the Leh district. Outside of the Kashmir region, Baltis are scattered throughout Pakistan, with the majority of the diaspora inhabiting prominent urban centres such as Lahore, Karachi, Islamabad and Rawalpindi.",
+    articleLink: "https://en.wikipedia.org/wiki/Balti_people",
     image: new URL('@/assets/images/population/balti.jpg', import.meta.url).href,
   },
   {
     title: "Deng",
-    description: "The Deng people are a lesser-known ethnic group residing in the highlands of Tibet and neighboring regions. They maintain a subsistence lifestyle and follow animist traditions.",
-    articleLink: "#",
+    description: "The Mishmi people are an ethnic group of Tibet and Arunachal Pradesh, India. The area is known as the Mishmi Hills. Only one group, called the Deng, occupy Zayu County in southern Tibet. The Mishmi consist of four tribes: Idu Mishmi (Idu Lhoba); Digaro tribe (Taraon, Darang Deng), Miju Mishmi (Kaman Deng), and the Deng Mishmi. The four sub-divisions of the tribe emerged due to the geographical distribution, but racially all the four groups are of the same stock. The Idu are also known as Yidu Lhoba in Tibet and often referred as Chulikatas in Assam. The Idus are primarily concentrated in the Upper Dibang Valley and Lower Dibang Valley district and parts of the northern part of Lohit district of Arunachal Pradesh in India. Taraon, also called Digaru Mishmis, are distributed in the hill and the foothills between the Dibang, Digaru and the Lohit rivers. Kamans are also known as the Miju Mishmis; they live between the Lohit and the Kambang rivers in the foothills and in the Mishmi Hills on both sides of the Lohit river right up to the frontiers to Rima river. There are around 30,000 of them in Arunachal Pradesh.",
+    articleLink: "https://zh.wikipedia.org/wiki/%E5%83%9C%E4%BA%BA",
     image: new URL('@/assets/images/population/deng.jpg', import.meta.url).href,
   },
   {
     title: "Gongbo",
-    description: "The Gongbo people are a sub-group of Tibetans in the southeastern region of Tibet, known for their vibrant festivals like Gongbo New Year. ",
-    articleLink: "#",
+    description: "QI Ting is a Research Associate Professor at the School of Life Sciences, Westlake University, China. She received her PhD in 2016 from Zhejiang University, China, before undertaking postdoctoral research at the Institute for Molecular Bioscience, The University of Queensland, Australia. Trained in statistical genetics, her research focuses on understanding the genetic basis of molecular phenotypes and their link to complex diseases, leveraging multi-omics data to discover gene targets for human diseases, and developing novel statistical methods and tools to disentangle the regulatory mechanisms underlying the diseases. To date, she has published 25 papers with 2497 citations, including six first-author papers in high-impact journals such as Nature Genetics and Nature Communications, as well as collaborative research papers in top journals such as Nature and Cancer Research. ",
     image: new URL('@/assets/images/population/gongbo.jpg', import.meta.url).href,
   },
   {
     title: "Lhoba",
-    description: "The Lhoba people live in the southeastern Himalayas. They are known for their animistic beliefs, unique woven textiles, and isolated lifestyle. ",
-    articleLink: "#",
+    description: "The Lhoba people are an ethnic minority in China. The Lhoba people are mainly distributed in the Luoyu area between Chayu in the east and Menyu in the west. They are mainly engaged in agriculture and hunting. The Lhoba people have their own language, which basically uses Tibetan. The Lhoba language belongs to the Tibeto-Burman language family of the Sino-Tibetan language family. Most of the Lhoba people live in the mountains and valleys west of the great bend of the Yarlung Zangbo River. Until the mid-20th century, the Lhoba society was still in the late stage of primitive society, and it is still followed today. The Lhoba people continue their cultural traditions by relying on oral traditions passed down from generation to generation.",
+    articleLink: "https://en.wikipedia.org/wiki/Lhoba_people",
     image: new URL('@/assets/images/population/lhoba.jpg', import.meta.url).href,
   },
   {
     title: "Wakhi",
-    description: "The Wakhi people live in the high-altitude Pamir and Karakoram ranges. They are pastoralists known for their hospitality and vibrant folk traditions.",
-    articleLink: "#",
+    description: "The Wakhi people, also locally referred to as the Wokhik (وخیک), are an Iranian ethnic group native to Central and South Asia. They are found in Afghanistan, Tajikistan, Pakistan and China—primarily situated in and around Afghanistan's Wakhan Corridor, the northernmost part of Pakistan's Gilgit−Baltistan and Chitral, Tajikistan's Gorno−Badakhshan Autonomous Region and the southwestern areas of China's Xinjiang Uyghur Autonomous Region. The Wakhi people are native speakers of the Wakhi language, an Eastern Iranian language.Northern Pakistan, eastern Tajikistan, eastern Afghanistan, and western Xinjiang in China.",
+    articleLink: "https://en.wikipedia.org/wiki/Wakhi_people",
     image: new URL('@/assets/images/population/wakhi.png', import.meta.url).href,
   },
   {
     title: "Sherpa",
-    description: "Famous for their mountaineering skills, the Sherpa people reside in the Himalayas of Nepal and Tibet. They are deeply connected to Buddhism and have a unique mountain lifestyle.",
-    articleLink: "#",
+    description: "The Sherpa people (Standard Tibetan: ཤར་པ།, romanized: shar pa) are one of the Tibetan ethnic groups native to the most mountainous regions of Nepal, India, and the Tibetan Autonomous Region of China. The majority of Sherpas live in the eastern regions of Nepal, namely the Solukhumbu (Khumbu and Pharak), Khatra, Kama, Rolwaling and Barun Valley. Although, some live north of Kathmandu, Nepal in the Bigu and Helambu regions. They can also be found in Tingri County, Bhutan, the Indian states of Sikkim, and northern portions of West Bengal, specifically the Darjeeling and Kalimpong districts. In these regions, Sherpas establish monasteries called gompas where they practice their local traditions. Tengboche was the first celibate monastery in Solu-Khumbu. The Sherpa language belongs to the southern branch of the Tibeto-Burman languages, mixed with Eastern Tibetan (Khams Tibetan) and central Tibetan dialects. However, this language is separate from Lhasa Tibetan and is unintelligible to Lhasa speakers. Sherpa migration has significantly increased in recent years, especially in the United States. New York City has the largest Sherpa community with a population of approximately 16,000 people. Contrastingly, the 2011 Nepal census recorded 512,946 Sherpas within its borders. Members of the Sherpa nation are known for their skills in mountaineering as a livelihood.",
+    articleLink: "https://en.wikipedia.org/wiki/Sherpa_people",
+    databaseLink: "https://pog.fudan.edu.cn/population/population/Sherpa?id=POP00002",
     image: new URL('@/assets/images/population/sherpa.jpg', import.meta.url).href,
   },
   {
+    title: "Monba",
+    description: "Leo Speidel is a Sir Henry Wellcome fellow at University College London, he develops statistical methods for reconstructing this history, scalable to the largest genomic datasets, which now comprise more than 100,000 individuals and record genetic diversity on an unprecedented scale. He is interested in uncovering how different evolutionary forces have shaped today’s observed genetic variation, from which we can learn about our shared evolutionary history and the impact of genetic variation on our health.",
+    articleLink: "https://en.wikipedia.org/wiki/Monpa_people",
+    image: new URL('@/assets/images/population/monba.jpg', import.meta.url).href,
+  },
+  {
     title: "Tajik",
-    description: "The Tajik people in China are part of the larger Tajik ethnic group across Central Asia. They inhabit the Pamir Mountains and are known for their Persian cultural roots and vibrant textiles. ",
-    articleLink: "#",
+    description: "The Tajik people (Persian: تاجیک‎, Tājīk; Tajik: Тоҷик), abbreviated as Tajiks, are divided into two groups: the lowland Tajiks and the highland Tajiks. The lowland Tajiks, who live in Tajikistan, Uzbekistan, and Afghanistan, number about 20 million. They belong to the Indo-European Ferghana brachycephalic type with some Turkic admixture and speak Tajik, a dialect of the Western Iranian branch of the Persian language (with many Turkic loanwords and mutual intelligibility with Persian). They are Sunni Muslims and have traditionally engaged in settled agriculture. The highland Tajiks, found in Afghanistan, Pakistani-administered Kashmir, eastern Tajikistan, and western Xinjiang in China (i.e., the Tajik ethnic group in China), belong to the Mediterranean type of the Caucasoid race. They mainly speak Pamir languages, a branch of Eastern Iranian, and most are Sunni Muslims, with some following Shia Islam, including the Twelver Shia or Ismaili sects. Historically, they have been engaged in highland nomadism and were often referred to as Sartas or Pamiris before the 20th century. Pamir languages and Tajik are not mutually intelligible.The majority of the Tajik ethnic group is located in Central Asia, primarily in Tajikistan, Uzbekistan, and other countries and regions. In China, the Tajik ethnic group mainly resides in the Tashkurgan Tajik Autonomous County in Xinjiang.",
+    articleLink: "https://en.wikipedia.org/wiki/Tajiks",
+    databaseLink: "https://pog.fudan.edu.cn/population/population/Chinese%20Tajiks?id=POP00179",
     image: new URL('@/assets/images/population/tajik.png', import.meta.url).href,
   },
   {
     title: "Kashmiri",
-    description: "The Kashmiri people, primarily residing in the Kashmir Valley, are known for their rich artistic traditions, including handicrafts, music, and cuisine. ",
-    articleLink: "#",
+    description: "In Kashmir, rice and meat are staple foods, with Noon Chai (Sheer Chai) and Kahweh being popular beverages. Wazwan is a multi-course meal prepared by skilled chefs. Kashmir is also known for its baked goods, including Sheermal, Bagerkhayn (puff pastry), and Tsochwor (hard bread).India-controlled Kashmir, Pakistan-controlled Kashmir and the People's Republic of China administered areas of Aksai Chin, Kashgar Kunlun Mountains. ",
+    articleLink: "https://en.wikipedia.org/wiki/Kashmir",
+    databaseLink: "https://pog.fudan.edu.cn/population/population/Kashmiri%20Pandit?id=POP00310",
     image: new URL('@/assets/images/population/kashmiri.png', import.meta.url).href,
   },
   

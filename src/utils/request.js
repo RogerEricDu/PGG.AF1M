@@ -28,6 +28,11 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   response => {
+    // ✅ 如果响应类型是 blob，说明是文件下载，直接返回 response
+    if (response.config.responseType === 'blob') {
+      return response;
+    }
+
     // 添加白名单路径判断
     if (response.config.url.includes('/DeepSeek/annotateSnp') || 
         response.config.url.includes('/DeepSeek/annotateGene')) {

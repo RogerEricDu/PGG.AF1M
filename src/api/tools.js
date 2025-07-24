@@ -23,13 +23,13 @@ return request({
 }
 
 // 获取下载文件的 URL
-export function getDownloadUrl(id) {
+export function getDownloadUrl(id, config = {}) {
   return request({
     url: `/upload/download`,
     method: 'post',
-    data: { id } ,
-    ...config
-});
+    data: { id },
+    ...config  // 包括 { responseType: 'blob' }
+  });
 }
 
 

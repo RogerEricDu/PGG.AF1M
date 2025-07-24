@@ -8,20 +8,21 @@
     <div class="query-type-container">
         <div class="query-type-selector">
           <el-radio-group v-model="searchParams.queryType">
-            <el-radio-button 
-              label="single"
-              class="custom-radio-button"
-            >
-              <span class="radio-label">Database-wide SNP Search</span>
-              <span class="radio-description">Retrieve comprehensive SNP data across all datasets</span>
-            </el-radio-button>
             
             <el-radio-button 
               label="compare"
               class="custom-radio-button"
             >
-              <span class="radio-label">Single SNP Comparison</span>
-              <span class="radio-description">Compare SNP characteristics across populations</span>
+              <span class="radio-label">Database-wide SNP Search</span>
+              <span class="radio-description">Retrieve comprehensive SNP data across all datasets</span>
+            </el-radio-button>
+
+            <el-radio-button 
+              label="single"
+              class="custom-radio-button"
+            >
+              <span class="radio-label">Single SNP Search</span>
+              <span class="radio-description">Compare SNP data from different datasets/populations</span>
             </el-radio-button>
           </el-radio-group>
         </div>
@@ -168,7 +169,7 @@
     </div>
 
     <!-- 表格区域 -->
-    <el-table :data="tableData" border style="margin: auto; text-align: center;" @selection-change="handleSelectionChange">
+    <el-table  v-loading="loading" :data="tableData" border style="margin: auto; text-align: center;" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"></el-table-column> 
       <el-table-column
         :prop="index"
@@ -214,6 +215,9 @@ import * as XLSX from 'xlsx'; // 导入 XLSX
 import { getAllIndividualData,getAllIndividualDataMerge } from '@/api/table';
 import{ watch } from 'vue';
 
+//表格加载动画
+const loading = ref(false);
+
 const tableHeader = ref({
   variant: 'Variant',
   chr: 'Chr',
@@ -237,7 +241,7 @@ const pageSize = ref(10);
 
 // 高级表单的绑定值
 const searchParams = ref({
-  queryType: 'single', // 新增查询类型，默认'single'或'compare'
+  queryType: 'compare', // 新增查询类型，默认'single'或'compare'
   referencePanel: '',
   dataType: '',
   dataLayer: 'Individuals',
@@ -269,6 +273,7 @@ const handleReferencePanelChange = () => {
 };
 
 const fetchData = async () => {
+  loading.value = true
   try {
     const params = {
       ...searchParams.value,
@@ -326,7 +331,9 @@ const fetchData = async () => {
     console.error('Error fetching data:', error);
     tableData.value = []; // 出错时也清空表格
     total.value = 0; // 重置总数
+    loading.value = false
   }
+  loading.value = false
 };
 
 // 页面加载时默认查询
@@ -364,7 +371,7 @@ const handleSearch = () => {
 
 const handleReset = () => {
   searchParams.value = {
-    queryType: 'single', // 重置时保持默认值
+    queryType: 'compare', // 重置时保持默认值
     referencePanel: '',
     dataType: '',
     dataLayer: 'Individuals',

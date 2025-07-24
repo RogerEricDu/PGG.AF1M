@@ -5,33 +5,35 @@ import request from '@/utils/request'
 //统一使用request.js进行封装，否则axios和request不统一会invalid
 
 export const useAuthStore = defineStore('auth',{
-    state:()=>({
+    state:() => ({
         isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
-        user:JSON.parse(localStorage.getItem('user')),
-        token:localStorage.getItem('token')
+        user: JSON.parse(localStorage.getItem('user')),
+        token: localStorage.getItem('token'),
+        lastActiveTime: Date.now()
     }),
-    actions:{
-        async login(credentials){
-            try{
-                //首先发送登录请求
-                const loginResponse = await request.post('/user/login',credentials);
+    actions: {
+        async login(credentials) {
+            try {
+                const loginResponse = await request.post('/user/login', credentials);
                 const token = loginResponse.data;
                 this.token = token;
-                localStorage.setItem('token',token);
+                localStorage.setItem('token', token);
                 request.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                //登录成功后获取用户信息
+
                 const userResponse = await request.get(`/user/me`);
                 this.user = userResponse.data;
                 this.isLoggedIn = true;
-                localStorage.setItem('user',JSON.stringify(this.user));
-                localStorage.setItem('isLoggedIn','true');
-            }catch(error){
-                console.error('Login error',error);
+
+                localStorage.setItem('user', JSON.stringify(this.user));
+                localStorage.setItem('isLoggedIn', 'true');
+                this.lastActiveTime = Date.now(); // 登录时设置活动时间
+            } catch (error) {
+                console.error('Login error', error);
                 this.isLoggedIn = false;
                 throw error;
             }
         },
-        logout(){
+        logout() {
             this.isLoggedIn = false;
             this.user = null;
             this.token = null;
@@ -39,6 +41,9 @@ export const useAuthStore = defineStore('auth',{
             localStorage.removeItem('token');
             localStorage.removeItem('isLoggedIn');
             delete request.defaults.headers.common['Authorization'];
+        },
+        refreshLastActiveTime() {
+            this.lastActiveTime = Date.now();
         }
     }
 });
