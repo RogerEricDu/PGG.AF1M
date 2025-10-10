@@ -54,18 +54,16 @@
 
           <!-- 版权信息 -->
           <div class="copyright">
-            <p>Our Services</p>
+<!--             <p>Our Services</p>
             <div class="serviceBar">
               <RouterLink to="/">&nbsp;&nbsp;Home&nbsp;&nbsp;</RouterLink>
-<!--               <RouterLink to="/statistics">&nbsp;&nbsp;Stats&nbsp;&nbsp;</RouterLink> -->
               <RouterLink to="/data">&nbsp;&nbsp;Data&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/allelefreq">&nbsp;&nbsp;Variants&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/tools">&nbsp;&nbsp;Tools&nbsp;&nbsp;</RouterLink>
-<!--               <RouterLink to="/summary">&nbsp;&nbsp;Summary&nbsp;&nbsp;</RouterLink> -->
               <RouterLink to="/about">&nbsp;&nbsp;About&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/guide">&nbsp;&nbsp;Guide&nbsp;&nbsp;</RouterLink>
               <RouterLink to="/user">&nbsp;&nbsp;User&nbsp;&nbsp;</RouterLink>
-            </div>
+            </div> -->
             <p>CopyRight 2024 ©All Rights Reserved by Human Population Omics Group</p>
           </div>
         </div>
@@ -226,7 +224,7 @@
     }
   
     .copyright {
-      height: 180px;
+      height: 80px;
       padding-top: 30px;
       text-align: center;
       color: #999;

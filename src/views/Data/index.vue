@@ -141,7 +141,7 @@ onMounted(() => {
   const myChart = echarts.init(chartContainer.value);
 
   // 加载本地的 China.json 地图数据
-  fetch('/map/china.json')
+  fetch('/pggaf1m/map/china.json')
     .then(response => response.json())
     .then(chinaJson => {
       if (!chinaJson || !chinaJson.features) {
@@ -151,53 +151,51 @@ onMounted(() => {
       echarts.registerMap('China', chinaJson);
 
       const data = [
-        { name: 'Beijing', value: 21540 },
-        { name: 'Tianjin', value: 15570 },
-        { name: 'Shanghai', value: 24240 },
-        { name: 'Chongqing', value: 31020 },
-        { name: 'Hebei', value: 7500 },
-        { name: 'Henan', value: 9890 },
-        { name: 'Yunnan', value: 6420 },
-        { name: 'Liaoning', value: 7850 },
-        { name: 'Heilongjiang', value: 5230 },
-        { name: 'Hunan', value: 8700 },
-        { name: 'Anhui', value: 5600 },
-        { name: 'Shandong', value: 10300 },
-        { name: 'Xinjiang', value: 3870 },
-        { name: 'Jiangsu', value: 9820 },
-        { name: 'Zhejiang', value: 8420 },
-        { name: 'Jiangxi', value: 4640 },
-        { name: 'Hubei', value: 9350 },
-        { name: 'Guangxi', value: 5930 },
-        { name: 'Gansu', value: 3100 },
-        { name: 'Shanxi', value: 5030 },
-        { name: 'Inner Mongolia', value: 4110 },
-        { name: 'Shaanxi', value: 7200 },
-        { name: 'Jilin', value: 4800 },
-        { name: 'Fujian', value: 6700 },
-        { name: 'Guizhou', value: 3500 },
-        { name: 'Guangdong', value: 12600 },
-        { name: 'Qinghai', value: 1550 },
-        { name: 'Xizang', value: 1340 },
-        { name: 'Sichuan', value: 9200 },
-        { name: 'Ningxia', value: 2320 },
-        { name: 'Hainan', value: 1900 },
-        { name: 'Taiwan', value: 8250 },
-        { name: 'Hongkong', value: 7150 },
-        { name: 'Macau', value: 59000 }
+        { name: 'Beijing', value: 3 },
+        { name: 'Tianjin', value: 1 },
+        { name: 'Shanghai', value: 49 },
+        { name: 'Chongqing', value: 0 },
+        { name: 'Hebei', value: 0 },
+        { name: 'Henan', value: 1 },
+        { name: 'Yunnan', value: 2 },
+        { name: 'Liaoning', value: 1 },
+        { name: 'Heilongjiang', value: 0 },
+        { name: 'Hunan', value: 0 },
+        { name: 'Anhui', value: 0 },
+        { name: 'Shandong', value: 0 },
+        { name: 'Xinjiang', value: 1 },
+        { name: 'Jiangsu', value: 1 },
+        { name: 'Zhejiang', value: 3 },
+        { name: 'Jiangxi', value: 0 },
+        { name: 'Hubei', value: 3 },
+        { name: 'Guangxi', value: 0 },
+        { name: 'Gansu', value: 0 },
+        { name: 'Shanxi', value: 0 },
+        { name: 'Inner Mongolia', value: 0 },
+        { name: 'Shaanxi', value: 0 },
+        { name: 'Jilin', value: 1 },
+        { name: 'Fujian', value: 6 },
+        { name: 'Guizhou', value: 0 },
+        { name: 'Guangdong', value: 0 },
+        { name: 'Qinghai', value: 0 },
+        { name: 'Xizang', value: 0 },
+        { name: 'Sichuan', value: 0 },
+        { name: 'Ningxia', value: 0 },
+        { name: 'Hainan', value: 0 },
+        { name: 'Taiwan', value: 0 },
+        { name: 'Hongkong', value: 0 },
+        { name: 'Macau', value: 0 }
       ];
       data.sort((a, b) => a.value - b.value);
 
       const mapOption = {
         visualMap: {
           left: 'right',
-          min: 500,
-          max: 30000,
+          min: 0,
+          max: 50,
           inRange: {
             color: [
-              '#e0f3f8', // 淡蓝色（低值）
-              '#abd9e9', // 浅蓝色
-              '#74add1', // 中等蓝色
+              '#FFFFFF', // 淡蓝色（低值）
               '#4575b4', // 深蓝色（中间值）
               '#ffffbf', // 浅黄色（过渡）
               '#fee090', // 浅橙色
@@ -342,14 +340,11 @@ const datasetData = ref([
 .population-dataset-page {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 90%; /* 调整为自适应宽度 */
-  max-width: 1200px;
-  margin: 0px auto; /* 页面居中显示，增加呼吸感 */
-  background: linear-gradient(to bottom, #f8f9fb, #ffffff); /* 高级感渐变背景 */
+  width: 100%;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 高级感背景 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* 页面整体阴影 */
 }
 
 .dynamic-stats {

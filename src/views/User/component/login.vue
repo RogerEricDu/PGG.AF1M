@@ -66,7 +66,7 @@ try {
 
 // 跳转到注册页面
 const goToSignUp = () => {
-router.push('/user/register');
+router.push('/user/profile');
 };
 </script>
 

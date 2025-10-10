@@ -16,6 +16,8 @@
     "@stomp/stompjs": "^7.0.0",
     "@vueuse/core": "^10.8.0",
     "axios": "^1.6.7",
+    "bootstrap": "^5.3.8",
+    "bootstrap-vue-next": "^0.40.4",
     "dayjs": "^1.11.13",
     "echarts": "^5.5.1",
     "echarts-stat": "^1.2.0",

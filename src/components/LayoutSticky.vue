@@ -5,40 +5,43 @@ const { y } = useScroll(window)
 
 <template>
     <div class="app-header-sticky" :class="{ show: y > 78 }">
-      <div class="container">
-        <h1 class="logo">
-        <RouterLink to="/"></RouterLink>
+    <div class="container">
+      <h1 class="logo">
+        <RouterLink to="/">HomePage</RouterLink>
       </h1>
-        <ul class="app-header-nav">
-          <li :class="{ active: $route.path === '/' }">
-            <RouterLink to="/">Home</RouterLink>
-          </li>
-<!--           <li :class="{ active: $route.path === '/statistics' }">
-            <RouterLink to="/statistics">Stats</RouterLink>
-          </li> -->
-          <li :class="{ active: $route.path === '/data' }">
-            <RouterLink to="/data">Data</RouterLink>
-          </li>
-          <li :class="{ active: $route.path === '/allelefreq' }">
-            <RouterLink to="/allelefreq">Variants</RouterLink>
-          </li>
-          <li :class="{ active: $route.path === '/tools' }">
-            <RouterLink to="/tools">Tools</RouterLink>
-          </li>
-<!--           <li :class="{ active: $route.path === '/summary' }">
-            <RouterLink to="/summary">Summary</RouterLink>
-          </li> -->
-          <li :class="{ active: $route.path === '/about' }">
-            <RouterLink to="/about">About</RouterLink>
-          </li>
-          <li :class="{ active: $route.path === '/guide' }">
-            <RouterLink to="/guide">Guide</RouterLink>
-          </li>
-          <li :class="{ active: $route.path === '/user' }">
+      <ul class="app-header-nav">
+        <li :class="{ active: $route.path === '/' }">
+          <RouterLink to="/">Home</RouterLink>
+        </li>
+<!--         <li :class="{ active: $route.path === '/statistics' }">
+          <RouterLink to="/statistics">Stats</RouterLink>
+        </li> -->
+        <li :class="{ active: $route.path === '/data' }">
+          <RouterLink to="/data">Data</RouterLink>
+        </li>
+        <li :class="{ active: $route.path === '/microarray' }">
+          <RouterLink to="/microarray">Microarray</RouterLink>
+        </li>
+        <li :class="{ active: $route.path === '/allelefreq' }">
+          <RouterLink to="/allelefreq">NGS</RouterLink>
+        </li>
+        <li :class="{ active: $route.path === '/tgs' }">
+          <RouterLink to="/tgs">TGS</RouterLink>
+        </li>
+        <li :class="{ active: $route.path === '/tools' }">
+          <RouterLink to="/tools">Tools</RouterLink>
+        </li>
+        <li :class="{ active: $route.path === '/about' }">
+          <RouterLink to="/about">About</RouterLink>
+        </li>
+        <li :class="{ active: $route.path === '/guide' }">
+          <RouterLink to="/guide">Guide</RouterLink>
+        </li>
+        <li :class="{ active: $route.path === '/user' }">
           <RouterLink to="/user/profile">User</RouterLink>
-           </li>
-        </ul>
-      </div>
+        </li>
+      </ul>
+    </div>
     </div>
   </template>
 

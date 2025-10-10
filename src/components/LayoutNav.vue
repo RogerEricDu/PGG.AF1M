@@ -1,13 +1,13 @@
 <script setup>
-const confirm = () =>{
+/* const confirm = () =>{
   console.log('User is gonna Log Out')
   router.push('/login')
-}
+} */
 
 </script>
 
 <template>
-  <nav class="app-topnav">
+<!--   <nav class="app-topnav">
     <div class="container">
       <ul>
         <template>
@@ -25,7 +25,7 @@ const confirm = () =>{
 
       </ul>
     </div>
-  </nav>
+  </nav> -->
 </template>
 
 
@@ -34,7 +34,7 @@ const confirm = () =>{
   background: #333;
   ul {
     display: flex;
-    height: 36px;
+    height: 6px;
     justify-content: flex-end;
     align-items: center;
     li {

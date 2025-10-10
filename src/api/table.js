@@ -1,6 +1,73 @@
 // 封装所有和用户相关的接口函数
 import request from '@/utils/request'
 
+
+//TGS数据使用的接口
+export function getAllIndividualDataTGS(data) {
+  return request({
+    url: '/select/TGS/individualSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getAllIndividualDataMergeTGS(data) {
+  return request({
+    url: '/select/TGS/individualMergeSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getByProvinceDataTGS(data) {
+  return request({
+    url: '/select/TGS/provinceSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getByProvinceDataMergeTGS(data) {
+  return request({
+    url: '/select/TGS/provinceMergeSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getByRegionDataTGS(data) {
+  return request({
+    url: '/select/TGS/regionSNP',
+    method: 'post',
+    data,
+  })
+}
+
+export function getByRegionDataMergeTGS(data) {
+  return request({
+    url: '/select/TGS/regionMergeSNP',
+    method: 'post',
+    data
+  })
+}
+
+export function getByPopulationDataTGS(data) {
+  return request({
+    url: '/select/TGS/populationSNP',
+    method: 'post',
+    data,
+  })
+}
+
+export function getByPopulationDataMergeTGS(data) {
+  return request({
+    url: '/select/TGS/populationMergeSNP',
+    method: 'post',
+    data
+  })
+}
+
+
 //NGS数据使用的接口
 export function getAllIndividualData(data) {
   return request({
@@ -79,54 +146,6 @@ export function getAllIndividualDataMicroarray(data) {
 export function getAllIndividualDataMergeMicroarray(data) {
   return request({
     url: '/select/Microarray/individualMergeSNP',
-    method: 'post',
-    data
-  })
-}
-
-export function getByProvinceDataMicroarray(data) {
-  return request({
-    url: '/select/Microarray/provinceSNP',
-    method: 'post',
-    data
-  })
-}
-
-export function getByProvinceDataMergeMicroarray(data) {
-  return request({
-    url: '/select/Microarray/provinceMergeSNP',
-    method: 'post',
-    data
-  })
-}
-
-export function getByRegionDataMicroarray(data) {
-  return request({
-    url: '/select/Microarray/regionSNP',
-    method: 'post',
-    data,
-  })
-}
-
-export function getByRegionDataMergeMicroarray(data) {
-  return request({
-    url: '/select/Microarray/regionMergeSNP',
-    method: 'post',
-    data
-  })
-}
-
-export function getByPopulationDataMicroarray(data) {
-  return request({
-    url: '/select/Microarray/populationSNP',
-    method: 'post',
-    data,
-  })
-}
-
-export function getByPopulationDataMergeMicroarray(data) {
-  return request({
-    url: '/select/Microarray/populationMergeSNP',
     method: 'post',
     data
   })

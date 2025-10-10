@@ -28,13 +28,11 @@
 .data-page-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 1200px;
-  margin: 0 auto; /* 居中显示 */
-  background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 页面背景渐变 */
-  border-radius: 15px;
+  width: 100%;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 高级感背景 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* 页面边缘阴影 */
 }
 
 .data-container {

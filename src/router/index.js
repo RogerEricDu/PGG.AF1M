@@ -3,27 +3,28 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home/index.vue'
+
+import Microarray from '@/views/Microarray/index.vue'
+
 import AlleleFreqHome from '@/views/AlleleFreq/index.vue'
 import AllIndividuals from '@/views/AlleleFreq/components/AllIndividuals.vue'
 import ByProvince from '@/views/AlleleFreq/components/ByProvince.vue'
 import ByRegion from '@/views/AlleleFreq/components/ByRegion.vue'
-/* import Population from '@/views/AlleleFreq/components/Population.vue' */
+
+import TGS from '@/views/TGS/index.vue'
+import AllIndividualsTGS from '@/views/TGS/components/AllIndividuals.vue'
+import ByProvinceTGS from '@/views/TGS/components/ByProvince.vue'
+import ByRegionTGS from '@/views/TGS/components/ByRegion.vue'
+
 import FurtherInfo from '@/views/FurtherInfo/index.vue'
 import Tools from '@/views/Tools/index.vue'
 import Summary from '@/views/Summary/index.vue'
 import About from '@/views/About/index.vue'
 import Guide from '@/views/Guide/index.vue'
-/* import Statistics from '@/views/Statistics/index.vue'
-import GeneAffinity from '@/views/Statistics/component/GeneAffinity.vue'
-import PopulationStructure from '@/views/Statistics/component/PopulationStructure.vue'
-import Ancestry from '@/views/Statistics/component/Ancestry.vue'
-import GeneFlow from '@/views/Statistics/component/GeneFlow.vue' */
 import DataUpload from '@/views/Tools/component/DataUpload.vue'
 import Imputation from '@/views/Tools/component/Imputation.vue'
 import GWAS from '@/views/Tools/component/GWAS.vue'
 import IBD from '@/views/Tools/component/IBD.vue'
-/* import Results from '@/views/Tools/component/Results.vue' */
-/* import BLAST from '@/views/Tools/component/BLAST.vue' */
 import DeepSeek from '@/views/Tools/component/DeepSeek.vue'
 import Help from '@/views/Help/index.vue'
 import Data from '@/views/Data/index.vue'
@@ -33,6 +34,7 @@ import Register from '@/views/User/component/register.vue'
 import Profile from '@/views/User/component/profile.vue'
 import Admin from '@/views/User/component/admin.vue'
 import { useAuthStore } from '@/store/authStore'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,18 +50,12 @@ const router = createRouter({
         name:'Data',
         component:Data,
       },
-/*       {
-        path:'statistics',
-        component:Statistics,
-        meta: { requiresAuth: true }, // 需要登录才能访问的页面
-        redirect: '/statistics/geneFlow', 
-        children: [
-          { path: 'geneAffinity', component: GeneAffinity },
-          { path: 'populationStructure', component: PopulationStructure },
-          { path: 'ancestry', component: Ancestry },
-          { path: 'geneFlow', component: GeneFlow }
-        ]
-      }, */
+      {
+        path:'/microarray',
+        name:'Microarray',
+        component:Microarray,
+      },
+
       {
         path:'/allelefreq',
         name:'AlleleFreq',
@@ -68,7 +64,17 @@ const router = createRouter({
           { path: 'all_ind', component: AllIndividuals },
           { path: 'by_province', component: ByProvince },
           { path: 'by_region', component: ByRegion },
-/*           { path: 'population', component: Population }, */
+        ]
+      },
+
+      {
+        path:'/tgs',
+        name:'TGS',
+        component:TGS, 
+        children: [
+          { path: 'all_ind', component: AllIndividualsTGS },
+          { path: 'by_province', component: ByProvinceTGS },
+          { path: 'by_region', component: ByRegionTGS },
         ]
       },
       {
