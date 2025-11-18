@@ -39,13 +39,28 @@
   display: flex;
   align-items: center;
   padding: 20px;
-  background: linear-gradient(to right, #3a6073, #16222a); /* 深色背景 */
+  background: linear-gradient(135deg, #3a6073, #16222a);
   color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-bottom: -10px; /* 将标题部分稍微覆盖到内容框上 */
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
   position: relative;
-  z-index: 10;
+  overflow: hidden;
+}
+.data-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+  animation: shimmer 3s infinite linear;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .data-container h1 {

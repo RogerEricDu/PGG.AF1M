@@ -196,7 +196,7 @@ const handleSubmit = () => {
   font-size: 24px;
   font-weight: 700;
   color: #1a365d;
-  margin-bottom: 0px;
+  margin-bottom: 20px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -241,7 +241,7 @@ const handleSubmit = () => {
 
 /* Quick Start 部分 */
 .quick-start-section {
-  padding: 60px 0;
+  padding: 30px 0;
   background: white;
   margin: 40px 0;
   border-radius: 16px;
@@ -251,7 +251,7 @@ const handleSubmit = () => {
 .searching-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .submit-button {
@@ -283,7 +283,7 @@ const handleSubmit = () => {
 }
 
 .data-context p {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .data-context a {
@@ -298,7 +298,7 @@ const handleSubmit = () => {
 
 /* Banner 部分 */
 .banner-section {
-  padding: 60px 0;
+  padding: 20px 0;
 }
 
 .banner-container {
@@ -328,7 +328,7 @@ const handleSubmit = () => {
 
 /* 功能特性部分 */
 .features-section {
-  padding: 60px 0;
+  padding: 40px 0;
   background: white;
   margin: 40px 0;
   border-radius: 16px;
@@ -344,7 +344,7 @@ const handleSubmit = () => {
 .feature-card {
   background: #f8fafc;
   border-radius: 12px;
-  padding: 30px;
+  padding: 20px;
   transition: all 0.3s ease;
   border: 1px solid #e2e8f0;
 }

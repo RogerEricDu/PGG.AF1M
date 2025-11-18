@@ -51,7 +51,7 @@ export default defineConfig({
     }
   },
   server:{ //修改端口
-    port:8095,
+    port:8081,
     host:'0.0.0.0',
     proxy: {
       '/pgghan2': {

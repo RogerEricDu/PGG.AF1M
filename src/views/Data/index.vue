@@ -1,7 +1,7 @@
 <template>
   <div class="population-dataset-page">
     <div class="header-container">
-      <el-icon class="population-icon1" style="font-size: 36px;"><Document /></el-icon>
+      <el-icon class="population-icon1"><Document /></el-icon>
       <h1>Data Set</h1>
     </div>
 
@@ -44,7 +44,6 @@
       >
         Geographic Distribution
       </button>
-
     </div>
 
     <!-- 内容展示 -->
@@ -66,9 +65,9 @@
             </div>
           </div>
           <div class="card-right">
-              <div class="image-wrapper">
-                <img :src="item.image" alt="Image" />
-              </div>
+            <div class="image-wrapper">
+              <img :src="item.image" alt="Image" />
+            </div>
           </div>
         </div>
       </div>
@@ -85,7 +84,9 @@
             </div>
           </div>
           <div class="card-right">
-            <img :src="item.image" alt="Image" />
+            <div class="image-wrapper">
+              <img :src="item.image" alt="Image" />
+            </div>
           </div>
         </div>
       </div>
@@ -340,68 +341,112 @@ const datasetData = ref([
 .population-dataset-page {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin: 0 auto;
-  background: linear-gradient(to bottom, #f5f7fa, #ffffff); /* 高级感背景 */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+  padding: 30px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
-
-.dynamic-stats {
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px; /* 增加间隔 */
-  align-items: center; /* 垂直居中 */
-}
-
-.stat {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* 水平居中 */
-  justify-content: center; /* 垂直居中 */
-  padding: 10px;
-  border-radius: 12px;
-  background: linear-gradient(145deg, #ffffff, #f0f0f3); /* 轻微的凹凸感 */
-  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.1), -8px -8px 16px rgba(255, 255, 255, 0.7); /* Neumorphism风格 */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.stat:hover {
-  transform: translateY(-5px); /* 悬浮效果 */
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15), -10px -10px 20px rgba(255, 255, 255, 0.8); /* 加强悬浮阴影 */
-}
-
-.number {
-  font-size: 32px;
-  font-weight: 700;
-  color: #16a085; /* 深色文字对比 */
-  margin-bottom: 5px;
-}
-
-.label {
-  font-size: 16px;
-  font-weight: 500;
-  color: #7f8c8d; /* 次要信息颜色 */
-  text-transform: uppercase; /* 全部大写，增加识别性 */
-  letter-spacing: 1px; /* 增加字母间距 */
-}
-
 .header-container {
   display: flex;
   align-items: center;
   padding: 20px;
-  background: linear-gradient(to right, #3a6073, #16222a); /* 深色背景 */
+  background: linear-gradient(135deg, #3a6073, #16222a);
   color: white;
-  border-radius: 15px;
-  margin-bottom: 20px; /* 标题与内容框的重叠效果 */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
 }
-.population-icon1{
-  border:black;
+
+
+.header-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+  animation: shimmer 3s infinite linear;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.population-icon1 {
+  font-size: 42px;
+  margin-right: 20px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+.header-container h1 {
   font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
+.dynamic-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+.stat:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.number {
+  display: block;
+  font-size: 42px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #16a085, #4ba261);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
 
 .navigation-container {
   display: flex;
@@ -414,33 +459,46 @@ const datasetData = ref([
 }
 
 .navigation-item {
-  font-size: 18px;
-  font-weight: bold;
-  color: #ecf0f1; /* 默认字体颜色 */
   flex: 1;
-  text-align: center;
-  padding: 15px;
-  border-radius: 8px; /* 边框圆角 */
+  padding: 18px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  background: transparent;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
-  margin: 0 30px; /* 间距 */
-  background-color: transparent; /* 透明背景 */
-  transition: all 0.3s ease; /* 添加过渡效果 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.navigation-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.navigation-item:hover::before {
+  left: 100%;
 }
 
 .navigation-item:hover {
-  background-color: rgba(255, 255, 255, 0.2);  /* 渐变高亮效果 */
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateY(-2px);
 }
 
 .navigation-item.active {
-  background: linear-gradient(to right, #1abc9c, #16a085); /* 激活状态 */
-  color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.95);
+  color: #3a6073;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
-
 .content-container {
   display: flex;
   flex-direction: column;
@@ -513,6 +571,14 @@ const datasetData = ref([
   max-width: 100%;
   height: auto;
   border-radius: 10px;
+}
+
+.chart-container {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin: 0 auto;
 }
 .image-wrapper {
   width: 100%;
